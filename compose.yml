@@ -1,0 +1,12 @@
+services:
+  db:
+    image: postgres:17
+    container_name: database-biblioteca
+    environment:
+      - POSTGRES_USER=biblioteca
+      - POSTGRES_PASSWORD=contraseña
+      - POSTGRES_DB=biblioteca
+    ports:
+      -5432:5432
+    volumes:
+      -./psql-data:/var/lib/postgresql/data
