@@ -2,7 +2,7 @@
   "name": "tp2-bd-biblioteca",
   "version": "1.0.0",
   "description": "Khate-Carlos-Leo-Agustín\r En este trabajo vamos a crear una pagina pensada para una Bliblioteca. La pensamos como la pagina que usaria aquel que administra la biblioteca, que seria el encargado de añadir usuarios o libros y manejar los prestamos de libros.",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
