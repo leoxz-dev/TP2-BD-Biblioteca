@@ -1,2 +1,3 @@
 node_moodules/
-psql_data
+psql_data/
+.env
