@@ -47,4 +47,5 @@ model prestamos {
   libro_id         Int      // Clave foránea hacia la tabla libros
   fecha_prestamo   DateTime @default(now())
   fecha_devolucion DateTime?
+  
 }
