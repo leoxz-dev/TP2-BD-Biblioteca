@@ -17,7 +17,7 @@ model socios {
   id                Int         @id @unique @default(autoincrement())
   nombre            String
   direccion         String?
-  telefono          String?     @unique
+  telefono          String?     
   email             String?     @unique
   libro_prestado    libros?     @relation(fields: [libro_prestado_id], references: [id])
   libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
