@@ -1,0 +1,24 @@
+meta {
+  name: Actualizar socio
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:3000/socios/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 3
+}
+
+body:json {
+  {
+    "nombre": "Agustin",
+    "direccion": "Azcuenaga 489",
+    "telefono": "333333333",
+    "email": "pepito@gmail.com"
+  }
+}
