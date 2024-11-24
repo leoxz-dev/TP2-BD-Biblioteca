@@ -14,7 +14,7 @@ datasource db {
 }
 
 model socios {
-  id                Int     @id @default(autoincrement())
+  id                Int     @unique @id @default(autoincrement())
   nombre            String
   direccion         String?
   telefono          String?  @unique
