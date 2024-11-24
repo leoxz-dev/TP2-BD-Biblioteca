@@ -5,6 +5,7 @@ const port = 3000
 
 const prisma = new PrismaClient()
 
+
 app.use(express.json())
 
 app.get('/', (req, res) => {
