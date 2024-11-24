@@ -16,9 +16,9 @@ datasource db {
 model socios {
   id                Int     @id @default(autoincrement())
   nombre            String
-  direccion         String
-  telefono          String  @unique
-  email             String  @unique
+  direccion         String?
+  telefono          String?  @unique
+  email             String?  @unique
   libro_prestado    libros? @relation(fields: [libro_prestado_id], references: [id])
   libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
   prestamos        prestamos[] // Relación con la tabla de préstamos
