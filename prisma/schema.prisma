@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model socio {
+model socios {
   id                Int     @id @default(autoincrement())
   nombre            String
   direccion         String
@@ -34,14 +34,14 @@ model libros {
   cant_paginas     Int
   cant_ejemplares  Int
   disponibilidad   Boolean @default(true)
-  socios           socio[] // Relación inversa: socios que tienen este libro
+  socios           socios[] // Relación inversa: socios que tienen este libro
   prestamos        prestamos[] // Relación con la tabla de préstamos
 
 }
 
 model prestamos {
   id               Int      @id @default(autoincrement())
-  socio            socio    @relation(fields: [socio_id], references: [id])
+  socio            socios    @relation(fields: [socio_id], references: [id])
   socio_id         Int      // Clave foránea hacia la tabla socio
   libro            libros   @relation(fields: [libro_id], references: [id])
   libro_id         Int      // Clave foránea hacia la tabla libros
