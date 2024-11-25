@@ -8,9 +8,9 @@ como npx prisma migrate dev
 
 Seguramente tendrán que correr unos comandos en local que detallo a continuación:
 
-1) borrar el antiguo contenedor de docker con "docker rm <id del contenedor>"
+1) borrar el antiguo contenedor de docker con "docker rm <id_del_contenedor>"
 
-2) terminar el antiguo proceso de node con pkill "node". 
+2) terminar el antiguo proceso de node con "pkill node". 
 Si no funciona, una alternativa está acá 
 https://stackoverflow.com/questions/4075287/node-express-eaddrinuse-address-already-in-use-how-can-i-stop-the-process
 
