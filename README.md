@@ -1,10 +1,10 @@
-#Cambios importantes
+# Cambios importantes
 
 Pasé todo a una carpeta "back" con la intención de que todo quedara más prolijo. 
 Tuve que eliminar el antiguo contenedor de docker y volver a correr comandos 
 como npx prisma migrate dev
 
-##Pasos a seguir 
+## Pasos a seguir 
 
 Seguramente tendrán que correr unos comandos en local que detallo a continuación:
 
