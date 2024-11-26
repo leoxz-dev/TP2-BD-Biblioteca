@@ -56,29 +56,61 @@
             <div class="mb-3">
                 <label class="form-label">Autor</label>
                 <input type="text" class="form-control" name="autorForm" required>
+
             </div>
-            <div class="mb-3">
-                <label class="form-label">Año de publicación</label>
-                <input type="number" class="form-control" name="añoForm" aria-describedby="emailHelp" required>
+            <div class="container">
+                <div class="field">
+                    <label class="label">Titulo del libro</label>
+                    <div class="control">
+                        <input type="text" class="input" name="tituloForm" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Autor</label>
+                    <div class="control">
+                        <input type="text" class="input" name="autorForm" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Año de publicación</label>
+                    <div class="control">
+                        <input type="number" class="input" name="añoForm" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Genero</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="genero" class="select" required>
+                                <option value="Fantasía">Fantasía</option>
+                                <option value="Ciencia Ficción">Ciencia Ficción</option>
+                                <option value="Terror">Terror</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Aventura">Aventura</option>
+                                <option value="Biografía">Biografía</option>
+                                <option value="Historia">Historia</option>
+                                <option value="Política">Política</option>
+                                <option value="Economía">Economía</option>
+                                <option value="Autoayuda">Autoayuda</option>
+                                <option value="Cocina">Cocina</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <p class="control">
+                      <button class="button is-primary">
+                        Submit
+                      </button>
+                    </p>
+                    <p class="control">
+                      <a class="button is-light">
+                        Cancel
+                      </a>
+                    </p>
+                 </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Genero</label>
-                <select name="generoForm" class="form-select" required>
-                    <option value="Fantasía">Fantasía</option>
-                    <option value="Ciencia Ficción">Ciencia Ficción</option>
-                    <option value="Terror">Terror</option>
-                    <option value="Romance">Romance</option>
-                    <option value="Aventura">Aventura</option>
-                    <option value="Biografía">Biografía</option>
-                    <option value="Historia">Historia</option>
-                    <option value="Política">Política</option>
-                    <option value="Economía">Economía</option>
-                    <option value="Autoayuda">Autoayuda</option>
-                    <option value="Cocina">Cocina</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+        </div>
+    </section>
 </body>
 </html>
