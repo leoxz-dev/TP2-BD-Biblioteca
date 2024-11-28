@@ -119,23 +119,20 @@ model prestamos {
   id               Int       @id @unique @default(autoincrement())
   socio            socios    @relation(fields: [socio_id], references: [id])
   socio_id         Int // Clave foránea hacia la tabla socio
-  libro            libros    @relation(fields: [libro_id], references: [id])
-  libro_id         Int // Clave foránea hacia la tabla libros
+  libro            libros?    @relation(fields: [libro_id], references: [id])
+  libro_id         Int? // Clave foránea hacia la tabla libros
   fecha_prestamo   DateTime  @default(now())
   fecha_devolucion DateTime?
 }
 */
-app.post('/prestamos',async (req,res) => {
+app.post('/prestamos', async (req, res) => {
   const prestamo = await prisma.prestamos.create({
     data: {
       socio_id: req.body.socio_id,
-      libro_id: req.body.libro_id,
-      fecha_devolucion: req.body.fecha_devolucion
     }
   })
   res.json(prestamo)
-}
-)
+})
 
 
 
