@@ -170,3 +170,22 @@ app.delete('/prestamos/:id', async (req,res) => {
   res.json(deletePrestamo)
 })
 
+app.put('/prestamos/:id', async (req,res) => {
+  const updatePrestamo = await prisma.prestamos.findUnique({
+    where: {
+      id: parseInt(req.params.id)
+    }
+  })
+  if (updatePrestamo===null){
+    return res.sendStatus(404)
+  }
+  const uptadeUser = await prisma.prestamos.update({
+    where: {
+      id: parseInt(req.params.id)
+    },
+    data: {
+      fecha_devolucion: req.body.fecha_devolucion
+    }
+  })
+  res.json(uptadeUser)
+})
