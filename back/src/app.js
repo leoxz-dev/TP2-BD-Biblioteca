@@ -108,8 +108,10 @@ app.put('/socios/:id', async (req,res) => {
 })
 
 
-//prestamos
-app.use('/prestamos', async (req,res) => {
+//--------------------CRUD LIBROS--------------------
+
+
+app.get('/prestamos', async (req,res) => {
   const prestamos = await prisma.prestamos.findMany()
   res.json(prestamos)
 }
@@ -129,11 +131,10 @@ app.post('/prestamos', async (req, res) => {
   const prestamo = await prisma.prestamos.create({
     data: {
       socio_id: req.body.socio_id,
+      libro_id: req.body.libro_id,
+      fecha_prestamo: req.body.fecha_prestamo,
+      fecha_devolucion: req.body.fecha_devolucion
     }
   })
   res.json(prestamo)
 })
-
-
-
-
