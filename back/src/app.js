@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client')
+const { PrismaClientRustPanicError } = require('@prisma/client/runtime/library')
 const express = require('express')
 const app = express()
 const port = 3000
@@ -121,10 +122,10 @@ model prestamos {
   id               Int       @id @unique @default(autoincrement())
   socio            socios    @relation(fields: [socio_id], references: [id])
   socio_id         Int // Clave foránea hacia la tabla socio
-  libro            libros?    @relation(fields: [libro_id], references: [id])
-  libro_id         Int? // Clave foránea hacia la tabla libros
+  libro            libros    @relation(fields: [libro_id], references: [id])
+  libro_id         Int // Clave foránea hacia la tabla libros
   fecha_prestamo   DateTime  @default(now())
-  fecha_devolucion DateTime?
+  fecha_devolucion DateTime
 }
 */
 app.post('/prestamos', async (req, res) => {
@@ -137,4 +138,17 @@ app.post('/prestamos', async (req, res) => {
     }
   })
   res.json(prestamo)
+})
+
+app.get('/prestamos/:id', async (req,res) => {
+  const prestamo = await prisma.prestamos.findUnique({
+      where: {
+        id: parseInt(req.params.id)
+      }
+  })
+  if (prestamo===null){
+    return res.sendStatus(404)
+  }
+  res.json(prestamo)
+    
 })
