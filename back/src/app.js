@@ -152,3 +152,21 @@ app.get('/prestamos/:id', async (req,res) => {
   res.json(prestamo)
     
 })
+
+app.delete('/prestamos/:id', async (req,res) => {
+  const prestamo = await prisma.prestamos.findUnique({
+    where: {
+      id: parseInt(req.params.id)
+    }
+  })
+  if (prestamo===null){
+    return res.sendStatus(404)
+  }
+  const deletePrestamo = await prisma.prestamos.delete({
+    where:{
+      id: parseInt(req.params.id)
+    }
+  })
+  res.json(deletePrestamo)
+})
+
