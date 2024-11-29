@@ -111,6 +111,26 @@ app.put('/socios/:id', async (req,res) => {
 
 //--------------------CRUD LIBROS--------------------
 
+/*
+Problema existePrestamo(id: Int) {
+  requiere: id > 0
+  asegura: res(true) si existe un prestamo con ese id
+*/
+
+async function existePrestamo(id){
+  const prestamo = await prisma.prestamos.findUnique({
+    where: {
+      id: parseInt(id)
+    }
+  })
+  return prestamo!==null
+}
+
+/*
+problema getTodosLibros() {
+  requiere: -
+  asegura: res(todos los libros)
+*/
 
 app.get('/prestamos', async (req,res) => {
   const prestamos = await prisma.prestamos.findMany()
@@ -128,6 +148,17 @@ model prestamos {
   fecha_devolucion DateTime
 }
 */
+
+/*
+
+Problema postPrestamo(socio_id, libro_id, fecha_prestamo, fecha_devolucion) {
+  requiere: socio_id, libro_id, fecha_prestamo, fecha_devolucion
+  Obs:(formato fechas: 'YYYY-MM-DDTHH:MM:SS.MS',ej 2030-11-29T15:30:00.000Z)
+  Asegura: res(prestamo)
+  Asegura: crea un nuevo prestamo con los datos dados
+}
+*/
+
 app.post('/prestamos', async (req, res) => {
   const prestamo = await prisma.prestamos.create({
     data: {
@@ -139,6 +170,14 @@ app.post('/prestamos', async (req, res) => {
   })
   res.json(prestamo)
 })
+
+/*
+Problema: getPrestamo(id: Int) {
+  requiere: id>0
+  asegura: res(prestamo)
+  asegura: res(404) si no existe un prestamo con ese id
+}
+*/
 
 app.get('/prestamos/:id', async (req,res) => {
   const prestamo = await prisma.prestamos.findUnique({
@@ -153,13 +192,18 @@ app.get('/prestamos/:id', async (req,res) => {
     
 })
 
+/*
+Problema: deletePrestamo(id: Int) {
+  requiere: id>0
+  asegura: res(prestamo)
+  asegura: elimina el prestamo con el id dado
+  asegura: res(404) si no existe un prestamo con ese id
+}
+
+*/
+
 app.delete('/prestamos/:id', async (req,res) => {
-  const prestamo = await prisma.prestamos.findUnique({
-    where: {
-      id: parseInt(req.params.id)
-    }
-  })
-  if (prestamo===null){
+  if (!await existePrestamo(parseInt(req.params.id))) {
     return res.sendStatus(404)
   }
   const deletePrestamo = await prisma.prestamos.delete({
@@ -170,13 +214,16 @@ app.delete('/prestamos/:id', async (req,res) => {
   res.json(deletePrestamo)
 })
 
+/*
+Problema: putPrestamo(id: Int, fecha_devolucion: DateTime) {
+  requiere: id>0, fecha_devolucion: YYYY-MM-DDTHH:MM:SS.MS
+  asegura: res(prestamo)
+  asegura: actualiza la fecha de devolución del prestamo con el id dado
+  asegura: res(404) si no existe un prestamo con ese id
+}
+*/
 app.put('/prestamos/:id', async (req,res) => {
-  const updatePrestamo = await prisma.prestamos.findUnique({
-    where: {
-      id: parseInt(req.params.id)
-    }
-  })
-  if (updatePrestamo===null){
+  if (!await existePrestamo(parseInt(req.params.id))) {
     return res.sendStatus(404)
   }
   const uptadeUser = await prisma.prestamos.update({
