@@ -1,62 +1,58 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Libros</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-</head>
-<body class="p-3 mb-2 bg-secondary text-white">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-menu">
-            <div class="navbar-end">
-                <a class="navbar-item" href="ingresar_usuario.html">Ingresar usuario</a>
-                <a class="navbar-item" href="usuario.html">Usuarios</a>
-                <a class="navbar-item" href="libros.html">Libros</a>
-                <a class="navbar-item" href="#">
-                    <img src="/front/Logo.png" width="250" height="30" alt="logout">
-                </a>
-            </div>
-        </div>
-    </nav>
-    <div class="container">
-        <h1>Lista de libros</h1>
-        <div class="table-responsive rounded">
-            <table class="table table-striped table-primary">
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Titulo</th>
-                    <th scope="col">Autor</th>
-                    <th scope="col">Año de publicación</th>
-                    <th scope="col">Genero</th>
-                    <th scope="col">Cantidad de páginas </th>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>El señor de los anillos</td>
-                    <td>J.R.R. Tolkien</td>
-                    <td>1954</td>
-                    <td>Fantasía</td>
-                    <td>1178</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Harry Potter</td>
-                    <td>J.K Rowling</td>
-                    <td>1999</td>
-                    <td>Fantasía</td>
-                    <td>982</td>
-                </tr>
-            </table>
-        </div>
-        <form>
-            <div class="mb-3">
-                <label class="form-label">Titulo del libro</label>
-                <input type="text" class="form-control" name="tituloForm" aria-describedby="emailHelp" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Autor</label>
-                <input type="text" class="form-control" name="autorForm" required>
-
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Libros</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+      </head>
+<body>
+    <section class="section is-medium">
+        <div class="container">
+            <nav class="navbar field" role="navigation" aria-label="main navigation">
+                <div class="navbar-menu">
+                    <div class="navbar-end">
+                        <a class="navbar-item" href="ingresar_usuario.html">Ingresar usuario</a>
+                        <a class="navbar-item" href="usuario.html">Usuarios</a>
+                        <a class="navbar-item" href="libros.html">Libros</a>
+                        <a class="navbar-item" href="#">
+                            <img src="Logo.png" width="250" height="30" alt="logout">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            <h1 class="title">Lista de libros</h1>
+            <div class="table-container">
+                <table class="table is-striped is-hoverable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Titulo</th>
+                            <th>Autor</th>
+                            <th>Año de publicación</th>
+                            <th>Genero</th>
+                            <th>Cantidad de páginas </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>El señor de los anillos</td>
+                            <td>J.R.R. Tolkien</td>
+                            <td>1954</td>
+                            <td>Fantasía</td>
+                            <td>1178</td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>Harry Potter</td>
+                            <td>J.K Rowling</td>
+                            <td>1999</td>
+                            <td>Fantasía</td>
+                            <td>982</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="container">
                 <div class="field">
@@ -110,6 +106,10 @@
                     </p>
                  </div>
             </div>
+        </div>
+    </section>
+</body>
+</html>     </div>
         </div>
     </section>
 </body>
