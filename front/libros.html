@@ -9,18 +9,9 @@
 <body>
     <section class="section is-medium">
         <div class="container">
-            <nav class="navbar field" role="navigation" aria-label="main navigation">
-                <div class="navbar-menu">
-                    <div class="navbar-end">
-                        <a class="navbar-item" href="ingresar_usuario.html">Ingresar usuario</a>
-                        <a class="navbar-item" href="usuario.html">Usuarios</a>
-                        <a class="navbar-item" href="libros.html">Libros</a>
-                        <a class="navbar-item" href="#">
-                            <img src="Logo.png" width="250" height="30" alt="logout">
-                        </a>
-                    </div>
-                </div>
-            </nav>
+            <header>
+                <!--header por header_footer.js-->
+            </header>
             <h1 class="title">Lista de libros</h1>
             <div class="table-container">
                 <table class="table is-striped is-hoverable">
@@ -108,9 +99,37 @@
             </div>
         </div>
     </section>
-</body>
-</html>     </div>
+    </div>
         </div>
     </section>
+
+    <footer class="footer">
+                        <!--footer por header_footer.js-->
+    </footer>
+
+    <script src="./header_footer.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+// Get all "navbar-burger" elements
+const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+// Add a click event on each of them
+$navbarBurgers.forEach( el => {
+  el.addEventListener('click', () => {
+
+    // Get the target from the "data-target" attribute
+    const target = el.dataset.target;
+    const $target = document.getElementById(target);
+
+    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+    el.classList.toggle('is-active');
+    $target.classList.toggle('is-active');
+
+  });
+});
+
+});
+      </script>
 </body>
 </html>
