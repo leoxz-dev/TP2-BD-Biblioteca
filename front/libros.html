@@ -5,13 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Libros</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-      </head>
+    </head>
 <body>
+    <header>
+        <!--header por header_footer.js-->
+    </header>
     <section class="section is-medium">
         <div class="container">
-            <header>
-                <!--header por header_footer.js-->
-            </header>
             <h1 class="title">Lista de libros</h1>
             <div class="table-container">
                 <table class="table is-striped is-hoverable">
@@ -109,27 +109,27 @@
 
     <script src="./header_footer.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
 
-// Get all "navbar-burger" elements
-const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-// Add a click event on each of them
-$navbarBurgers.forEach( el => {
-  el.addEventListener('click', () => {
+        // Add a click event on each of them
+        $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
 
-    // Get the target from the "data-target" attribute
-    const target = el.dataset.target;
-    const $target = document.getElementById(target);
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
 
-    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-    el.classList.toggle('is-active');
-    $target.classList.toggle('is-active');
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
 
-  });
-});
+        });
+        });
 
-});
-      </script>
+        });
+    </script>
 </body>
 </html>
