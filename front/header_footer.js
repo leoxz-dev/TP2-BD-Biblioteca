@@ -2,7 +2,7 @@ const header = document.querySelector("header");
 const footer = document.querySelector("footer");
 
 header.innerHTML = `
-            <nav class="navbar" role="navigation" aria-label="main navigation">
+            <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
                         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
                             <span aria-hidden="true"></span>
@@ -12,13 +12,13 @@ header.innerHTML = `
                 </div>
 
                 <div class="navbar-menu">
-                    <a class="navbar-item has-dropdown" href="#">
+                    <a class="navbar-item p-2 ml-1" href="libros.html">
                         <img src="https://i.imgur.com/kGfyxfC.png" alt="logout">
                     </a>
                 </div>
                 <div class="navbar-menu" id="navMenu">
                     <div class="navbar-end">
-                        <a class="navbar-item" href="ingresar_usuario.html">Ingresar usuario</a>
+                        <a class="navbar-item" href="ingresar-socio.html">Ingresar socio</a>
                         <a class="navbar-item" href="usuario.html">Usuarios</a>
                         <a class="navbar-item" href="libros.html">Libros</a>
 
