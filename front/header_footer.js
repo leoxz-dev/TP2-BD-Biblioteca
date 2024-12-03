@@ -1,5 +1,5 @@
 const header = document.querySelector("header");
-const footer = document.querySelector("footer");
+const footer = document.querySelector(".footer");
 
 header.innerHTML = `
             <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -29,13 +29,15 @@ header.innerHTML = `
 `;
 
 footer.innerHTML=`
-        <div class="content has-text-centered">
-            <p>
-                <strong>Biblioteca DB</strong>
-            </p>
-            <p>
-                Trabajo práctico Introduccion al desarrollo del software
-            </p>
-        </div>
+        <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>
+                        <strong>Biblioteca DB</strong>
+                    </p>
+                    <p>
+                        Trabajo práctico Introduccion al desarrollo del software
+                    </p>
+                </div>
+        </footer>
 
 `
