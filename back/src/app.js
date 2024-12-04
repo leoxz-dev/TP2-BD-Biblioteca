@@ -236,3 +236,88 @@ app.put('/prestamos/:id', async (req,res) => {
   })
   res.json(uptadeUser)
 })
+
+app.get('/libros', async (req,res) => {
+  const libros = await prisma.libros.findMany()
+  res.json(libros)
+}
+)
+
+app.get('/libros/:id', async (req, res) => {
+    const libro = await prisma.libros.findUnique({
+      where: {
+        id: parseInt(req.params.id)
+      }
+    })
+
+    if (libro === null){
+      res.sendStatus(404)
+      return
+    }
+    res.json(libro)
+})
+
+app.post('/libros', async (req, res) => {
+  const libro = await prisma.libros.create({
+    data: {
+      titulo: req.body.titulo,
+      autor: req.body.autor,
+      genero: req.body.genero,
+      anio_publicacion: req.body.anio_publicacion,
+      cant_paginas: req.body.cant_paginas,
+      cant_ejemplares: req.body.cant_ejemplares
+    }
+  })
+
+  res.status(201).send(libro)
+})
+
+app.put('/libros/:id', async (req, res) => {
+  let libro = await prisma.libros.findUnique({
+    where: {
+      id: parseInt(req.params.id)
+    }
+  })
+
+  if (libro === null) {
+    res.send(404)
+    return
+  }
+
+  libro = await prisma.libros.update({
+    where: {
+      id: parseInt(req.params.id)
+    },
+    data: {
+      titulo: req.body.titulo,
+      autor: req.body.autor,
+      genero: req.body.genero,
+      anio_publicacion: req.body.anio_publicacion,
+      cant_paginas: req.body.cant_paginas,
+      cant_ejemplares: req.body.cant_ejemplares
+    }
+  })
+
+  res.json(libro)
+})
+
+app.delete('/libros/:id', async (req, res) => {
+  const libro = await prisma.libros.findUnique({
+    where: {
+      id: parseInt(req.params.id)
+    }
+  })
+
+  if (libro === null) {
+    res.sendStatus(404)
+    return
+  }
+
+  await prisma.libros.delete({
+    where: {
+      id: parseInt(req.params.id)
+    }
+  })
+
+  res.send(libro)
+})
