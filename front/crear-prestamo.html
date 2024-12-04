@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+    <title>Crear Préstamo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+</head>
+<body>
+    <header></header>
+    <section>
+        <div class="container py-6">
+            <div class="columns">
+                <div class="column is-two-fifths">
+                    <h1 class="title">SOCIOS</h1>
+                    <form>
+                        <div class="field has-addons">
+                            <p class="control">
+                              <span class="select">
+                                <select>
+                                    <option>ID socio</option>
+                                    <option>Email</option>
+                                </select>
+                              </span>
+                            </p>
+                            <p class="control">
+                              <input class="input" type="text" placeholder="Búsqueda">
+                            </p>
+                            <p class="control">
+                                <input class="button" type="submit" value="Buscar"/>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+                <div class="column">
+                        <article class="message">
+                            <div class="message-header">
+                                <h1 class="title has-text-white">
+                                    ID PRESTAMO: Cdgo de Préstamo
+                                </h1>
+                            </div>
+                            <div class="message-body">
+                                <form>
+                                    <div class="field">
+                                        <label class="label">Fecha de Préstamo</label>
+                                        <div class="control">
+                                          <input class="input" type="date" name="fecha_prestamo">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Fecha de Devolución</label>
+                                        <div class="control">
+                                          <input class="input" type="date" name="fecha_devolucion">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">ID socio</label>
+                                        <div class="control">
+                                          <input class="input" type="text" name="socio_id">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Extensión de tiempo</label>
+                                        <div class="control">
+                                          <input class="input" type="time" name="tiempo_agregado">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Tipo de préstamo</label>
+                                        <div class="control">
+                                          <div class="select">
+                                            <select>
+                                                <option>Préstamo a domicilio o individual</option>
+                                                <option>Préstamo interbibliotecario</option>
+                                                <option>Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
+                                                <option>Préstamo en red</option>
+                                                <option>Préstamo colectivo</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="control has-text-centered">
+                                        <input class="button is-success is-fullwidth" type="submit" value="Crear préstamo"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer"></footer>
+    <script src="./header_footer.js"></script>
+</body>
+</html> 

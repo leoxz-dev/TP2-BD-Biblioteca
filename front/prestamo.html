@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Préstamo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+</head>
+<body>
+    <header></header>
+    <section>
+        <div class="container is-max-tablet my-6">
+            <article class="message">
+                <div class="message-header is-flex is-justify-content-center">
+                    <h1 class="title has-text-white">
+                        ID PRESTAMO: Cdgo de Préstamo
+                    </h1>
+                </div>
+                <div class="message-body is-flex is-justify-content-center px-3">
+                    <div class="columns is-7">
+                        <div class="column">
+                            <fieldset disabled>
+                            <div class="field">
+                                <label class="label is-size-4">Fecha de Préstamo</label>
+                                <div class="control">
+                                  <input class="input" type="date" name="fecha_prestamo">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label is-size-4">Fecha de Devolución</label>
+                                <div class="control">
+                                  <input class="input" type="date" name="fecha_devolucion">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label is-size-4">Extensión de tiempo</label>
+                                <div class="control">
+                                  <input class="input" type="time" name="tiempo_agregado">
+                                </div>
+                            </div>
+                        </div>
+                        </fieldset>
+                        <fieldset disabled>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label is-size-4">ID socio</label>
+                                <div class="control">
+                                  <input class="input" type="text" name="socio_id">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label is-size-4">ID libro</label>
+                                <div class="control">
+                                  <input class="input" type="text" name="libro_id">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label is-size-4">Tipo de préstamo</label>
+                                <div class="control">
+                                  <div class="select">
+                                    <select>
+                                        <option>Préstamo a domicilio o individual</option>
+                                    </select>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+            </article>
+        </div>
+    </section>
+
+
+    <footer class="footer"></footer>
+    <script src="./header_footer.js"></script>
+</body>
+</html>
