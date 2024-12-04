@@ -18,8 +18,8 @@ header.innerHTML = `
                 </div>
                 <div class="navbar-menu" id="navMenu">
                     <div class="navbar-end">
-                        <a class="navbar-item" href="ingresar-socio.html">Ingresar socio</a>
-                        <a class="navbar-item" href="usuario.html">Usuarios</a>
+                        <a class="navbar-item" href="buscar-socio.html">Buscar socio</a>
+                        <a class="navbar-item" href="crear-prestamo.html">Crear Préstamo</a>
                         <a class="navbar-item" href="libros.html">Libros</a>
 
                     </div>
