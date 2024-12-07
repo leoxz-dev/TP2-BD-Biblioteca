@@ -4,7 +4,9 @@ const express = require('express')
 const app = express()
 const port = 3000
 const prisma = new PrismaClient()
+const cors = require('cors');
 
+app.use(cors())
 app.use(express.json())
 
 //listen en la terminal tipica
@@ -18,6 +20,8 @@ app.get('/', (req,res) => {
   res.send('Hola mundo')
 }
 )
+
+//--------------------CRUD SOCIOS--------------------
 
 //TODOS LOS SOCIOS GET DEL CRUD
 app.get('/socios', async (req,res) => {
