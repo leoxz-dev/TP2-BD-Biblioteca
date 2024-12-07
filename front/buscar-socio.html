@@ -14,11 +14,11 @@
                     <h2 class="subtitle has-text-white"><b>Introduzca el id o el email</b></h2>
                 </div>
                 <div class="message-body has-text-centered px-6">
-                    <form class="mx-3">
+                    <form id="busqueda-form" class="mx-3">
                         <div class="field">
                             <label class="label">ID</label>
                             <div class="control">
-                                <input class="input" type="text" name="socio_id" placeholder=" ">
+                                <input class="input" id="id" type="number" name="socio_id" placeholder=" " required>
                             </div>
                         </div>
                         <div class="block">
@@ -33,8 +33,8 @@
 
                         <br>
                         <div class="buttons is-centered">
-                            <a class="button is-link is-normal" href="informacion-socio.html">Buscar</a>
-                            <a class="button is-white is-normal" href="libros.html">Cancelar</a>
+                            <button type="submit" class="button is-link is-normal">Buscar</a>
+                            <button  class="button is-white is-normal" href="libros.html">Cancelar</a>
                         </div>
                     </form>
                 </div>
@@ -44,5 +44,13 @@
 
     <footer class="footer"></footer>
     <script src="./header_footer.js"></script>
+    <script>
+        document.getElementById('busqueda-form').addEventListener('submit', function (event) {
+          event.preventDefault();  // Evita que se recargue la página
+          const id = parseInt(document.getElementById('id').value);
+          window.location.href = `informacion-socio.html?id=${id}`;  // Redirige a la página de información del socio pasando el ID en la URL
+        });
+    </script>
+    
 </body>
 </html>
