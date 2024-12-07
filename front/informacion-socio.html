@@ -21,6 +21,7 @@
             <!--COLUMNA DONDE VA LA INFO DEL SOCIO-->
             <div class="column">
               <div id="socio-info" class="content is-size-4 p-6 ml-6 has-text-weight-semibold has-text-dark">
+                <!--ESTO ES COMO DEBERIA VERSE EN EL FRONT LA INFORMACION DEL SOCIO-->
                 <!--<h1 class="title has-text-success">DATOS</h1>
                 <div class="block">
                   <p>Id de Usuario: 6579881</p>
@@ -137,6 +138,7 @@
         .then((Response) => Response.json())
         .then(socio =>{
             const socioInfo = document.getElementById('socio-info');
+            //Esta es la estructura donde van a mostrarse los datos del socio
             socioInfo.innerHTML = `
                 <h1 class="title has-text-success">DATOS</h1>
                 <div class="block">
@@ -160,7 +162,7 @@
             `;
         })
         .catch(error => {
-          // Manejar errores (por ejemplo, si el socio no existe)
+          // Si el socio no existe en vez de mostrar todo la estructura html anterior, muestra un p con un mensaje
           document.getElementById('socio-info').innerHTML = `<p>"SOCIO NO ENCONTRADO"</p>`;
         });
       }

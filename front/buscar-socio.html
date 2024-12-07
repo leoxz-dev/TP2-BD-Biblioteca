@@ -46,7 +46,7 @@
     <script src="./header_footer.js"></script>
     <script>
         document.getElementById('busqueda-form').addEventListener('submit', function (event) {
-          event.preventDefault();  // Evita que se recargue la página
+          event.preventDefault();
           const id = parseInt(document.getElementById('id').value);
           window.location.href = `informacion-socio.html?id=${id}`;  // Redirige a la página de información del socio pasando el ID en la URL
         });
