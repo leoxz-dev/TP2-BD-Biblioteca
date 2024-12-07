@@ -131,14 +131,15 @@
       const socioId = urlParams.get("id");
       if (!socioId) {
         alert("ID no válido");
-        window.location.href = "buscar-socio.html"; // Redirige a la página de búsqueda si no se encuentra el ID
+        window.location.href = "buscar-socio.html"; //REDIRIGE A LA PAGINA PREVIA SI POR ALGUN MOTIVO NO SE PASA ID, ESTO HABRIA QUE CAMBIARLO YA QUE SE PUEDE PASAR EMAIL TAMBIEN
       } else {
         // Hacer el fetch al backend para obtener la información del socio
         fetch(`http://localhost:3000/socios/${socioId}`)
         .then((Response) => Response.json())
         .then(socio =>{
+            //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
             const socioInfo = document.getElementById('socio-info');
-            //Esta es la estructura donde van a mostrarse los datos del socio
+            //HTML QUE VA EN socioInfo
             socioInfo.innerHTML = `
                 <h1 class="title has-text-success">DATOS</h1>
                 <div class="block">
@@ -162,8 +163,9 @@
             `;
         })
         .catch(error => {
-          // Si el socio no existe en vez de mostrar todo la estructura html anterior, muestra un p con un mensaje
-          document.getElementById('socio-info').innerHTML = `<p>"SOCIO NO ENCONTRADO"</p>`;
+          //SI NO EXISTE EL SOCIO O HAY ERRORES MUESTRA UN HTML ALTERNATIVO AL INTERIOR
+          document.getElementById('socio-info').innerHTML = `<h1 class="title has-text-success">DATOS</h1>
+          <p>"SOCIO NO ENCONTRADO"</p>`;
         });
       }
     </script>
