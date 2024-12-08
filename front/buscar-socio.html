@@ -92,7 +92,7 @@
                 window.location.href = `informacion-socio.html?id=${id}`;
             }else {
                 if (!nombre){
-                    alert('INGRESE UN NOMBRE');x
+                    alert('INGRESE UN NOMBRE');
                     return
                 }
                 const response=await fetch(`http://localhost:3000/socios/${nombre}`)
@@ -100,9 +100,9 @@
                 if (response.ok){
                     const socios = await response.json();
                     const tablaSocios = document.getElementById('tablaSocios')
+                    tablaSocios.innerHTML = ''; 
                     if (socios.length === 0) {
                         alert('No se encontraron socios con ese nombre.');}
-                    tablaSocios.innerHTML = ''; 
                     socios.forEach(socio => {
                         const tabla=`
                     
