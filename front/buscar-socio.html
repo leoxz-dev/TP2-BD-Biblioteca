@@ -11,23 +11,29 @@
         <div class="container is-max-tablet">
             <article class="message is-link">
                 <div class="message-header is-flex is-justify-content-center">
-                    <h2 class="subtitle has-text-white"><b>Introduzca el id o el email</b></h2>
+                    <h2 class="subtitle has-text-white"><b>Introduzca el id o el nombre</b></h2>
                 </div>
                 <div class="message-body has-text-centered px-6">
                     <form id="busqueda-form" class="mx-3">
                         <div class="field">
-                            <label class="label">ID</label>
+                            <label class="label">Busque por ID</label>
                             <div class="control">
-                                <input class="input" id="id" type="number" name="socio_id" placeholder=" " required>
+                                <input class="input" id="id" type="number" name="socio_id" placeholder=" " >
                             </div>
                         </div>
                         <div class="block">
-                            <p class="is-size-5 has-text-black">o</p>
+                            <p class="is-size-5 has-text-black">Puede buscar por Nombre y Apellido tambien</p>
                         </div>
                         <div class="field">
-                            <label class="label">Correo Electrónico</label>
+                            <label class="label">Nombre</label>
                             <div class="control">
-                                <input class="input" type="email" name="email" placeholder="nombre@gmail.com">
+                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Apellido</label>
+                            <div class="control">
+                                <input class="input" id="apellido" type="text" name="Apellido" placeholder="Rodriguez">
                             </div>
                         </div>
 
@@ -41,15 +47,82 @@
             </article>
         </div>
     </section> 
+    <div  class="container is-max-tablet">
+        <table class="table">
+          <thead>
+            <tr>
+                <th><abbr title="Position">Id</abbr></th>
+                <th><abbr title="Nombre">Nom</abbr></th>
+                <th><abbr title="Drawn">Apellido</abbr></th>
+                <th><abbr title="Lost">Email</abbr></th>
+                <th><abbr title="Goals for">Tel</abbr></th>
+              </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th><abbr title="Position">Id</abbr></th>
+              <th><abbr title="Nombre">Nom</abbr></th>
+              <th><abbr title="Drawn">Apellido</abbr></th>
+              <th><abbr title="Lost">Email</abbr></th>
+              <th><abbr title="Goals for">Tel</abbr></th>
+            </tr>
+          </tfoot>
 
-    <footer class="footer"></footer>
+          <tbody id="tablaSocios">
+            <tr>
+              <th>1</th>
+              <td>Agus</td>
+              <td>arjona</td>
+              <td>zzz@gmail.com</td>
+              <td>4444-8888</td>
+            </tr>
+        </table>
+      </div>
+      <footer class="footer">
+      </footer>
+      
     <script src="./header_footer.js"></script>
     <script>
-        document.getElementById('busqueda-form').addEventListener('submit', function (event) {
-          event.preventDefault();
-          const id = parseInt(document.getElementById('id').value);
-          window.location.href = `informacion-socio.html?id=${id}`;  // Redirige a la página de información del socio pasando el ID en la URL
-        });
+        document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const id = parseInt(document.getElementById('id').value);
+            const nombre = document.getElementById('nombre').value.trim();
+            if (id){
+                //REDIRIGE A OTRA PAGINA Y PASA EN LA URL EL ID
+                window.location.href = `informacion-socio.html?id=${id}`;
+            }else {
+                if (!nombre){
+                    alert('INGRESE UN NOMBRE');x
+                    return
+                }
+                const response=await fetch(`http://localhost:3000/socios/${nombre}`)
+
+                if (response.ok){
+                    const socios = await response.json();
+                    const tablaSocios = document.getElementById('tablaSocios')
+                    if (socios.length === 0) {
+                        alert('No se encontraron socios con ese nombre.');}
+                    tablaSocios.innerHTML = ''; 
+                    socios.forEach(socio => {
+                        const tabla=`
+                    
+                            <tr>
+                                <th>${socio.id}</th>
+                                <td>${socio.nombre}</td>
+                                <td>${socio.apellido}</td>
+                                <td>${socio.email}</td>
+                                <td>${socio.telefono}</td>
+                            </tr>
+                            
+                            `;
+                            tablaSocios.innerHTML += tabla
+                    });
+                }else {
+                    alert('No se encontraron socios.')
+                }
+                }
+
+        }) 
     </script>
     
 </body>
