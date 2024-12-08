@@ -107,8 +107,9 @@
                     tablaSocios.innerHTML = ''; 
                     //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
                     if (socios.length === 0) {
-                        alert('No se encontraron socios con ese nombre.');}
-                        return
+                        alert('No se encontraron socios con ese nombre.');
+                        return}
+                        
                     //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
                     socios.forEach(socio => {
                         const tabla=`
