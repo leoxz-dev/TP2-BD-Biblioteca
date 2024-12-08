@@ -19,9 +19,13 @@ header.innerHTML = `
                 <div class="navbar-menu" id="navMenu">
                     <div class="navbar-end">
                         <a class="navbar-item" href="buscar-socio.html">Buscar socio</a>
-                        <a class="navbar-item" href="crear-prestamo.html">Crear Préstamo</a>
+                        <a class="navbar-item" href="informacion-socio.html">Información Socio</a>
+                        <a class="navbar-item" href="crear-socio.html">Crear Socio</a>
                         <a class="navbar-item" href="libros.html">Libros</a>
-
+                        <a class="navbar-item" href="libro.html">Libro</a>
+                        <a class="navbar-item" href="prestamo.html">Préstamo</a>
+                        <a class="navbar-item" href="prestamos.html">Préstamos</a>
+                        <a class="navbar-item" href="crear-prestamo.html">Crear Préstamo</a>
                     </div>
                 </div>
             
@@ -29,19 +33,16 @@ header.innerHTML = `
 `;
 
 footer.innerHTML=`
-        <footer class="footer">
-                <div class="content has-text-centered">
-                    <p>
-                        <strong>Biblioteca DB</strong>
-                    </p>
-                    <p>
-                        Trabajo práctico Introduccion al desarrollo del software
-                    </p>
-                </div>
-        </footer>
-
+        <div class="content has-text-centered" >
+            <p>
+            <strong>Biblioteca DB</strong>
+            </p>
+            <p>
+            Trabajo práctico Introduccion al desarrollo del software
+            </p>
+        </div>
 `
-
+//Logica para el burger menu
 
 document.addEventListener('DOMContentLoaded', () => {
 
