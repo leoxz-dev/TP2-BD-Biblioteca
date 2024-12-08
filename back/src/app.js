@@ -30,18 +30,39 @@ app.get('/socios', async (req,res) => {
 })
 
 //SOCIO ESPECIFICO GET DEL CRUD
-app.get('/socios/:id', async (req,res) => {
-  const socio = await prisma.socios.findUnique({
-    where: {
-      id: parseInt(req.params.id)
+app.get('/socios/:param', async (req, res) => {
+  const param = req.params.param;
+  // Verificar si el parámetro es un número (para buscar por ID)
+  if (!isNaN(param)) {
+    const socio = await prisma.socios.findUnique({
+      where: {
+        id: parseInt(param)
+      }
+    });
+
+    if (socio === null) {
+      return res.sendStatus(404); 
     }
-  })
-  if (socio===null){
-    res.sendStatus(404)
-    return
+
+    return res.json(socio); 
   }
-  res.json(socio)
-})
+
+  // Si el parámetro no es un número, buscar por nombre
+  const socio = await prisma.socios.findMany({
+    where: {
+      nombre: {
+        startsWith: param,
+        mode: 'insensitive'
+      }
+    }
+  });
+
+  if (socio === null) {
+    return res.sendStatus(404); 
+  }
+
+  return res.json(socio); 
+});
 
 //POST DEL CRUD
 /*
