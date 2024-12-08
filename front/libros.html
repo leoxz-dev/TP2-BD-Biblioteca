@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Libros</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    </head>
+<body>
+    <header>
+        <!--header por header_footer.js-->
+    </header>
+    <section class="section is-medium">
+        <div class="container">
+            <h1 class="title">Lista de libros</h1>
+            <div class="table-container">
+                <table class="table is-striped is-hoverable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Titulo</th>
+                            <th>Autor</th>
+                            <th>Año de publicación</th>
+                            <th>Genero</th>
+                            <th>Cantidad de páginas </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>El señor de los anillos</td>
+                            <td>J.R.R. Tolkien</td>
+                            <td>1954</td>
+                            <td>Fantasía</td>
+                            <td>1178</td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>Harry Potter</td>
+                            <td>J.K Rowling</td>
+                            <td>1999</td>
+                            <td>Fantasía</td>
+                            <td>982</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container">
+                <div class="field">
+                    <label class="label">Titulo del libro</label>
+                    <div class="control">
+                        <input type="text" class="input" name="tituloForm" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Autor</label>
+                    <div class="control">
+                        <input type="text" class="input" name="autorForm" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Año de publicación</label>
+                    <div class="control">
+                        <input type="number" class="input" name="añoForm" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Genero</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="genero" class="select" required>
+                                <option value="Fantasía">Fantasía</option>
+                                <option value="Ciencia Ficción">Ciencia Ficción</option>
+                                <option value="Terror">Terror</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Aventura">Aventura</option>
+                                <option value="Biografía">Biografía</option>
+                                <option value="Historia">Historia</option>
+                                <option value="Política">Política</option>
+                                <option value="Economía">Economía</option>
+                                <option value="Autoayuda">Autoayuda</option>
+                                <option value="Cocina">Cocina</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <p class="control">
+                      <button class="button is-primary">
+                        Submit
+                      </button>
+                    </p>
+                    <p class="control">
+                      <a class="button is-light">
+                        Cancel
+                      </a>
+                    </p>
+                 </div>
+            </div>
+        </div>
+    </section>
+    </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+                        <!--footer por header_footer.js-->
+    </footer>
+
+    <script src="./header_footer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+
+        });
+        });
+
+        });
+    </script>
+</body>
+</html>

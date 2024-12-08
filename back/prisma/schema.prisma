@@ -40,11 +40,11 @@ model libros {
 model prestamo {
   id               Int       @id @unique @default(autoincrement())
   socio            socios    @relation(fields: [socio_id], references: [id])
-  socio_id         Int // Clave foránea hacia la tabla socio
+  socio_id         Int       // Clave foránea hacia la tabla socio
   libro            libros    @relation(fields: [libro_id], references: [id])
-  libro_id         Int // Clave foránea hacia la tabla libros
+  libro_id         Int       @unique// Clave foránea hacia la tabla libros
   fecha_prestamo   DateTime  @default(now())
-  fecha_devolucion DateTime?
+  fecha_devolucion DateTime
 }
 
 

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Crear Socio</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    
+    
+    
+    </head>
+    <body>
+        <header>
+            <!--header por header_footer.js-->
+        </header>
+
+        <section class="my-6">
+            <div class="container is-max-tablet">
+                <article class="message is-link">
+                    <div class="message-header is-flex is-justify-content-center">
+                        <h2 class="subtitle has-text-white"><b>Ingresar información del nuevo socio</b></h2>
+                    </div>
+                    <div class="message-body">
+                        <form id="crear-socio" class="mx-3">
+                            <div class="field">
+                                <label class="label">Nombre</label>
+                                <div class="control">
+                                    <input id="nombre" class="input" type="text" name="nombre" placeholder="Nombre" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Apellido</label>
+                                <div class="control">
+                                    <input id="Apellido" class="input" type="text" name="apellido" placeholder="Apellido" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Correo Electrónico</label>
+                                <div class="control">
+                                    <input id="email" class="input" type="email" name="email" placeholder="nombre@gmail.com" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Domicilio</label>
+                                <div class="control">
+                                    <input id="direccion" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Teléfono</label>
+                                <div class="control">
+                                    <input id="telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678" required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="buttons is-centered">
+                                <input class="button is-link is-normal" type="submit" value="Guardar cambios" />
+                                <a class="button is-white is-normal" href="libros.html">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </section>    
+        
+        <footer class="footer">
+            <!--footer por header_footer.js-->
+        </footer>
+        <script src="./header_footer.js"></script>
+        <script>
+            document.getElementById('crear-socio').addEventListener('submit', async function(event) {
+                event.preventDefault();
+                //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
+                const nombre = document.getElementById('nombre').value;
+                //FALTA APELLIDO YA QUE TODAVIA NO LO AGREGAMOS A LA TABLE
+                const email = document.getElementById('email').value;
+                const direccion = document.getElementById('direccion').value;
+                const telefono = document.getElementById('telefono').value;
+                //CREAMOS UN BODY CON ESOS DATOS
+                const socioData = {
+                    nombre: nombre,
+                    direccion: direccion,
+                    telefono: telefono,
+                    email: email
+                };
+                //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL socioDATA JSONIFICADO
+                try {
+                    const response = await fetch('http://localhost:3000/socios', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        //JSONIFICACION
+                        body: JSON.stringify(socioData),
+                    });
+                    //response.ok SE FIJA SI EL STATUS RESPONSE ESTA ENTRE 200 Y 299
+                    if (response.ok) {
+                        const nuevoSocio = await response.json();
+                        alert(`¡Socio creado con éxito! ID: ${nuevoSocio.id}`);
+                        //LIMPIAMOS EL FORM
+                        document.getElementById('crear-socio').reset();
+                    } else {
+                        const error = await response.json();
+                        alert(`Error al crear socio: ${response.status}`);
+                        }
+                //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
+                } catch (error) {
+                    console.error('Error al enviar la solicitud:', error);
+                    alert('No se pudo conectar con el servidor.');
+                }
+            })
+        </script>
+    </body>
+</html>
