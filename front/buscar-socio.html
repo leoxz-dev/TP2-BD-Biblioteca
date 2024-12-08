@@ -41,14 +41,52 @@
             </article>
         </div>
     </section> 
+    <div id="varios-socios" class="container is-max-tablet">
+        <table class="table">
+          <thead>
+            <tr>
+                <th><abbr title="Position">Id</abbr></th>
+                <th><abbr title="Nombre">Nom</abbr></th>
+                <th><abbr title="Drawn">Apellido</abbr></th>
+                <th><abbr title="Lost">Email</abbr></th>
+                <th><abbr title="Goals for">Tel</abbr></th>
+              </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th><abbr title="Position">Id</abbr></th>
+              <th><abbr title="Nombre">Nom</abbr></th>
+              <th><abbr title="Drawn">Apellido</abbr></th>
+              <th><abbr title="Lost">Email</abbr></th>
+              <th><abbr title="Goals for">Tel</abbr></th>
+            </tr>
+          </tfoot>
 
-    <footer class="footer"></footer>
+          <tbody>
+            <tr>
+              <th>1</th>
+              <td>Agus</td>
+              <td>arjona</td>
+              <td>zzz@gmail.com</td>
+              <td>4444-8888</td>
+            </tr>
+        </table>
+      </div>
+      <footer class="footer">
+      </footer>
+      
     <script src="./header_footer.js"></script>
     <script>
         document.getElementById('busqueda-form').addEventListener('submit', function (event) {
-          event.preventDefault();
-          const id = parseInt(document.getElementById('id').value);
-          window.location.href = `informacion-socio.html?id=${id}`;  // Redirige a la página de información del socio pasando el ID en la URL
+            event.preventDefault();
+            if (!id) {
+                fetch(`http://localhost:3000/socios/${socioId}`)
+                .then((Response) => Response.json())
+                }
+          
+            const id = parseInt(document.getElementById('id').value);
+            //REDIRIGE A OTRA PAGINA Y PASA EN LA URL EL ID
+            window.location.href = `informacion-socio.html?id=${id}`;
         });
     </script>
     
