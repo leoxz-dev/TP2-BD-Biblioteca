@@ -94,18 +94,22 @@
                 //REDIRIGE A OTRA PAGINA Y PASA EN LA URL EL ID
                 window.location.href = `informacion-socio.html?id=${id}`;
             }else {
+                //SI NO HAY ID Y ADEMAS NO HAY NOMBRE SALTA ALERT
                 if (!nombre){
                     alert('INGRESE UN NOMBRE');
                     return
                 }
                 const response=await fetch(`http://localhost:3000/socios/${nombre}`)
-
                 if (response.ok){
+
                     const socios = await response.json();
                     const tablaSocios = document.getElementById('tablaSocios')
                     tablaSocios.innerHTML = ''; 
+                    //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
                     if (socios.length === 0) {
                         alert('No se encontraron socios con ese nombre.');}
+                        return
+                    //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
                     socios.forEach(socio => {
                         const tabla=`
                     
@@ -118,6 +122,7 @@
                             </tr>
                             
                             `;
+                            //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
                             tablaSocios.innerHTML += tabla
                     });
                 }else {
