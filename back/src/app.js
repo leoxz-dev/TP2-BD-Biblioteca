@@ -69,18 +69,20 @@ app.get('/socios/:param', async (req, res) => {
 model socios {
   id                Int         @id @unique @default(autoincrement())
   nombre            String
+  apellido          String
   direccion         String?
   telefono          String?     
   email             String?     @unique
   libro_prestado    libros?     @relation(fields: [libro_prestado_id], references: [id])
   libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
-  prestamos         prestamos[] // Relación con la tabla de préstamos
+  prestamos         prestamo[] // Relación con la tabla de préstamos
 }
 */
 app.post('/socios', async (req,res) => {
   const socio = await prisma.socios.create({
     data: {
       nombre: req.body.nombre,
+      apellido: req.body.apellido,
       direccion: req.body.direccion,
       telefono:  req.body.telefono,
       email:   req.body.email
@@ -125,6 +127,7 @@ app.put('/socios/:id', async (req,res) => {
     },
     data: {
       nombre: req.body.nombre,
+      apellido: req.body.apellido,
       direccion: req.body.direccion,
       telefono:  req.body.telefono,
       email:   req.body.email
@@ -143,7 +146,7 @@ Problema existePrestamo(id: Int) {
 */
 
 async function existePrestamo(id){
-  const prestamo = await prisma.prestamos.findUnique({
+  const prestamo = await prisma.prestamo.findUnique({
     where: {
       id: parseInt(id)
     }
@@ -158,7 +161,7 @@ problema getTodosLibros() {
 */
 
 app.get('/prestamos', async (req,res) => {
-  const prestamos = await prisma.prestamos.findMany()
+  const prestamos = await prisma.prestamo.findMany()
   res.json(prestamos)
 }
 )
@@ -169,8 +172,8 @@ model prestamos {
   socio_id         Int // Clave foránea hacia la tabla socio
   libro            libros    @relation(fields: [libro_id], references: [id])
   libro_id         Int // Clave foránea hacia la tabla libros
-  fecha_prestamo   DateTime  @default(now())
-  fecha_devolucion DateTime
+  fecha_prestamo   DateTime  @db.Date @default(now())
+  fecha_devolucion DateTime  @db.Date
 }
 */
 
@@ -185,7 +188,7 @@ Problema postPrestamo(socio_id, libro_id, fecha_prestamo, fecha_devolucion) {
 */
 
 app.post('/prestamos', async (req, res) => {
-  const prestamo = await prisma.prestamos.create({
+  const prestamo = await prisma.prestamo.create({
     data: {
       socio_id: req.body.socio_id,
       libro_id: req.body.libro_id,
@@ -205,7 +208,7 @@ Problema: getPrestamo(id: Int) {
 */
 
 app.get('/prestamos/:id', async (req,res) => {
-  const prestamo = await prisma.prestamos.findUnique({
+  const prestamo = await prisma.prestamo.findUnique({
       where: {
         id: parseInt(req.params.id)
       }
@@ -231,7 +234,7 @@ app.delete('/prestamos/:id', async (req,res) => {
   if (!await existePrestamo(parseInt(req.params.id))) {
     return res.sendStatus(404)
   }
-  const deletePrestamo = await prisma.prestamos.delete({
+  const deletePrestamo = await prisma.prestamo.delete({
     where:{
       id: parseInt(req.params.id)
     }
@@ -251,7 +254,7 @@ app.put('/prestamos/:id', async (req,res) => {
   if (!await existePrestamo(parseInt(req.params.id))) {
     return res.sendStatus(404)
   }
-  const uptadeUser = await prisma.prestamos.update({
+  const uptadeUser = await prisma.prestamo.update({
     where: {
       id: parseInt(req.params.id)
     },
