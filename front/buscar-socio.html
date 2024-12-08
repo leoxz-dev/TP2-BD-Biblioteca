@@ -11,23 +11,29 @@
         <div class="container is-max-tablet">
             <article class="message is-link">
                 <div class="message-header is-flex is-justify-content-center">
-                    <h2 class="subtitle has-text-white"><b>Introduzca el id o el email</b></h2>
+                    <h2 class="subtitle has-text-white"><b>Introduzca el id o el nombre</b></h2>
                 </div>
                 <div class="message-body has-text-centered px-6">
                     <form id="busqueda-form" class="mx-3">
                         <div class="field">
-                            <label class="label">ID</label>
+                            <label class="label">Busque por ID</label>
                             <div class="control">
-                                <input class="input" id="id" type="number" name="socio_id" placeholder=" " required>
+                                <input class="input" id="id" type="number" name="socio_id" placeholder=" " >
                             </div>
                         </div>
                         <div class="block">
-                            <p class="is-size-5 has-text-black">o</p>
+                            <p class="is-size-5 has-text-black">Puede buscar por Nombre y Apellido tambien</p>
                         </div>
                         <div class="field">
-                            <label class="label">Correo Electrónico</label>
+                            <label class="label">Nombre</label>
                             <div class="control">
-                                <input class="input" type="email" name="email" placeholder="nombre@gmail.com">
+                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Apellido</label>
+                            <div class="control">
+                                <input class="input" id="apellido" type="text" name="Apellido" placeholder="Rodriguez">
                             </div>
                         </div>
 
@@ -41,7 +47,7 @@
             </article>
         </div>
     </section> 
-    <div id="varios-socios" class="container is-max-tablet">
+    <div  class="container is-max-tablet">
         <table class="table">
           <thead>
             <tr>
@@ -62,7 +68,7 @@
             </tr>
           </tfoot>
 
-          <tbody>
+          <tbody id="tablaSocios">
             <tr>
               <th>1</th>
               <td>Agus</td>
@@ -77,17 +83,46 @@
       
     <script src="./header_footer.js"></script>
     <script>
-        document.getElementById('busqueda-form').addEventListener('submit', function (event) {
+        document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
             event.preventDefault();
-            if (!id) {
-                fetch(`http://localhost:3000/socios/${socioId}`)
-                .then((Response) => Response.json())
-                }
-          
             const id = parseInt(document.getElementById('id').value);
-            //REDIRIGE A OTRA PAGINA Y PASA EN LA URL EL ID
-            window.location.href = `informacion-socio.html?id=${id}`;
-        });
+            const nombre = document.getElementById('nombre').value.trim();
+            if (id){
+                //REDIRIGE A OTRA PAGINA Y PASA EN LA URL EL ID
+                window.location.href = `informacion-socio.html?id=${id}`;
+            }else {
+                if (!nombre){
+                    alert('INGRESE UN NOMBRE');
+                    return
+                }
+                const response=await fetch(`http://localhost:3000/socios/${nombre}`)
+
+                if (response.ok){
+                    const socios = await response.json();
+                    const tablaSocios = document.getElementById('tablaSocios')
+                    tablaSocios.innerHTML = ''; 
+                    if (socios.length === 0) {
+                        alert('No se encontraron socios con ese nombre.');}
+                    socios.forEach(socio => {
+                        const tabla=`
+                    
+                            <tr>
+                                <th>${socio.id}</th>
+                                <td>${socio.nombre}</td>
+                                <td>${socio.apellido}</td>
+                                <td>${socio.email}</td>
+                                <td>${socio.telefono}</td>
+                            </tr>
+                            
+                            `;
+                            tablaSocios.innerHTML += tabla
+                    });
+                }else {
+                    alert('No se encontraron socios.')
+                }
+                }
+
+        }) 
     </script>
     
 </body>
