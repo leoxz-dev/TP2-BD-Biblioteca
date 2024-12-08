@@ -38,23 +38,29 @@
                                 </h1>
                             </div>
                             <div class="message-body">
-                                <form>
+                                <form id="crear-prestamo">
                                     <div class="field">
                                         <label class="label">Fecha de Préstamo</label>
                                         <div class="control">
-                                          <input class="input" type="date" name="fecha_prestamo">
+                                          <input id="fecha_prestamo" class="input" type="date" name="fecha_prestamo">
                                         </div>
                                     </div>
                                     <div class="field">
                                         <label class="label">Fecha de Devolución</label>
                                         <div class="control">
-                                          <input class="input" type="date" name="fecha_devolucion">
+                                          <input id="fecha_devolucion" class="input" type="date" name="fecha_devolucion">
                                         </div>
                                     </div>
                                     <div class="field">
                                         <label class="label">ID socio</label>
                                         <div class="control">
-                                          <input class="input" type="text" name="socio_id">
+                                          <input id="socio_id" class="input" type="number" name="socio_id">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">ID Libro</label>
+                                        <div class="control">
+                                          <input id="libro_id" class="input" type="number" name="socio_id">
                                         </div>
                                     </div>
                                     <div class="field">
@@ -92,5 +98,54 @@
 
     <footer class="footer"></footer>
     <script src="./header_footer.js"></script>
+    <script>
+        document.getElementById('crear-prestamo').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
+            let fechaPrestamo = document.getElementById('fecha_prestamo').value;
+            let fechaDevolucion = document.getElementById('fecha_devolucion').value;
+            const idSocio = document.getElementById('socio_id').value;
+            const idLibro = document.getElementById('libro_id').value;
+            //Faltan las opciones de selección y la extensión de tiempo
+            
+            //Se le asigna el formato a las fechas
+            const formatoFecha = "T00:00:00.000Z";
+            fechaPrestamo = fechaPrestamo.concat(formatoFecha);
+            fechaDevolucion = fechaDevolucion.concat(formatoFecha);
+
+            //CREAMOS UN BODY CON ESOS DATOS
+            const prestamoData = {
+                socio_id: parseInt(idSocio),
+                libro_id: parseInt(idLibro),
+                fecha_prestamo: fechaPrestamo,
+                fecha_devolucion: fechaDevolucion
+            };
+            //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL prestamoData JSONIFICADO
+            try {
+                const response = await fetch('http://localhost:3000/prestamos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    //JSONIFICACION
+                    body: JSON.stringify(prestamoData),
+                });
+                //response.ok SE FIJA SI EL STATUS RESPONSE ESTA ENTRE 200 Y 299
+                if (response.ok) {
+                    const nuevoPrestamo = await response.json();
+                    alert(`¡Préstamo creado con éxito! ID: ${nuevoPrestamo.id}`);
+                    //LIMPIAMOS EL FORM
+                    document.getElementById('crear-prestamo').reset();
+                } else {
+                    const error = await response.json();
+                    alert(`Error al crear socio: ${response.status}`);
+                    }
+            //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
+            } catch (error) {
+                console.error('Error al enviar la solicitud:', error);
+                alert('No se pudo conectar con el servidor.');
+            }
+        })
+    </script>
 </body>
 </html> 
