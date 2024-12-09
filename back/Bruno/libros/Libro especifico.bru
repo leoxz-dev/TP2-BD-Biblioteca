@@ -1,0 +1,15 @@
+meta {
+  name: Libro especifico
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:3000/libros/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 2
+}
