@@ -26,26 +26,12 @@
                                     <th>Genero</th>
                                     <th>Cantidad de páginas </th>
                                     <th>Cantidad de ejemplares </th>
+                                    <th>Ver libro</th>
+                                    <th>Eliminar</th>
 
                                 </tr>
                             </thead>
                             <tbody id="cuerpo_libros">
-                                <!--<tr>
-                                    <th>1</th>
-                                    <td>El señor de los anillos</td>
-                                    <td>J.R.R. Tolkien</td>
-                                    <td>1954</td>
-                                    <td>Fantasía</td>
-                                    <td>1178</td>
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                    <td>Harry Potter</td>
-                                    <td>J.K Rowling</td>
-                                    <td>1999</td>
-                                    <td>Fantasía</td>
-                                    <td>982</td>
-                                </tr>-->
                             </tbody>
                         </table>
                     </div>
@@ -58,42 +44,42 @@
                             </h1>
                         </div>
                         <div class="message-body">
-                            <form id="crear-libro" class="mx-3">
+                            <form id="crear_libro" class="mx-3">
                                 <div class="field">
                                     <label class="label">Titulo del libro</label>
                                     <div class="control">
-                                        <input type="text" class="input" name="tituloForm" required>
+                                        <input type="text" class="input" id="titulo" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Autor</label>
                                     <div class="control">
-                                        <input type="text" class="input" name="autorForm" required>
+                                        <input type="text" class="input" id="autor" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Año de publicación</label>
                                     <div class="control">
-                                        <input type="number" min="0" class="input" name="añoForm" required>
+                                        <input type="number" min="0" class="input" id="año" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Cantidad de páginas</label>
                                     <div class="control">
-                                        <input type="number" min="0" class="input" name="paginasForm" required>
+                                        <input type="number" min="0" class="input" id="paginas" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Cantidad de ejemplares</label>
                                     <div class="control">
-                                        <input type="number" min="0" class="input" name="ejemplaresForm"  required>
+                                        <input type="number" min="0" class="input" id="ejemplares"  required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Genero</label>
                                     <div class="control">
                                         <div class="select">
-                                            <select name="genero" class="select" required>
+                                            <select id="genero" class="select" required>
                                                 <option value="Fantasía">Fantasía</option>
                                                 <option value="Ciencia Ficción">Ciencia Ficción</option>
                                                 <option value="Terror">Terror</option>
@@ -110,7 +96,7 @@
                                     </div>
                                 </div>
                                 <div class="buttons is-centered">
-                                    <input class="button is-success is-normal" type="submit" value="Guardar cambios" />
+                                    <input class="button is-success is-normal" type="submit" value="Agregar" />
                                     <a class="button is-white is-normal" href="libros.html">Cancelar</a>
                                 </div>
                             </form>
@@ -131,48 +117,112 @@
 
     <script src="./src/header_footer.js"></script>
     <script>
-        fetch('http://localhost:3000/libros')
-        .then(response => response.json())
-        .then(libros => {
+        document.getElementById('crear_libro').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const titulo = document.getElementById('titulo').value
+            const autor = document.getElementById('autor').value
+            const año = document.getElementById('año').value
+            const paginas = document.getElementById('paginas').value
+            const ejemplares = document.getElementById('ejemplares').value
+            const genero = document.getElementById('genero').value
+            
+            const libroData = {
+                titulo: titulo,
+                autor: autor,
+                genero: genero,
+                anio_publicacion: parseInt(año),
+                cant_paginas: parseInt(paginas),
+                cant_ejemplares: parseInt(ejemplares)
+            }
 
-            let tabla = document.getElementById('cuerpo_libros')
-
-            libros.forEach(libro => {
-                let tr = document.createElement('tr')
-                let id = document.createElement('th')
-                id.textContent = libro.id
-
-                let titulo = document.createElement('td')
-                titulo.textContent = libro.titulo
-
-                let autor = document.createElement('td')
-                autor.textContent = libro.autor
-
-                let año = document.createElement('td')
-                año.textContent = libro.anio_publicacion
-
-                let genero = document.createElement('td')
-                genero.textContent = libro.genero
-
-                let paginas = document.createElement('td')
-                paginas.textContent = libro.cant_paginas
-
-                let cantidad_ejemplares = document.createElement('td')
-                cantidad_ejemplares.textContent = libro.cant_ejemplares
-
-                tr.appendChild(id)
-                tr.appendChild(titulo)
-                tr.appendChild(autor)
-                tr.appendChild(año)
-                tr.appendChild(genero)
-                tr.appendChild(paginas)
-                tr.appendChild(cantidad_ejemplares)
-
-                tabla.appendChild(tr)
-
-                
-            });
+            try {
+                const response = await fetch('http://localhost:3000/libros', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(libroData)
+                })
+                if (response.ok) {
+                    crearElementosTabla()
+                    document.getElementById('crear_libro').reset();
+                }
+            } catch (error) {
+                console.error(error)
+                alert('Error al crear el libro')
+            }
         })
+
+        function crearElementosTabla(){
+            fetch('http://localhost:3000/libros')
+            .then(response => response.json())
+            .then(libros => {
+
+                let tabla = document.getElementById('cuerpo_libros')
+                tabla.innerHTML = ''
+
+                libros.forEach(libro => {
+                    let tr = document.createElement('tr')
+                    let id = document.createElement('th')
+                    id.textContent = libro.id
+
+                    let titulo = document.createElement('td')
+                    titulo.textContent = libro.titulo
+
+                    let autor = document.createElement('td')
+                    autor.textContent = libro.autor
+
+                    let año = document.createElement('td')
+                    año.textContent = libro.anio_publicacion
+
+                    let genero = document.createElement('td')
+                    genero.textContent = libro.genero
+
+                    let paginas = document.createElement('td')
+                    paginas.textContent = libro.cant_paginas
+
+                    let cantidadEjemplares = document.createElement('td')
+                    cantidadEjemplares.textContent = libro.cant_ejemplares
+
+                    let ver = document.createElement('td')
+                    let verLink = document.createElement('a')
+                    verLink.className = 'button is-info is-small'
+                    verLink.textContent = 'Ver'
+                    verLink.href = `libro.html?id=${libro.id}`
+                    ver.appendChild(verLink)
+
+                    let borrar = document.createElement('td')
+                    let borrarButton = document.createElement('button')
+                    borrarButton.className = 'button is-danger is-small'
+                    borrarButton.textContent = 'Borrar'
+                    borrarButton.onclick = function() {
+                        fetch(`http://localhost:3000/libros/${libro.id}`, {
+                            method: 'DELETE'
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                tr.remove()
+                            }
+                        })
+                    }
+                    borrar.appendChild(borrarButton)
+                    
+                    tr.appendChild(id)
+                    tr.appendChild(titulo)
+                    tr.appendChild(autor)
+                    tr.appendChild(año)
+                    tr.appendChild(genero)
+                    tr.appendChild(paginas)
+                    tr.appendChild(cantidadEjemplares)
+                    tr.appendChild(ver)
+                    tr.appendChild(borrar)
+                    tabla.appendChild(tr)  
+                })
+                
+            })
+        }
+        crearElementosTabla()
+
     </script>
 </body>
 </html>
