@@ -10,92 +10,114 @@
     <header>
         <!--header por header_footer.js-->
     </header>
-    <section class="section is-medium">
-        <div class="container">
-            <h1 class="title">Lista de libros</h1>
-            <div class="table-container">
-                <table class="table is-striped is-hoverable">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Titulo</th>
-                            <th>Autor</th>
-                            <th>Año de publicación</th>
-                            <th>Genero</th>
-                            <th>Cantidad de páginas </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>El señor de los anillos</td>
-                            <td>J.R.R. Tolkien</td>
-                            <td>1954</td>
-                            <td>Fantasía</td>
-                            <td>1178</td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>Harry Potter</td>
-                            <td>J.K Rowling</td>
-                            <td>1999</td>
-                            <td>Fantasía</td>
-                            <td>982</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="container">
-                <div class="field">
-                    <label class="label">Titulo del libro</label>
-                    <div class="control">
-                        <input type="text" class="input" name="tituloForm" required>
+    <section class="py-6">
+        <div class="container py-6">
+            <div class="columns">
+                <div class="container column">
+                    <h1 class="title">Lista de libros</h1>
+                    <div class="table-container column">
+                        <table id="libros" class="table is-striped is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Titulo</th>
+                                    <th>Autor</th>
+                                    <th>Año de publicación</th>
+                                    <th>Genero</th>
+                                    <th>Cantidad de páginas </th>
+                                    <th>Cantidad de ejemplares </th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpo_libros">
+                                <!--<tr>
+                                    <th>1</th>
+                                    <td>El señor de los anillos</td>
+                                    <td>J.R.R. Tolkien</td>
+                                    <td>1954</td>
+                                    <td>Fantasía</td>
+                                    <td>1178</td>
+                                </tr>
+                                <tr>
+                                    <th>2</th>
+                                    <td>Harry Potter</td>
+                                    <td>J.K Rowling</td>
+                                    <td>1999</td>
+                                    <td>Fantasía</td>
+                                    <td>982</td>
+                                </tr>-->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="field">
-                    <label class="label">Autor</label>
-                    <div class="control">
-                        <input type="text" class="input" name="autorForm" required>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Año de publicación</label>
-                    <div class="control">
-                        <input type="number" class="input" name="añoForm" required>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Genero</label>
-                    <div class="control">
-                        <div class="select">
-                            <select name="genero" class="select" required>
-                                <option value="Fantasía">Fantasía</option>
-                                <option value="Ciencia Ficción">Ciencia Ficción</option>
-                                <option value="Terror">Terror</option>
-                                <option value="Romance">Romance</option>
-                                <option value="Aventura">Aventura</option>
-                                <option value="Biografía">Biografía</option>
-                                <option value="Historia">Historia</option>
-                                <option value="Política">Política</option>
-                                <option value="Economía">Economía</option>
-                                <option value="Autoayuda">Autoayuda</option>
-                                <option value="Cocina">Cocina</option>
-                            </select>
+                <div class="container column">
+                   <article class="message">
+                        <div class="message-header">
+                            <h1 class="title has-text-white">
+                                Agregar libro
+                            </h1>
                         </div>
-                    </div>
+                        <div class="message-body">
+                            <form id="crear-libro" class="mx-3">
+                                <div class="field">
+                                    <label class="label">Titulo del libro</label>
+                                    <div class="control">
+                                        <input type="text" class="input" name="tituloForm" required>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Autor</label>
+                                    <div class="control">
+                                        <input type="text" class="input" name="autorForm" required>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Año de publicación</label>
+                                    <div class="control">
+                                        <input type="number" min="0" class="input" name="añoForm" required>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Cantidad de páginas</label>
+                                    <div class="control">
+                                        <input type="number" min="0" class="input" name="paginasForm" required>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Cantidad de ejemplares</label>
+                                    <div class="control">
+                                        <input type="number" min="0" class="input" name="ejemplaresForm"  required>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Genero</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select name="genero" class="select" required>
+                                                <option value="Fantasía">Fantasía</option>
+                                                <option value="Ciencia Ficción">Ciencia Ficción</option>
+                                                <option value="Terror">Terror</option>
+                                                <option value="Romance">Romance</option>
+                                                <option value="Aventura">Aventura</option>
+                                                <option value="Biografía">Biografía</option>
+                                                <option value="Historia">Historia</option>
+                                                <option value="Política">Política</option>
+                                                <option value="Economía">Economía</option>
+                                                <option value="Autoayuda">Autoayuda</option>
+                                                <option value="Cocina">Cocina</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="buttons is-centered">
+                                    <input class="button is-success is-normal" type="submit" value="Guardar cambios" />
+                                    <a class="button is-white is-normal" href="libros.html">Cancelar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </article>
                 </div>
-                <div class="field is-grouped">
-                    <p class="control">
-                      <button class="button is-primary">
-                        Submit
-                      </button>
-                    </p>
-                    <p class="control">
-                      <a class="button is-light">
-                        Cancel
-                      </a>
-                    </p>
-                 </div>
+                </div>
             </div>
         </div>
     </section>
@@ -108,5 +130,49 @@
     </footer>
 
     <script src="./src/header_footer.js"></script>
+    <script>
+        fetch('http://localhost:3000/libros')
+        .then(response => response.json())
+        .then(libros => {
+
+            let tabla = document.getElementById('cuerpo_libros')
+
+            libros.forEach(libro => {
+                let tr = document.createElement('tr')
+                let id = document.createElement('th')
+                id.textContent = libro.id
+
+                let titulo = document.createElement('td')
+                titulo.textContent = libro.titulo
+
+                let autor = document.createElement('td')
+                autor.textContent = libro.autor
+
+                let año = document.createElement('td')
+                año.textContent = libro.anio_publicacion
+
+                let genero = document.createElement('td')
+                genero.textContent = libro.genero
+
+                let paginas = document.createElement('td')
+                paginas.textContent = libro.cant_paginas
+
+                let cantidad_ejemplares = document.createElement('td')
+                cantidad_ejemplares.textContent = libro.cant_ejemplares
+
+                tr.appendChild(id)
+                tr.appendChild(titulo)
+                tr.appendChild(autor)
+                tr.appendChild(año)
+                tr.appendChild(genero)
+                tr.appendChild(paginas)
+                tr.appendChild(cantidad_ejemplares)
+
+                tabla.appendChild(tr)
+
+                
+            });
+        })
+    </script>
 </body>
 </html>
