@@ -75,7 +75,7 @@ model socios {
   email             String?     @unique
   libro_prestado    libros?     @relation(fields: [libro_prestado_id], references: [id])
   libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
-  prestamos         prestamo[] // Relación con la tabla de préstamos
+  prestamo         prestamos[] // Relación con la tabla de préstamos
 }
 */
 app.post('/socios', async (req,res) => {
@@ -130,7 +130,8 @@ app.put('/socios/:id', async (req,res) => {
       apellido: req.body.apellido,
       direccion: req.body.direccion,
       telefono:  req.body.telefono,
-      email:   req.body.email
+      email:   req.body.email,
+      estado_activo: req.body.estado_activo
     }
   })
   res.json(socio)
@@ -146,7 +147,7 @@ Problema existePrestamo(id: Int) {
 */
 
 async function existePrestamo(id){
-  const prestamo = await prisma.prestamo.findUnique({
+  const prestamo = await prisma.prestamos.findUnique({
     where: {
       id: parseInt(id)
     }
@@ -161,19 +162,22 @@ problema getTodosLibros() {
 */
 
 app.get('/prestamos', async (req,res) => {
-  const prestamos = await prisma.prestamo.findMany()
+  const prestamos = await prisma.prestamos.findMany()
   res.json(prestamos)
 }
 )
 /*
 model prestamos {
   id               Int       @id @unique @default(autoincrement())
-  socio            socios    @relation(fields: [socio_id], references: [id])
-  socio_id         Int // Clave foránea hacia la tabla socio
-  libro            libros    @relation(fields: [libro_id], references: [id])
-  libro_id         Int // Clave foránea hacia la tabla libros
   fecha_prestamo   DateTime  @db.Date @default(now())
   fecha_devolucion DateTime  @db.Date
+  estado           String
+  garantia         Int       @default(0)
+  tipo_prestamo    String    
+  socio            socios    @relation(fields: [socio_id], references: [id])
+  socio_id         Int       // Clave foránea hacia la tabla socio
+  libro            libros    @relation(fields: [libro_id], references: [id])
+  libro_id         Int       // Clave foránea hacia la tabla libros
 }
 */
 
@@ -190,10 +194,13 @@ Problema postPrestamo(socio_id, libro_id, fecha_prestamo, fecha_devolucion) {
 app.post('/prestamos', async (req, res) => {
   const prestamo = await prisma.prestamo.create({
     data: {
-      socio_id: req.body.socio_id,
-      libro_id: req.body.libro_id,
       fecha_prestamo: req.body.fecha_prestamo,
-      fecha_devolucion: req.body.fecha_devolucion
+      fecha_devolucion: req.body.fecha_devolucion,
+      estado: req.body.estado,
+      garantia: req.body.garantia,
+      tipo_prestamo: req.body.tipo_prestamo,
+      socio_id: req.body.socio_id,
+      libro_id: req.body.libro_id
     }
   })
   res.json(prestamo)
@@ -208,7 +215,7 @@ Problema: getPrestamo(id: Int) {
 */
 
 app.get('/prestamos/:id', async (req,res) => {
-  const prestamo = await prisma.prestamo.findUnique({
+  const prestamo = await prisma.prestamos.findUnique({
       where: {
         id: parseInt(req.params.id)
       }
@@ -234,7 +241,7 @@ app.delete('/prestamos/:id', async (req,res) => {
   if (!await existePrestamo(parseInt(req.params.id))) {
     return res.sendStatus(404)
   }
-  const deletePrestamo = await prisma.prestamo.delete({
+  const deletePrestamo = await prisma.prestamos.delete({
     where:{
       id: parseInt(req.params.id)
     }
@@ -254,12 +261,14 @@ app.put('/prestamos/:id', async (req,res) => {
   if (!await existePrestamo(parseInt(req.params.id))) {
     return res.sendStatus(404)
   }
-  const uptadeUser = await prisma.prestamo.update({
+  const uptadeUser = await prisma.prestamos.update({
     where: {
       id: parseInt(req.params.id)
     },
     data: {
-      fecha_devolucion: req.body.fecha_devolucion
+      fecha_devolucion: req.body.fecha_devolucion,
+      garantia: req.body.garantia,
+      estado: req.body.estado
     }
   })
   res.json(uptadeUser)
