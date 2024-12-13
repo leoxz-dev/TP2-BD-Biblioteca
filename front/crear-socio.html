@@ -74,11 +74,11 @@
                 
                 const urlParams = new URLSearchParams(window.location.search);
                 const id = urlParams.get('id');
-                // Si el id existe, obtenemos los datos del socio y modificamos el formulario
                 if (id) {
-                    // Cambiar el texto del botón a "Editar"
+                    //CAMBIA EL TEXTO DEL BOTON 'GUARDAR CAMBIOS' A 'EDITAR'
                     document.getElementById('button-submit').value = 'Editar';
                     const estado = document.getElementById('lugar-estado')
+                    //SE AGREGA UN DROPDOWN PARA ELEGIR CUAL VA A SER EL ESTADO DEL SOCIO
                     const estadoInput = `
                         <div class="field">
                             <label class="label">Estado</label>
@@ -98,15 +98,16 @@
                         if (response.ok) {
                             const socio = await response.json();
 
-                            // Rellenar el formulario con los datos del socio
+                            //SI EL ID EXISTE RELLENAMOS LOS CAMPOS DEL FORM YA CON LOS PREEXISTENTES DEL SOCIO
                             document.getElementById('nombre').value = socio.nombre;
                             document.getElementById('apellido').value = socio.apellido;
                             document.getElementById('email').value = socio.email;
                             document.getElementById('direccion').value = socio.direccion;
                             document.getElementById('telefono').value = socio.telefono;
+                            //
                             // ESTO PARA CUANDO TENGAMOS ESTADO EN LA TABLA
                             //document.getElementById('estado').value = socio.estado;
-
+                            //
                         } else {
                             alert('Error al obtener los datos del socio.');
                         }
