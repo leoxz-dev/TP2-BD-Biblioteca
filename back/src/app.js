@@ -70,9 +70,10 @@ model socios {
   id                Int         @id @unique @default(autoincrement())
   nombre            String
   apellido          String
-  direccion         String?
-  telefono          String?     
-  email             String?     @unique
+  direccion         String
+  telefono          String     
+  email             String     @unique
+  estado_activo     Bollean
   libro_prestado    libros?     @relation(fields: [libro_prestado_id], references: [id])
   libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
   prestamo         prestamos[] // Relación con la tabla de préstamos
@@ -84,8 +85,8 @@ app.post('/socios', async (req,res) => {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
       direccion: req.body.direccion,
-      telefono:  req.body.telefono,
-      email:   req.body.email
+      telefono: req.body.telefono,
+      email: req.body.email
     }
 })
   res.json(socio)
@@ -192,7 +193,7 @@ Problema postPrestamo(socio_id, libro_id, fecha_prestamo, fecha_devolucion) {
 */
 
 app.post('/prestamos', async (req, res) => {
-  const prestamo = await prisma.prestamo.create({
+  const prestamo = await prisma.prestamos.create({
     data: {
       fecha_prestamo: req.body.fecha_prestamo,
       fecha_devolucion: req.body.fecha_devolucion,
