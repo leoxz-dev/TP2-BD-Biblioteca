@@ -129,8 +129,8 @@ app.put('/socios/:id', async (req,res) => {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
       direccion: req.body.direccion,
-      telefono:  req.body.telefono,
-      email:   req.body.email,
+      telefono: req.body.telefono,
+      email: req.body.email,
       estado_activo: req.body.estado_activo
     }
   })
