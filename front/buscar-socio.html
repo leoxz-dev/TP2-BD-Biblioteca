@@ -132,11 +132,12 @@
         }
 
         function renderTable(page) {
-            tableBody.innerHTML = ""; // Limpia la tabla
+            tableBody.innerHTML = ""; // LIMPIA LA TABLA
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
+            //AL PARECER SE LE PUEDE HACER SLICES A LISTAS EN JS
             const pageUsers = usuarios.slice(start, end);
-
+            //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
             pageUsers.forEach((user) => {
                 const row = `
                 <tr>
@@ -150,16 +151,21 @@
                     <td><a href="crear-prestamo.html?id=${user.id}"><button class="button is-link is-small">Préstamo</button></a></td>
                 </tr>
                 `;
+                //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
+                //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
                 tableBody.insertAdjacentHTML("beforeend", row);
             });
         }
 
         function renderPagination() {
+            //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
             paginationList.innerHTML = "";
             for (let i = 1; i <= totalPages; i++) {
                 const pageButton = document.createElement("li");
+                //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
+                // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
                 pageButton.innerHTML = `
-                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-page="${i}">
+                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
                     ${i}
                 </a>
                 `;
@@ -167,13 +173,17 @@
             }
         }
 
+        //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
         paginationList.addEventListener("click", (e) => {
             if (e.target.classList.contains("pagination-link")) {
-                currentPage = parseInt(e.target.dataset.page);
+                //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+                //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+                currentPage = parseInt(e.target.dataset.numPagina);
                 renderTable(currentPage);
                 renderPagination();
             }
         });
+
 
         prevPageButton.addEventListener("click", () => {
             if (currentPage > 1) {
@@ -190,6 +200,7 @@
                 renderPagination();
             }
         });
+
 
         document.addEventListener("DOMContentLoaded", function() {
             fetchUsuarios();
