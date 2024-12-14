@@ -192,7 +192,7 @@ Problema postPrestamo(socio_id, libro_id, fecha_prestamo, fecha_devolucion) {
 */
 
 app.post('/prestamos', async (req, res) => {
-  const prestamo = await prisma.prestamo.create({
+  const prestamo = await prisma.prestamos.create({
     data: {
       fecha_prestamo: req.body.fecha_prestamo,
       fecha_devolucion: req.body.fecha_devolucion,
