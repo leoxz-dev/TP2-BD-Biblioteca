@@ -30,7 +30,7 @@
                             <div class="field">
                                 <label class="label">Apellido</label>
                                 <div class="control">
-                                    <input id="Apellido" class="input" type="text" name="apellido" placeholder="Apellido" required>
+                                    <input id="apellido" class="input" type="text" name="apellido" placeholder="Apellido" required>
                                 </div>
                             </div>
                             <div class="field">
@@ -51,10 +51,13 @@
                                     <input id="telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678" required>
                                 </div>
                             </div>
+                            <div id="lugar-estado">
+
+                            </div>
                             <br>
                             <div class="buttons is-centered">
-                                <input class="button is-success is-normal" type="submit" value="Guardar cambios" />
-                                <a class="button is-white is-normal" href="libros.html">Cancelar</a>
+                                <input id="button-submit" class="button is-success is-normal" type="submit" value="Guardar cambios" />
+                                <a class="button is-white is-normal" href="">Cancelar</a>
                             </div>
                         </form>
                     </div>
@@ -67,10 +70,61 @@
         </footer>
         <script src="./src/header_footer.js"></script>
         <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                if (id) {
+                    //CAMBIA EL TEXTO DEL BOTON 'GUARDAR CAMBIOS' A 'EDITAR'
+                    document.getElementById('button-submit').value = 'Editar';
+                    const estado = document.getElementById('lugar-estado')
+                    //SE AGREGA UN DROPDOWN PARA ELEGIR CUAL VA A SER EL ESTADO DEL SOCIO
+                    const estadoInput = `
+                        <div class="field">
+                            <label class="label">Estado</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select id="estado" name="estado">
+                                        <option value="activo">Activo</option>
+                                        <option value="suspendido">Suspendido</option>
+                                        <option value="inactivo">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>`;
+                    estado.innerHTML+=estadoInput
+                    try {
+                        const response = await fetch(`http://localhost:3000/socios/${id}`);
+                        if (response.ok) {
+                            const socio = await response.json();
+
+                            //SI EL ID EXISTE RELLENAMOS LOS CAMPOS DEL FORM YA CON LOS PREEXISTENTES DEL SOCIO
+                            document.getElementById('nombre').value = socio.nombre;
+                            document.getElementById('apellido').value = socio.apellido;
+                            document.getElementById('email').value = socio.email;
+                            document.getElementById('direccion').value = socio.direccion;
+                            document.getElementById('telefono').value = socio.telefono;
+                            //
+                            // ESTO PARA CUANDO TENGAMOS ESTADO EN LA TABLA
+                            //document.getElementById('estado').value = socio.estado;
+                            //
+                        } else {
+                            alert('Error al obtener los datos del socio.');
+                        }
+                    } catch (error) {
+                        console.error('Error al obtener los datos del socio:', error);
+                        alert('No se pudo conectar con el servidor.');
+                    }
+                }
+            });
+
             document.getElementById('crear-socio').addEventListener('submit', async function(event) {
                 event.preventDefault();
+                
                 //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
                 const nombre = document.getElementById('nombre').value;
+                const apellido = document.getElementById('apellido').value;
+
                 //FALTA APELLIDO YA QUE TODAVIA NO LO AGREGAMOS A LA TABLE
                 const email = document.getElementById('email').value;
                 const direccion = document.getElementById('direccion').value;
@@ -78,20 +132,39 @@
                 //CREAMOS UN BODY CON ESOS DATOS
                 const socioData = {
                     nombre: nombre,
+                    apellido: apellido,
                     direccion: direccion,
                     telefono: telefono,
                     email: email
                 };
-                //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL socioDATA JSONIFICADO
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+
                 try {
-                    const response = await fetch('http://localhost:3000/socios', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        //JSONIFICACION
-                        body: JSON.stringify(socioData),
+                    if (id) {
+                    //INTENTAMOS HACER UN PUT UTILIZANDO COMO BODY EL socioData JSONIFICADO SI NOS PASARON EL ID POR PARAMETRO DE URL
+                        response = await fetch(`http://localhost:3000/socios/${id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            //JSONIFICACION
+                            body: JSON.stringify(socioData),
+                        });
+                        alert('Socio actualizado con éxito');
+                    //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL socioData JSONIFICADO
+                    } else {
+                        response = await fetch('http://localhost:3000/socios', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            //JSONIFICACION
+                            body: JSON.stringify(socioData),
                     });
+                    alert('¡Socio creado con éxito!');
+                }
                     //response.ok SE FIJA SI EL STATUS RESPONSE ESTA ENTRE 200 Y 299
                     if (response.ok) {
                         const nuevoSocio = await response.json();
