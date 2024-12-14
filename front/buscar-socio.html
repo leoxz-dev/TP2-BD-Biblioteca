@@ -60,8 +60,10 @@
                         <th><abbr title="Nombre">Nom</abbr></th>
                         <th><abbr title="Apellido">Apellido</abbr></th>
                         <th><abbr title="Email">Email</abbr></th>
-                        <th><abbr title="telefono">Tel</abbr></th>
-                        <th><abbr title="editar">editar</abbr></th>
+                        <th><abbr title="Telefono">Tel</abbr></th>
+                        <th><abbr title="Editar">Editar</abbr></th>
+                        <th><abbr title="Info">Informacion</abbr></th>
+                        <th><abbr title="Prestamo">Prestamo</abbr></th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -70,8 +72,10 @@
                         <th><abbr title="Nombre">Nom</abbr></th>
                         <th><abbr title="Apellido">Apellido</abbr></th>
                         <th><abbr title="Email">Email</abbr></th>
-                        <th><abbr title="telefono">Tel</abbr></th>
-                        <th><abbr title="editar">editar</abbr></th>
+                        <th><abbr title="Telefono">Tel</abbr></th>
+                        <th><abbr title="Editar">Editar</abbr></th>
+                        <th><abbr title="Info">Informacion</abbr></th>
+                        <th><abbr title="Prestamo">Prestamo</abbr></th>
                     </tr>
                 </tfoot>
                 <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
@@ -83,14 +87,114 @@
                         <td>sample@gmail.com</td>
                         <td>1111-1111</td>
                         <td><button class="button is-info is-small"><a href="crear-socio.html">Editar</a></button></td>
+                        <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion</a></button></td>
+                        <td><button class="button is-info is-small"><a href="crear-socio.html">Prestamo</a></button></td>
                     </tr>
                 </tbody>
             </table>
+
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <button class="pagination-previous" id="prevPage">Anterior</button>
+                <button class="pagination-next" id="nextPage">Siguiente</button>
+                <ul class="pagination-list" id="paginationList">
+                  <!-- Botones de página dinámicos -->
+                </ul>
+              </nav>
+
         </div>
     </div>
     <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+        //VAMOS A USAR FUNCIONES PARA QUE QUEDE BIEN ORDENADO EL CODIGO
+        const tableBody = document.getElementById("tablaSocios");
+        const paginationList = document.getElementById("paginationList");
+        const prevPageButton = document.getElementById("prevPage");
+        const nextPageButton = document.getElementById("nextPage");
+
+        const rowsPerPage = 20;
+        let currentPage = 1;
+        //LISTA QUE SE VA A LLENAR CON LOS USUARIOS
+        let usuarios = []; 
+        let totalPages = 1;
+
+        
+        async function fetchUsuarios() {
+            try {
+                const response = await fetch("http://localhost:3000/socios"); // Ruta de la API
+                usuarios = await response.json();
+                totalPages = Math.ceil(usuarios.length / rowsPerPage);
+                renderTable(currentPage);
+                renderPagination();
+            } catch (error) {
+                console.error("Error al obtener los usuarios:", error);
+            }
+        }
+
+        function renderTable(page) {
+            tableBody.innerHTML = ""; // Limpia la tabla
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageUsers = usuarios.slice(start, end);
+
+            pageUsers.forEach((user) => {
+                const row = `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.nombre}</td>
+                    <td>${user.apellido}</td>
+                    <td>${user.email}</td>
+                    <td>${user.tel}</td>
+                    <td><a href="crear-socio.html?id=${user.id}"><button class="button is-info is-small">Editar</button></a></td>
+                    <td><a href="informacion-socio.html?id=${user.id}"><button class="button is-primary is-small">Información</button></a></td>
+                    <td><a href="crear-prestamo.html?id=${user.id}"><button class="button is-link is-small">Préstamo</button></a></td>
+                </tr>
+                `;
+                tableBody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+
+        function renderPagination() {
+            paginationList.innerHTML = "";
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement("li");
+                pageButton.innerHTML = `
+                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-page="${i}">
+                    ${i}
+                </a>
+                `;
+                paginationList.appendChild(pageButton);
+            }
+        }
+
+        paginationList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("pagination-link")) {
+                currentPage = parseInt(e.target.dataset.page);
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        prevPageButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        nextPageButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchUsuarios();
+        });
+
         document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
             event.preventDefault();
             const id = parseInt(document.getElementById('id').value);
@@ -126,6 +230,8 @@
                                         <td>${socio.email}</td>
                                         <td>${socio.telefono}</td>
                                         <td><button class="button is-info is-small"><a href="crear-socio.html?id=${socio.id}">Editar</a></button></td>
+                                        <td><button class="button is-info is-small"><a href="informacion-socio.html?id=${socio.id}">Informacion</a></button></td>
+                                        <td><button class="button is-info is-small"><a href="crear-prestamo.html?id=${socio.id}">Prestamo</a></button></td>
                                     </tr>`;
                         //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
                         tablaSocios.innerHTML += tabla;
