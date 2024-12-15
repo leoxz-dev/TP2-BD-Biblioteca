@@ -48,22 +48,16 @@
             <div class="container has-text-centered">
               <div class="table-container is-inline-block is-size-5">
                 <table class="table is-bordered is-hoverable">
-                  <thead>
+                  <thead class="is-size-5">
                     <tr>
                       <th><abbr title="Id">Id</abbr></th>
                       <th><abbr title="Titulo">Titulo</abbr></th>
-                      <th><abbr title="Estado">Disponible</abbr></th>
+                      <th><abbr title="Disponibilidad">Status</abbr></th>
+                      <th><abbr title="fecha_devolucion">Fecha devolucion</abbr></th>
                       <th><abbr title="Informacion">Informacion Prestamo</abbr></th>
+
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th><abbr title="Id">Id</abbr></th>
-                      <th><abbr title="Titulo">Titulo</abbr></th>
-                      <th><abbr title="Estado">Disponible</abbr></th>
-                      <th><abbr title="Informacion">Informacion Prestamo</abbr></th>
-                    </tr>
-                  </tfoot>
                   <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
                   <tbody id="tablaPrestamos">
                     <tr>
@@ -128,8 +122,108 @@
   </footer>
   <script src="./src/header_footer.js"></script>
   <script>
+
     const urlParams = new URLSearchParams(window.location.search);
     const socioId = urlParams.get("id");
+    
+    //VAMOS A USAR FUNCIONES PARA QUE QUEDE BIEN ORDENADO EL CODIGO
+    //BASAMOS EL CODIGO EN EL IMPLEMENTADO EN BUSCAR SOCIO YA QUE ES CASI EL MISMO CONCEPTO
+
+    const tableBody = document.getElementById("tablaPrestamos");
+    const paginationList = document.getElementById("paginationList");
+    const prevPageButton = document.getElementById("prevPage");
+    const nextPageButton = document.getElementById("nextPage");
+    
+    const rowsPerPage = 3;
+    let currentPage = 1;
+    //LISTA QUE SE VA A LLENAR CON LOS PRESTAMOS DEL USUARIO
+    let totalPages = 1;
+    let prestamos = null
+
+    async function fetchUsuario(socioId) {
+      try {
+        const response = await fetch(`http://localhost:3000/socios/${socioId}`); // Ruta de la API
+        usuarios = await response.json();
+        prestamos = usuarios.historial_prestamos;
+        totalPages = Math.ceil(prestamos.length / rowsPerPage);
+        renderTable(currentPage);
+        renderPagination();
+      } catch (error) {
+        console.error("Error al obtener los usuarios:", error);
+      }
+    }
+
+
+    function renderTable(page) {
+      tableBody.innerHTML = ""; // LIMPIA LA TABLA
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      //AL PARECER SE LE PUEDE HACER SLICES A LISTAS EN JS
+      const pagePrestamo = prestamos.slice(start, end);
+      //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
+      //FALTA AGREGAR EL TITULO DEL LIBRO
+      pagePrestamo.forEach((prestamo) => {
+        const row = `
+        <tr class="is-size-6">
+          <td >${prestamo.id}</td>
+          <td>ACA VA TITULO LIBRO</td>
+          <td>${prestamo.estado}</td>
+          <td>${prestamo.fecha_devolucion}</td>
+          <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Informacion PRestamo</button></a></td>
+          </tr>
+          `;
+          //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
+          //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
+          tableBody.insertAdjacentHTML("beforeend", row);
+        });
+      }
+
+      function renderPagination() {
+        //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
+        paginationList.innerHTML = "";
+        for (let i = 1; i <= totalPages; i++) {
+          const pageButton = document.createElement("li");
+          //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
+          // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
+          pageButton.innerHTML = `
+          <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">${i}</a>`;
+          paginationList.appendChild(pageButton);
+        }
+      }
+        //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
+        paginationList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("pagination-link")) {
+                //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+                //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+                currentPage = parseInt(e.target.dataset.numPagina);
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+
+        prevPageButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        nextPageButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchUsuario(socioId);
+        });
+
+      
     if (!socioId) {
       alert("ID no válido");
       window.location.href = "buscar-socio.html"; //REDIRIGE A LA PAGINA PREVIA SI POR ALGUN MOTIVO NO SE PASA ID, ESTO HABRIA QUE CAMBIARLO YA QUE SE PUEDE PASAR EMAIL TAMBIEN
