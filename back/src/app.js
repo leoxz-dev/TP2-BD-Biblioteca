@@ -70,9 +70,10 @@ model socios {
   id                Int         @id @unique @default(autoincrement())
   nombre            String
   apellido          String
-  direccion         String?
-  telefono          String?     
-  email             String?     @unique
+  direccion         String
+  telefono          String     
+  email             String     @unique
+  estado_activo     String
   libro_prestado    libros?     @relation(fields: [libro_prestado_id], references: [id])
   libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
   prestamo         prestamos[] // Relación con la tabla de préstamos
@@ -84,8 +85,8 @@ app.post('/socios', async (req,res) => {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
       direccion: req.body.direccion,
-      telefono:  req.body.telefono,
-      email:   req.body.email
+      telefono: req.body.telefono,
+      email: req.body.email
     }
 })
   res.json(socio)
@@ -261,17 +262,20 @@ app.put('/prestamos/:id', async (req,res) => {
   if (!await existePrestamo(parseInt(req.params.id))) {
     return res.sendStatus(404)
   }
-  const uptadeUser = await prisma.prestamos.update({
+  const prestamoActualizado = await prisma.prestamos.update({
     where: {
       id: parseInt(req.params.id)
     },
     data: {
       fecha_devolucion: req.body.fecha_devolucion,
-      garantia: req.body.garantia,
-      estado: req.body.estado
+      garantia: req.body.garantia
     }
   })
-  res.json(uptadeUser)
+
+  return res.status(200).json({
+    success: true,
+    prestamoActualizado: prestamoActualizado,
+  });
 })
 
 app.get('/libros', async (req,res) => {
