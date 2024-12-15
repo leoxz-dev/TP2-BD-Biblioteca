@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Información usuario</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
-    />
-  </head>
 
-  <body>
-    <header>
-      <!--header por header_footer.js-->
-    </header>
+<head>
+  <title>Información usuario</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
+</head>
 
-    <section class="hero has-background-dark">
-      <div class="container my-6">
-        <div class="notification has-background-light">
-          <div class="columns">
-            <!--COLUMNA DONDE VA LA INFO DEL SOCIO-->
-            <div class="column">
-              <div id="socio-info" class="content is-size-4 p-6 ml-6 has-text-weight-semibold has-text-dark">
-                <!--ESTO ES COMO DEBERIA VERSE EN EL FRONT LA INFORMACION DEL SOCIO-->
-                <!--<h1 class="title has-text-success">DATOS</h1>
+<body>
+  <header>
+    <!--header por header_footer.js-->
+  </header>
+
+  <section class="hero has-background-dark">
+    <div class="container my-6">
+      <div class="notification has-background-light">
+        <div class="columns">
+          <!--COLUMNA DONDE VA LA INFO DEL SOCIO-->
+          <div class="column">
+            <div id="socio-info" class="content is-size-4 p-6 ml-6 has-text-weight-semibold has-text-dark">
+              <!--ESTO ES COMO DEBERIA VERSE EN EL FRONT LA INFORMACION DEL SOCIO-->
+              <!--<h1 class="title has-text-success">DATOS</h1>
                 <div class="block">
                   <p>Id de Usuario: 6579881</p>
                 </div>
@@ -41,106 +39,108 @@
                 <div class="block">
                   <p>Teléfono: +54 11 1234-5678</p>
                 </div>-->
+            </div>
+          </div>
+
+          <div class="column">
+            <br />
+            <p class="title has-text-centered has-text-black">LIBRO EN PRESTACIÓN</p>
+            <div class="container has-text-centered">
+              <div class="table-container is-inline-block is-size-5">
+                <table class="table is-bordered is-hoverable">
+                  <thead>
+                    <tr>
+                      <th><abbr title="Id">Id</abbr></th>
+                      <th><abbr title="Titulo">Titulo</abbr></th>
+                      <th><abbr title="Estado">Disponible</abbr></th>
+                      <th><abbr title="Informacion">Informacion Prestamo</abbr></th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th><abbr title="Id">Id</abbr></th>
+                      <th><abbr title="Titulo">Titulo</abbr></th>
+                      <th><abbr title="Estado">Disponible</abbr></th>
+                      <th><abbr title="Informacion">Informacion Prestamo</abbr></th>
+                    </tr>
+                  </tfoot>
+                  <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
+                  <tbody id="tablaPrestamos">
+                    <tr>
+                      <th>1</th>
+                      <td>El imperio Final</td>
+                      <td>sample</td>
+                      <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion Prestamo</a></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                  <button class="pagination-previous" id="prevPage">Anterior</button>
+                  <button class="pagination-next" id="nextPage">Siguiente</button>
+                  <ul class="pagination-list" id="paginationList">
+                    <!-- Botones de página dinámicos -->
+                  </ul>
+                </nav>
+
               </div>
             </div>
-
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+  </section>
+  <section class="hero">
+    <div class="hero-body has-background-dark">
+      <h1 class="title has-text-centered">Libros prestados anteriormente</h1>
+      <div class="container is-max-tablet">
+        <div class="notification">
+          <div class="columns">
             <div class="column">
-              <br />
-                <p class="title has-text-centered has-text-black">LIBRO EN PRESTACIÓN</p>
-              <div class="card mx-6 my-2">
-                <div class="card-content">
-                  <p class="subtitle has-text-centered">
-                    La historia Interminable
-                  </p>
-                </div>
-                <div class="card-image">
-                  <figure class="image">
-                    <img
-                      id="imagen-info-socios"
-                      src="https://images.cdn1.buscalibre.com/fit-in/360x360/5b/18/5b18ed831bc8fbbac844f6a7bc5f9a51.jpg"
-                      alt="'La historia interminable' de Michael Ende"
-                    />
-                  </figure>
-                  <style>
-                    #imagen-info-socios {
-                      max-width: 100%;
-                      height: 350px;
-                      object-fit: cover;
-                    }
-                  </style>
-                </div>
-                <footer class="card-footer">
-                  <a class="button is-fullwidth is-light" href="prestamo.html"
-                    >Ver</a
-                  >
-                </footer>
-              </div>
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmC4m3C4hk9soAR-pl9QDISZ5LLAHl5gjQgw&s"
+                width="100px" length="100px" />
+            </div>
+            <div class="column">
+              <img src="https://images.cdn2.buscalibre.com/fit-in/360x360/e6/5f/e65f54742ad7bbc41903d17f75b77d78.jpg"
+                width="100px" length="100px" />
+            </div>
+            <div class="column">
+              <img
+                src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1532714506i/40961427.jpg"
+                width="100px" length="100px" />
+            </div>
+            <div class="column">
+              <img
+                src="https://tienda.planetadelibros.com.ar/cdn/shop/products/portada_el-principito_antoine-de-saint-exupery_201507152131.jpg?v=1684356025"
+                width="100px" length="100px" />
             </div>
           </div>
         </div>
+        <a class="button is-fullwidth" href="libros.html">Más libros</a>
       </div>
-      <br />
-    </section>
-    <section class="hero">
-      <div class="hero-body has-background-dark
-        <h1 class="title has-text-centered">Libros prestados anteriormente</h1>
-        <div class="container is-max-tablet">
-          <div class="notification">
-            <div class="columns">
-              <div class="column">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmC4m3C4hk9soAR-pl9QDISZ5LLAHl5gjQgw&s"
-                  width="100px"
-                  length="100px"
-                />
-              </div>
-              <div class="column">
-                <img
-                  src="https://images.cdn2.buscalibre.com/fit-in/360x360/e6/5f/e65f54742ad7bbc41903d17f75b77d78.jpg"
-                  width="100px"
-                  length="100px"
-                />
-              </div>
-              <div class="column">
-                <img
-                  src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1532714506i/40961427.jpg"
-                  width="100px"
-                  length="100px"
-                />
-              </div>
-              <div class="column">
-                <img
-                  src="https://tienda.planetadelibros.com.ar/cdn/shop/products/portada_el-principito_antoine-de-saint-exupery_201507152131.jpg?v=1684356025"
-                  width="100px"
-                  length="100px"
-                />
-              </div>
-            </div>
-          </div>
-          <a class="button is-fullwidth" href="libros.html">Más libros</a>
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <footer class="footer"  style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
-      <!--footer por header_footer.js-->
-    </footer>
-    <script src="./src/header_footer.js"></script>
-    <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const socioId = urlParams.get("id");
-      if (!socioId) {
-        alert("ID no válido");
-        window.location.href = "buscar-socio.html"; //REDIRIGE A LA PAGINA PREVIA SI POR ALGUN MOTIVO NO SE PASA ID, ESTO HABRIA QUE CAMBIARLO YA QUE SE PUEDE PASAR EMAIL TAMBIEN
-      } else {
-        // Hacer el fetch al backend para obtener la información del socio
-        fetch(`http://localhost:3000/socios/${socioId}`)
+  <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
+  <!--footer por header_footer.js-->
+  </footer>
+  <script src="./src/header_footer.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const socioId = urlParams.get("id");
+    if (!socioId) {
+      alert("ID no válido");
+      window.location.href = "buscar-socio.html"; //REDIRIGE A LA PAGINA PREVIA SI POR ALGUN MOTIVO NO SE PASA ID, ESTO HABRIA QUE CAMBIARLO YA QUE SE PUEDE PASAR EMAIL TAMBIEN
+    } else {
+      // Hacer el fetch al backend para obtener la información del socio
+      fetch(`http://localhost:3000/socios/${socioId}`)
         .then((Response) => Response.json())
-        .then(socio =>{
-            //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
-            const socioInfo = document.getElementById('socio-info');
-            //HTML QUE VA EN socioInfo
-            socioInfo.innerHTML = `
+        .then(socio => {
+          //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
+          const socioInfo = document.getElementById('socio-info');
+          //HTML QUE VA EN socioInfo
+          socioInfo.innerHTML = `
                 <h1 class="title">DATOS</h1>
                 <div class="block">
                 <p>Id de Usuario: ${socio.id}</p>
@@ -167,7 +167,8 @@
           document.getElementById('socio-info').innerHTML = `<h1 class="title">DATOS</h1>
           <p>"SOCIO NO ENCONTRADO"</p>`;
         });
-      }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
