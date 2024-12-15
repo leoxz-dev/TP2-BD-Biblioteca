@@ -1,15 +1,18 @@
 <!DOCTYPE html>
+
 <head>
+    <meta charset="UTF-8">
     <title>Buscar Socio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
 </head>
+
 <body>
     <header></header>
-    
+
     <section class="my-6">
         <div class="container is-max-tablet">
-            <article class="message is-link">
+            <article class="message">
                 <div class="message-header is-flex is-justify-content-center">
                     <h2 class="subtitle has-text-white"><b>Introduzca el id o el nombre</b></h2>
                 </div>
@@ -18,112 +21,242 @@
                         <div class="field">
                             <label class="label">Busque por ID</label>
                             <div class="control">
-                                <input class="input" id="id" type="number" name="socio_id" placeholder=" " >
+                                <input class="input" id="id" type="number" name="socio_id" placeholder=" " />
                             </div>
                         </div>
                         <div class="block">
-                            <p class="is-size-5 has-text-black">Puede buscar por Nombre y Apellido tambien</p>
+                            <p class="is-size-5 has-text-white">Buscar por Nombre y Apellido</p>
                         </div>
                         <div class="field">
                             <label class="label">Nombre</label>
                             <div class="control">
-                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin">
+                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin" />
                             </div>
                         </div>
                         <div class="field">
                             <label class="label">Apellido</label>
                             <div class="control">
-                                <input class="input" id="apellido" type="text" name="Apellido" placeholder="Rodriguez">
+                                <input class="input" id="apellido" type="text" name="Apellido"
+                                    placeholder="Rodriguez" />
                             </div>
                         </div>
 
                         <br>
                         <div class="buttons is-centered">
-                            <button type="submit" class="button is-link is-normal">Buscar</a>
-                            <button  class="button is-white is-normal" href="libros.html">Cancelar</a>
+                            <button type="submit" class="button is-success is-normal">Buscar</button>
+                            <button class="button is-white is-normal">Cancelar</button>
                         </div>
                     </form>
                 </div>
             </article>
         </div>
-    </section> 
-    <div  class="container is-max-tablet">
-        <table class="table">
-          <thead>
-            <tr>
-                <th><abbr title="Position">Id</abbr></th>
-                <th><abbr title="Nombre">Nom</abbr></th>
-                <th><abbr title="Drawn">Apellido</abbr></th>
-                <th><abbr title="Lost">Email</abbr></th>
-                <th><abbr title="Goals for">Tel</abbr></th>
-              </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <th><abbr title="Position">Id</abbr></th>
-              <th><abbr title="Nombre">Nom</abbr></th>
-              <th><abbr title="Drawn">Apellido</abbr></th>
-              <th><abbr title="Lost">Email</abbr></th>
-              <th><abbr title="Goals for">Tel</abbr></th>
-            </tr>
-          </tfoot>
+    </section>
+    <div class="container has-text-centered">
+        <div class="table-container is-inline-block is-size-5">
+            <table class="table is-bordered is-hoverable">
+                <thead>
+                    <tr>
+                        <th><abbr title="Id">Id</abbr></th>
+                        <th><abbr title="Nombre">Nom</abbr></th>
+                        <th><abbr title="Apellido">Apellido</abbr></th>
+                        <th><abbr title="Email">Email</abbr></th>
+                        <th><abbr title="Telefono">Tel</abbr></th>
+                        <th><abbr title="Editar">Editar</abbr></th>
+                        <th><abbr title="Info">Informacion</abbr></th>
+                        <th><abbr title="Prestamo">Prestamo</abbr></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th><abbr title="Id">Id</abbr></th>
+                        <th><abbr title="Nombre">Nom</abbr></th>
+                        <th><abbr title="Apellido">Apellido</abbr></th>
+                        <th><abbr title="Email">Email</abbr></th>
+                        <th><abbr title="Telefono">Tel</abbr></th>
+                        <th><abbr title="Editar">Editar</abbr></th>
+                        <th><abbr title="Info">Informacion</abbr></th>
+                        <th><abbr title="Prestamo">Prestamo</abbr></th>
+                    </tr>
+                </tfoot>
+                <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
+                <tbody id="tablaSocios">
+                    <tr>
+                        <th>1</th>
+                        <td>Agus</td>
+                        <td>sample</td>
+                        <td>sample@gmail.com</td>
+                        <td>1111-1111</td>
+                        <td><button class="button is-info is-small"><a href="crear-socio.html">Editar</a></button></td>
+                        <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion</a></button></td>
+                        <td><button class="button is-info is-small"><a href="crear-socio.html">Prestamo</a></button></td>
+                    </tr>
+                </tbody>
+            </table>
 
-          <tbody id="tablaSocios">
-            <tr>
-              <th>1</th>
-              <td>Agus</td>
-              <td>arjona</td>
-              <td>zzz@gmail.com</td>
-              <td>4444-8888</td>
-            </tr>
-        </table>
-      </div>
-      <footer class="footer">
-      </footer>
-      
-    <script src="./header_footer.js"></script>
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                <button class="pagination-previous" id="prevPage">Anterior</button>
+                <button class="pagination-next" id="nextPage">Siguiente</button>
+                <ul class="pagination-list" id="paginationList">
+                  <!-- Botones de página dinámicos -->
+                </ul>
+              </nav>
+
+        </div>
+    </div>
+    <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
+    <script src="./src/header_footer.js"></script>
     <script>
+        //VAMOS A USAR FUNCIONES PARA QUE QUEDE BIEN ORDENADO EL CODIGO
+        const tableBody = document.getElementById("tablaSocios");
+        const paginationList = document.getElementById("paginationList");
+        const prevPageButton = document.getElementById("prevPage");
+        const nextPageButton = document.getElementById("nextPage");
+
+        const rowsPerPage = 20;
+        let currentPage = 1;
+        //LISTA QUE SE VA A LLENAR CON LOS USUARIOS
+        let usuarios = []; 
+        let totalPages = 1;
+
+        
+        async function fetchUsuarios() {
+            try {
+                const response = await fetch("http://localhost:3000/socios"); // Ruta de la API
+                usuarios = await response.json();
+                totalPages = Math.ceil(usuarios.length / rowsPerPage);
+                renderTable(currentPage);
+                renderPagination();
+            } catch (error) {
+                console.error("Error al obtener los usuarios:", error);
+            }
+        }
+
+        function renderTable(page) {
+            tableBody.innerHTML = ""; // LIMPIA LA TABLA
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            //AL PARECER SE LE PUEDE HACER SLICES A LISTAS EN JS
+            const pageUsers = usuarios.slice(start, end);
+            //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
+            pageUsers.forEach((user) => {
+                const row = `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.nombre}</td>
+                    <td>${user.apellido}</td>
+                    <td>${user.email}</td>
+                    <td>${user.tel}</td>
+                    <td><a href="crear-socio.html?id=${user.id}"><button class="button is-info is-small">Editar</button></a></td>
+                    <td><a href="informacion-socio.html?id=${user.id}"><button class="button is-primary is-small">Información</button></a></td>
+                    <td> <a href="crear-prestamo.html?id=${user.id}"><button class="button is-link is-small">Préstamo</button></a></td>
+                </tr>
+                `;
+                //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
+                //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
+                tableBody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+
+        function renderPagination() {
+            //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
+            paginationList.innerHTML = "";
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement("li");
+                //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
+                // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
+                pageButton.innerHTML = `
+                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
+                    ${i}
+                </a>
+                `;
+                paginationList.appendChild(pageButton);
+            }
+        }
+
+        //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
+        paginationList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("pagination-link")) {
+                //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+                //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+                currentPage = parseInt(e.target.dataset.numPagina);
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+
+        prevPageButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        nextPageButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchUsuarios();
+        });
+
         document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
             event.preventDefault();
             const id = parseInt(document.getElementById('id').value);
             const nombre = document.getElementById('nombre').value.trim();
-            if (id){
+            if (id) {
                 //REDIRIGE A OTRA PAGINA Y PASA EN LA URL EL ID
                 window.location.href = `informacion-socio.html?id=${id}`;
-            }else {
-                if (!nombre){
+            } else {
+                //SI NO HAY ID Y ADEMAS NO HAY NOMBRE SALTA ALERT
+                if (!nombre) {
                     alert('INGRESE UN NOMBRE');
                     return
                 }
-                const response=await fetch(`http://localhost:3000/socios/${nombre}`)
-
-                if (response.ok){
+            }
+            try {
+                const response = await fetch(`http://localhost:3000/socios/${nombre}`);
+                if (response.ok) {
                     const socios = await response.json();
-                    const tablaSocios = document.getElementById('tablaSocios')
-                    tablaSocios.innerHTML = ''; 
+                    const tablaSocios = document.getElementById('tablaSocios');
+                    tablaSocios.innerHTML = '';
+                    //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
                     if (socios.length === 0) {
-                        alert('No se encontraron socios con ese nombre.');}
+                        alert('No se encontraron socios con ese nombre.');
+                        return;
+                    }
+                    //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
                     socios.forEach(socio => {
-                        const tabla=`
-                    
-                            <tr>
-                                <th>${socio.id}</th>
-                                <td>${socio.nombre}</td>
-                                <td>${socio.apellido}</td>
-                                <td>${socio.email}</td>
-                                <td>${socio.telefono}</td>
-                            </tr>
-                            
-                            `;
-                            tablaSocios.innerHTML += tabla
+                        const tabla = `
+                                    <tr>
+                                        <th>${socio.id}</th>
+                                        <td>${socio.nombre}</td>
+                                        <td>${socio.apellido}</td>
+                                        <td>${socio.email}</td>
+                                        <td>${socio.telefono}</td>
+                                        <td><button class="button is-info is-small"><a href="crear-socio.html?id=${socio.id}">Editar</a></button></td>
+                                        <td><button class="button is-info is-small"><a href="informacion-socio.html?id=${socio.id}">Informacion</a></button></td>
+                                        <td><button class="button is-info is-small"><a href="crear-prestamo.html?id=${socio.id}">Prestamo</a></button></td>
+                                    </tr>`;
+                        //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
+                        tablaSocios.innerHTML += tabla;
                     });
-                }else {
-                    alert('No se encontraron socios.')
+                } else {
+                    alert('Hubo un error al buscar los socios.');
                 }
-                }
-
-        }) 
+            } catch (error) {
+                console.error('Error al conectar con el servidor:', error);
+                alert('No se pudo conectar con el servidor.');
+            }
+        })
     </script>
-    
+
 </body>
+
 </html>

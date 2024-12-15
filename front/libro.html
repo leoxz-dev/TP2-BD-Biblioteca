@@ -9,32 +9,26 @@
     <section class="hero is-small">
         <div class="block"></div>
     </section>
-    <section class="has-background-success">
+    <section class="has-background-dark">
         <div class="container is-max-desktop">
-            <div class="notification is-light py-6">
+            <div class="notification py-6">
                 <div class="columns">
                     <div class="column">
-                        <div class="block has-background-white p-4">
-                            <h1 class="title">La historia interminable</h1>
+                        <div class="block has-background-dark p-4">
+                            <h1 id="title" class="title"></h1>
                         </div>
-                        <div class="content pl-4">
-                            <p class="is-size-4"><b>Autor: </b>Michael Ende <br>
-                            <b>Año de publicación: </b>1979 <br>
-                            <b>Cantidad de páginas: </b>419 <br>
-                            <b>Género: </b>
-                            <span class="tag is-success">Fantasía</span>
-                            <span class="tag is-warning">Infantil</span><br>
-                            <b>Editorial: </b>Narrativa Actual RBA</p>
+                        <div id="informacion" class="content pl-4">
+                            <p id="caracteristicas" class="is-size-4"></p>
                             <br><br><br>
-                            <p class="is-size-4"><b>Estado: </b><FONT COLOR="green">Disponible</FONT></p>
+                            <p id="estado" class="is-size-4"></p>
                         </div>
                         <a class="button is-medium is-fullwidth" href="crear-prestamo.html">Pedir prestado</a>
                     </div>
                     <div class="column">
                         <figure class="pl-6 ml-4">
                             <img id="libro"
-                            src="https://images.cdn1.buscalibre.com/fit-in/360x360/5b/18/5b18ed831bc8fbbac844f6a7bc5f9a51.jpg"
-                            alt="'La historia interminable' de Michael Ende" 
+                            src=""
+                            alt=" " 
                             />
                         </figure>
                         <style>
@@ -47,19 +41,93 @@
             </div>
         </div>
     </section>
-    <section class="hero is-warning is-small">
+    <section class="hero is-small">
         <div class="hero-body has-text-centered">
             <h1 class="title">Sinopsis</h1>
         </div>
     </section>
-    <section class="has-background-light">
+    <section class="has-background-dark">
         <div class="container p-6 mx-6">
             <p class="is-size-5">Un día, Bastian entra a una librería donde encuentra un misterioso libro que a pesar de las advertencias del dueño, decide leerlo. Es entonces cuando Bastian se introduce en un mundo fantástico, repleto de seres extraordinarios.</p>
         </div>
     </section>
 
 
-    <footer class="footer"></footer>
-    <script src="./header_footer.js"></script>
+    <footer class="footer"  style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
+    <script src="./src/header_footer.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search)
+        const idLibro = parseInt(urlParams.get("id"))
+
+
+        fetch(`http://localhost:3000/libros/${idLibro}`)
+        .then(response => response.json())
+        .then(datos => {
+            console.log(datos)
+
+            let estado = document.getElementById("estado")
+            if (datos.cant_ejemplares > 0) {
+                estado.innerHTML = `<b>Estado: </b><FONT COLOR="green">Disponible</FONT>`
+            } else {
+                estado.innerHTML = `<b>Estado: </b><FONT COLOR="red">No disponible</FONT>`
+            }
+
+            let titulo = document.getElementById("title")
+            titulo.innerText = datos.titulo
+            let libro = document.getElementById("libro")
+            libro.alt = ` ${datos.titulo} de ${datos.autor}`
+
+            fetchBookCover(title.innerText)
+            .then(url => {
+                libro.src = url;
+            })
+            .catch(error => {
+                console.error("Error al obtener la imagen del libro:", error);
+            });
+
+            let caracteristicas = document.getElementById("caracteristicas")
+            caracteristicas.innerHTML = 
+            `<b>Autor: </b>${datos.autor} <br>
+            <b>Año de publicación: </b>${datos.anio_publicacion} <br>
+            <b>Cantidad de páginas: </b>${datos.cant_paginas} <br>
+            <b>Cantidad de ejemplares: </b>${datos.cant_ejemplares} <br>
+            <b>Género: </b>
+            <span class="tag is-success">${datos.genero}</span>`
+
+        })
+
+        async function fetchBookCover(bookTitle) {
+            try {
+      // Hacer la búsqueda en Open Library
+                const response = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(bookTitle)}`);
+                const data = await response.json();
+
+      // Verificar si hay resultados
+                if (data.docs && data.docs.length > 0) {
+                    const book = data.docs[1]; // Tomamos el primer resultado
+                    const coverId = book.cover_i;
+
+                    if (coverId) {
+          // Construir la URL de la portada
+                        const coverUrl = `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`
+                        console.log("URL de la portada:", coverUrl);
+
+          // Retornar la URL de la portada
+                        return coverUrl;
+                    } else {
+                        console.log("No se encontró portada para este título.");
+                        return null;
+                    }
+                } else {
+                    console.log("No se encontraron resultados para el título proporcionado.");
+                    return null;
+                }
+            } catch (error) {
+                console.error("Error al buscar la portada:", error);
+                return null;
+            }
+        };  
+
+    </script>
 </body>
 </html>

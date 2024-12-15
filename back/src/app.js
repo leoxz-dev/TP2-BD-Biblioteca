@@ -73,7 +73,7 @@ model socios {
   direccion         String
   telefono          String     
   email             String     @unique
-  estado_activo     Bollean
+  estado_activo     String
   libro_prestado    libros?     @relation(fields: [libro_prestado_id], references: [id])
   libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
   prestamo         prestamos[] // Relación con la tabla de préstamos
@@ -130,9 +130,9 @@ app.put('/socios/:id', async (req,res) => {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
       direccion: req.body.direccion,
-      telefono: req.body.telefono,
-      email: req.body.email,
-      estado_activo: req.body.estado_activo
+      telefono:  req.body.telefono,
+      email:   req.body.email,
+      estado: req.body.estado
     }
   })
   res.json(socio)

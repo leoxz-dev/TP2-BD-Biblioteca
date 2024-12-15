@@ -1,0 +1,23 @@
+meta {
+  name: Crear libro
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/libros
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "titulo": "Don quijote",
+    "genero": "parodia",
+    "anio_publicacion": 1915,
+    "cant_paginas": 316,
+    "cant_ejemplares": 3,
+    "disponibilidad": true,
+    "autor": "Miguel de Cervantes"
+  }
+}
