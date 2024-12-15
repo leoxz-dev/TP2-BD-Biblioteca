@@ -21,7 +21,7 @@ model socios {
   telefono            String
   email               String      @unique
   estado              String      @default("activo")
-  libro_prestado      libros?     @relation(fields: [libro_prestado_id], references: [id])
+  libro_prestado      libros?     @relation(fields: [libro_prestado_id], references: [id], onDelete: Cascade)
   libro_prestado_id   Int? // Clave foránea opcional para permitir socios sin libros prestados
   historial_prestamos prestamos[] // Relación con la tabla de préstamos
 }
