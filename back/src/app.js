@@ -262,17 +262,20 @@ app.put('/prestamos/:id', async (req,res) => {
   if (!await existePrestamo(parseInt(req.params.id))) {
     return res.sendStatus(404)
   }
-  const uptadeUser = await prisma.prestamos.update({
+  const prestamoActualizado = await prisma.prestamos.update({
     where: {
       id: parseInt(req.params.id)
     },
     data: {
       fecha_devolucion: req.body.fecha_devolucion,
-      garantia: req.body.garantia,
-      estado: req.body.estado
+      garantia: req.body.garantia
     }
   })
-  res.json(uptadeUser)
+
+  return res.status(200).json({
+    success: true,
+    prestamoActualizado: prestamoActualizado,
+  });
 })
 
 app.get('/libros', async (req,res) => {
