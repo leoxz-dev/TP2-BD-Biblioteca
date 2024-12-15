@@ -67,7 +67,21 @@
                                     <label class="label">Garantía</label>
                                     <div class="control">
                                       <input id="garantia" class="input" type="number" min="0" max="10000" name="garantia">
+                                 </div>
+                                 <div class="field">
+                                    <label class="label">Tipo de préstamo</label>
+                                    <div class="control">
+                                      <div class="select">
+                                         <select id="tipo_prestamo" name="tipo_prestamo">
+                                             <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
+                                             <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
+                                             <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
+                                             <option value="réstamo en red">Préstamo en red</option>
+                                             <option value="Préstamo colectivo">Préstamo colectivo</option>
+                                          </select>
+                                       </div>
                                     </div>
+                                  </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Estado</label>
@@ -82,20 +96,6 @@
                                           </div>
                                     </div>
                                 </div>
-                                <div class="field">
-                                    <label class="label">Tipo de préstamo</label>
-                                    <div class="control">
-                                      <div class="select">
-                                        <select id="tipo_prestamo" name="tipo_prestamo">
-                                            <option>Préstamo a domicilio o individual</option>
-                                            <option>Préstamo interbibliotecario</option>
-                                            <option>Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
-                                            <option>Préstamo en red</option>
-                                            <option>Préstamo colectivo</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                </div><br>
                                 <div class="control">
                                     <input class="button is-success is-fullwidth" type="submit" value="Crear préstamo"/>
                                 </div>
@@ -121,8 +121,7 @@
             const tipoPrestamo = document.getElementById('tipo_prestamo').value;
             const idSocio = document.getElementById('socio_id').value;
             const idLibro = document.getElementById('libro_id').value;
-            
-            
+          
             //Se le asigna el formato a las fechas
             const formatoFecha = "T00:00:00.000Z";
             fechaPrestamo = fechaPrestamo.concat(formatoFecha);
@@ -138,8 +137,11 @@
                 socio_id: parseInt(idSocio),
                 libro_id: parseInt(idLibro)
             };
+          
             //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL prestamoData JSONIFICADO
             try {
+                console.log(prestamoData);
+                
                 const response = await fetch('http://localhost:3000/prestamos', {
                     method: 'POST',
                     headers: {
@@ -147,10 +149,13 @@
                     },
                     //JSONIFICACION
                     body: JSON.stringify(prestamoData),
+                    
                 });
                 //response.ok SE FIJA SI EL STATUS RESPONSE ESTA ENTRE 200 Y 299
                 if (response.ok) {
                     const nuevoPrestamo = await response.json();
+                    console.log(nuevoPrestamo);
+                    
                     alert(`¡Préstamo creado con éxito! ID: ${nuevoPrestamo.id}`);
                     //LIMPIAMOS EL FORM
                     document.getElementById('crear-prestamo').reset();
