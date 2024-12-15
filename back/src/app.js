@@ -290,13 +290,14 @@ app.put('/prestamos/:id', async (req,res) => {
 
 //--------------------CRUD LIBROS--------------------
 
-
+//GET TODOS LOS LIBROS
 app.get('/libros', async (req,res) => {
   const libros = await prisma.libros.findMany()
   res.json(libros)
 }
 )
 
+//GET LIBRO ESPECIFICO
 app.get('/libros/:id', async (req, res) => {
     const libro = await prisma.libros.findUnique({
       where: {
@@ -311,6 +312,7 @@ app.get('/libros/:id', async (req, res) => {
     res.json(libro)
 })
 
+//POST LIBRO
 app.post('/libros', async (req, res) => {
   const libro = await prisma.libros.create({
     data: {
@@ -326,6 +328,7 @@ app.post('/libros', async (req, res) => {
   res.status(201).send(libro)
 })
 
+//ACTUALIZAR LA DATA DE UN LIBRO
 app.put('/libros/:id', async (req, res) => {
   let libro = await prisma.libros.findUnique({
     where: {
@@ -355,6 +358,7 @@ app.put('/libros/:id', async (req, res) => {
   res.json(libro)
 })
 
+//DELETEAR UN LIBRO ESPECIFICO
 app.delete('/libros/:id', async (req, res) => {
   const libro = await prisma.libros.findUnique({
     where: {
