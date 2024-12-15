@@ -97,17 +97,15 @@
                         const response = await fetch(`http://localhost:3000/socios/${id}`);
                         if (response.ok) {
                             const socio = await response.json();
-
+                            console.log(socio);
                             //SI EL ID EXISTE RELLENAMOS LOS CAMPOS DEL FORM YA CON LOS PREEXISTENTES DEL SOCIO
                             document.getElementById('nombre').value = socio.nombre;
                             document.getElementById('apellido').value = socio.apellido;
                             document.getElementById('email').value = socio.email;
                             document.getElementById('direccion').value = socio.direccion;
                             document.getElementById('telefono').value = socio.telefono;
-                            //
-                            // ESTO PARA CUANDO TENGAMOS ESTADO EN LA TABLA
-                            //document.getElementById('estado').value = socio.estado;
-                            //
+                            document.getElementById('estado').value = socio.estado;
+                            
                         } else {
                             alert('Error al obtener los datos del socio.');
                         }
@@ -124,8 +122,6 @@
                 //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
                 const nombre = document.getElementById('nombre').value;
                 const apellido = document.getElementById('apellido').value;
-
-                //FALTA APELLIDO YA QUE TODAVIA NO LO AGREGAMOS A LA TABLE
                 const email = document.getElementById('email').value;
                 const direccion = document.getElementById('direccion').value;
                 const telefono = document.getElementById('telefono').value;
@@ -135,15 +131,23 @@
                     apellido: apellido,
                     direccion: direccion,
                     telefono: telefono,
-                    email: email
+                    email: email,
                 };
+                if (document.getElementById('estado')) {  // Verificar si el elemento existe
+                    const estado = document.getElementById('estado').value;
+                    if (estado.trim() !== "") {
+                        socioData.estado = estado;
+                    }
+                }
 
                 const urlParams = new URLSearchParams(window.location.search);
                 const id = urlParams.get('id');
 
                 try {
+                    let response;
                     if (id) {
                     //INTENTAMOS HACER UN PUT UTILIZANDO COMO BODY EL socioData JSONIFICADO SI NOS PASARON EL ID POR PARAMETRO DE URL
+                    
                         response = await fetch(`http://localhost:3000/socios/${id}`, {
                             method: 'PUT',
                             headers: {
