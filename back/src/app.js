@@ -289,9 +289,21 @@ app.put("/prestamos/:id", async (req, res) => {
 
 //GET TODOS LOS LIBROS
 app.get("/libros", async (req, res) => {
-  const libros = await prisma.libros.findMany();
-  res.json(libros);
+  try {
+    // Obtener los libros ordenados por "id" de manera ascendente
+    const libros = await prisma.libros.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    res.json(libros); 
+  } catch (error) {
+    console.error("Error al obtener los libros:", error);
+    res.status(500).send("Error al obtener los libros.");
+  }
 });
+
 
 //GET LIBRO ESPECIFICO
 app.get("/libros/:id", async (req, res) => {
@@ -350,41 +362,6 @@ app.put("/libros/:id", async (req, res) => {
     },
   });
   res.json(libro);
-});
-
-//ESTE PUT ES ESPCIAL Y ESTA RELACIONADO CON CREAR PRESTAMOS YA QUE CUANDO CREAMOS UN
-//PRESTAMO TENEMOS QUE RESTAR 1 A LA CANTIDAD DE EJEMPLARES.
-app.put("/libros/:id/cantEjemplares", async (req, res) => {
-  const { cant_ejemplares } = req.body;  
-  //NO SE DEBE PASAR UNA CANTIDAD NULL O NEGATIVA
-  if (cant_ejemplares === undefined || cant_ejemplares < 0) {
-    return res
-      .status(400)
-      .json({ error: "La cantidad de ejemplares es inválida." });
-  }
-  try {
-    const libroExistente = await prisma.libros.findUnique({
-      where: {
-        id: parseInt(req.params.id),
-      },
-    });
-    if (!libroExistente) {
-      return res.status(404).json({ error: "El libro no existe." });
-    }
-    //SE ACTUALIZA SOLAMENTE LA CANT.EJEMPLARES
-    const libroActualizado = await prisma.libros.update({
-      where: {
-        id: parseInt(req.params.id),
-      },
-      data: { cant_ejemplares: cant_ejemplares },
-    });
-
-    res.status(200).json(libroActualizado);
-  } catch (error) {
-    console.log('Cantidad de ejemplares que se va a actualizar:', cant_ejemplares);
-    console.error("Error al actualizar la cantidad de ejemplares:", error);
-    res.status(500).json({ error: "Error interno del servidor." });
-  }
 });
 
 //DELETEAR UN LIBRO ESPECIFICO
