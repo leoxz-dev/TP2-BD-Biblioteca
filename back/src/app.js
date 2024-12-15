@@ -354,7 +354,7 @@ app.put("/libros/:id", async (req, res) => {
 
 //ESTE PUT ES ESPCIAL Y ESTA RELACIONADO CON CREAR PRESTAMOS YA QUE CUANDO CREAMOS UN
 //PRESTAMO TENEMOS QUE RESTAR 1 A LA CANTIDAD DE EJEMPLARES.
-app.put("/libros/:id/cantidad", async (req, res) => {
+app.put("/libros/:id/cantEjemplares", async (req, res) => {
   const { cant_ejemplares } = req.body;
   //NO SE DEBE PASAR UNA CANTIDAD NULL O NEGATIVA
   if (cant_ejemplares === undefined || cant_ejemplares < 0) {
