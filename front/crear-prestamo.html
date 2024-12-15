@@ -10,17 +10,9 @@
     <div class="container py-6">
         <div class="columns">
             <div class="column is-two-fifths">
-                <h1 class="title">SOCIOS</h1>
+                <h1 class="title">Buscar libro</h1>
                 <form>
                     <div class="field has-addons">
-                        <p class="control">
-                          <span class="select">
-                            <select>
-                                <option>ID socio</option>
-                                <option>Email</option>
-                            </select>
-                          </span>
-                        </p>
                         <p class="control">
                           <input class="input" type="text" placeholder="Búsqueda">
                         </p>
@@ -42,50 +34,37 @@
                                 <div class="field">
                                     <label class="label">Fecha de Préstamo</label>
                                     <div class="control">
-                                      <input id="fecha_prestamo" class="input" type="date" name="fecha_prestamo">
+                                      <input id="fecha_prestamo" class="input" type="date" max="2030-12-31" name="fecha_prestamo" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Fecha de Devolución</label>
                                     <div class="control">
-                                      <input id="fecha_devolucion" class="input" type="date" name="fecha_devolucion">
+                                      <input id="fecha_devolucion" class="input" type="date" max="2030-12-31" name="fecha_devolucion"required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">ID socio</label>
                                     <div class="control">
-                                      <input id="socio_id" class="input" type="number"  min="1" name="socio_id">
+                                        <input id="socio_id" class="input" type="number" min="1" name="socio_id" placeholder="123" pattern="[0-9]{1,10}" required/>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">ID Libro</label>
                                     <div class="control">
-                                      <input id="libro_id" class="input" type="number" min="1" name="libro_id">
+                                      <input id="libro_id" class="input" type="number" min="1" name="libro_id" placeholder="46" pattern="[0-9]{1,10}" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Garantía</label>
                                     <div class="control">
-                                      <input id="garantia" class="input" type="number" min="0" max="10000" name="garantia">
-                                 </div>
-                                 <div class="field">
-                                    <label class="label">Tipo de préstamo</label>
-                                    <div class="control">
-                                      <div class="select">
-                                         <select id="tipo_prestamo" name="tipo_prestamo">
-                                             <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
-                                             <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
-                                             <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
-                                             <option value="réstamo en red">Préstamo en red</option>
-                                             <option value="Préstamo colectivo">Préstamo colectivo</option>
-                                          </select>
-                                       </div>
-                                    </div>
+                                      <input id="garantia" class="input" type="number" min="0" name="garantia" pattern="[0-9]{0,10}" required>
+                                </div>
                                 <div class="field">
                                     <label class="label">Tipo de préstamo</label>
                                     <div class="control">
                                         <div class="select">
-                                            <select id="tipo_prestamo" name="tipo_prestamo">
+                                            <select id="tipo_prestamo" name="tipo_prestamo" required>
                                                 <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
                                                 <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
                                                 <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
@@ -94,12 +73,11 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
                                 <div class="field">
                                     <label class="label">Estado</label>
                                     <div class="control">
                                         <div class="select">
-                                            <select id="estado" name="estado">
+                                            <select id="estado" name="estado" required>
                                                 <option value="En préstamo">En préstamo</option>
                                                 <option value="Finalizado">Finalizado</option>
                                                 <option value="En reclamo">En reclamo</option>
