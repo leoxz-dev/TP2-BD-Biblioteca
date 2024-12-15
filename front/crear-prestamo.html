@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+
 <head>
     <title>Crear Préstamo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
 </head>
+
 <body>
     <header></header>
-    
+
     <div class="container py-6">
         <div class="columns">
             <div class="column is-two-fifths">
@@ -14,115 +16,109 @@
                 <form>
                     <div class="field has-addons">
                         <p class="control">
-                          <span class="select">
-                            <select>
-                                <option>ID socio</option>
-                                <option>Email</option>
-                            </select>
-                          </span>
+                            <span class="select">
+                                <select>
+                                    <option>ID socio</option>
+                                    <option>Email</option>
+                                </select>
+                            </span>
                         </p>
                         <p class="control">
-                          <input class="input" type="text" placeholder="Búsqueda">
+                            <input class="input" type="text" placeholder="Búsqueda">
                         </p>
                         <p class="control">
-                            <input class="button" type="submit" value="Buscar"/>
+                            <input class="button" type="submit" value="Buscar" />
                         </p>
                     </div>
                 </form>
             </div>
             <div class="column">
-                    <article class="message">
-                        <div class="message-header is-justify-content-center">
-                            <h1 class="title has-text-white">
-                                NUEVO PRÉSTAMO
-                            </h1>
-                        </div>
-                        <div class="message-body">
-                            <form id="crear-prestamo">
-                                <div class="field">
-                                    <label class="label">Fecha de Préstamo</label>
-                                    <div class="control">
-                                      <input id="fecha_prestamo" class="input" type="date" name="fecha_prestamo">
-                                    </div>
+                <article class="message">
+                    <div class="message-header is-justify-content-center">
+                        <h1 class="title has-text-white">
+                            NUEVO PRÉSTAMO
+                        </h1>
+                    </div>
+                    <div class="message-body">
+                        <form id="crear-prestamo">
+                            <div class="field">
+                                <label class="label">Fecha de Préstamo</label>
+                                <div class="control">
+                                    <input id="fecha_prestamo" class="input" type="date" name="fecha_prestamo">
                                 </div>
-                                <div class="field">
-                                    <label class="label">Fecha de Devolución</label>
-                                    <div class="control">
-                                      <input id="fecha_devolucion" class="input" type="date" name="fecha_devolucion">
-                                    </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Fecha de Devolución</label>
+                                <div class="control">
+                                    <input id="fecha_devolucion" class="input" type="date" name="fecha_devolucion">
                                 </div>
-                                <div class="field">
-                                    <label class="label">ID socio</label>
-                                    <div class="control">
-                                      <input id="socio_id" class="input" type="number"  min="1" name="socio_id">
-                                    </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">ID socio</label>
+                                <div class="control">
+                                    <input id="socio_id" class="input" type="number" min="1" name="socio_id">
                                 </div>
-                                <div class="field">
-                                    <label class="label">ID Libro</label>
-                                    <div class="control">
-                                      <input id="libro_id" class="input" type="number" min="1" name="libro_id">
-                                    </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">ID Libro</label>
+                                <div class="control">
+                                    <input id="libro_id" class="input" type="number" min="1" name="libro_id">
                                 </div>
-                                <div class="field">
-                                    <label class="label">Garantía</label>
-                                    <div class="control">
-                                      <input id="garantia" class="input" type="number" min="0" max="10000" name="garantia">
-                                 </div>
-                                 <div class="field">
-                                    <label class="label">Tipo de préstamo</label>
-                                    <div class="control">
-                                      <div class="select">
-                                         <select id="tipo_prestamo" name="tipo_prestamo">
-                                             <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
-                                             <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
-                                             <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
-                                             <option value="réstamo en red">Préstamo en red</option>
-                                             <option value="Préstamo colectivo">Préstamo colectivo</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                <div class="field">
-                                    <label class="label">Tipo de préstamo</label>
-                                    <div class="control">
-                                        <div class="select">
-                                            <select id="tipo_prestamo" name="tipo_prestamo">
-                                                <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
-                                                <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
-                                                <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
-                                                <option value="Préstamo en red">Préstamo en red</option>
-                                                <option value="Préstamo colectivo">Préstamo colectivo</option>
-                                            </select>
+                            </div>
+                            <div class="field">
+                                <label class="label">Garantía</label>
+                                <div class="control">
+                                    <input id="garantia" class="input" type="number" min="0" max="10000"
+                                        name="garantia">
+                                </div>
+                                    <div class="field">
+                                        <label class="label">Tipo de préstamo</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select id="tipo_prestamo" name="tipo_prestamo">
+                                                    <option value="Préstamo a domicilio o individual">Préstamo a
+                                                        domicilio o individual</option>
+                                                    <option value="Préstamo interbibliotecario">Préstamo
+                                                        interbibliotecario</option>
+                                                    <option
+                                                        value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">
+                                                        Préstamo intercampus (sólo en Bibliotecas Universitarias)
+                                                    </option>
+                                                    <option value="Préstamo en red">Préstamo en red</option>
+                                                    <option value="Préstamo colectivo">Préstamo colectivo</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="field">
-                                    <label class="label">Estado</label>
-                                    <div class="control">
-                                        <div class="select">
-                                            <select id="estado" name="estado">
-                                                <option value="En préstamo">En préstamo</option>
-                                                <option value="Finalizado">Finalizado</option>
-                                                <option value="En reclamo">En reclamo</option>
-                                            </select>
-                                          </div>
+                                    <div class="field">
+                                        <label class="label">Estado</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select id="estado" name="estado">
+                                                    <option value="En préstamo">En préstamo</option>
+                                                    <option value="Finalizado">Finalizado</option>
+                                                    <option value="En reclamo">En reclamo</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="control">
-                                    <input class="button is-success is-fullwidth" type="submit" value="Crear préstamo"/>
-                                </div>
-                            </form>
-                        </div>
-                    </article>
-                </div>
+                                    <div class="control">
+                                        <input class="button is-success is-fullwidth" type="submit"
+                                            value="Crear préstamo" />
+                                    </div>
+                        </form>
+                    </div>
+                </article>
             </div>
         </div>
     </div>
+    </div>
 
 
-    <footer class="footer"  style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
+    <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
-        document.getElementById('crear-prestamo').addEventListener('submit', async function(event) {
+        document.getElementById('crear-prestamo').addEventListener('submit', async function (event) {
             event.preventDefault();
             //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
             let fechaPrestamo = document.getElementById('fecha_prestamo').value;
@@ -132,7 +128,7 @@
             const tipoPrestamo = document.getElementById('tipo_prestamo').value;
             const idSocio = document.getElementById('socio_id').value;
             const idLibro = document.getElementById('libro_id').value;
-          
+
             //Se le asigna el formato a las fechas
             const formatoFecha = "T00:00:00.000Z";
             fechaPrestamo = fechaPrestamo.concat(formatoFecha);
@@ -148,11 +144,11 @@
                 socio_id: parseInt(idSocio),
                 libro_id: parseInt(idLibro)
             };
-          
+
             //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL prestamoData JSONIFICADO
             try {
                 console.log(prestamoData);
-                
+
                 const response = await fetch('http://localhost:3000/prestamos', {
                     method: 'POST',
                     headers: {
@@ -160,26 +156,67 @@
                     },
                     //JSONIFICACION
                     body: JSON.stringify(prestamoData),
-                    
+
                 });
                 //response.ok SE FIJA SI EL STATUS RESPONSE ESTA ENTRE 200 Y 299
                 if (response.ok) {
                     const nuevoPrestamo = await response.json();
                     console.log(nuevoPrestamo);
-                    
                     alert(`¡Préstamo creado con éxito! ID: ${nuevoPrestamo.id}`);
+                    //SI TODO VA BIEN Y EL PRESTAMO SE CREA ENTONCES USAMOS LA FUNCION actualizarEjemplares
+                    //Y RESTA 1 A LA CANTIDAD
+                    await actualizarEjemplares(idLibro);
                     //LIMPIAMOS EL FORM
                     document.getElementById('crear-prestamo').reset();
                 } else {
                     const error = await response.json();
                     alert(`Error al crear socio: ${response.status}`);
                 }
-            //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
+                //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
             } catch (error) {
                 console.error('Error al enviar la solicitud:', error);
                 alert('No se pudo conectar con el servidor.');
             }
         })
+
+        //FUNCION PARA RESTARLE 1 A CANT-EJEMPLARES CUANDO SE HAGA EL PRESTAMO
+        async function actualizarEjemplares(idLibro) {
+            try {
+                //OBTENEMOS CANT-EJEMPLARES
+                const responseGet = await fetch(`http://localhost:3000/libros/${idLibro}`);
+                if (!responseGet.ok) {
+                    alert(`Error al obtener información del libro: ${responseGet.status}`);
+                    return;
+                }
+
+                const libro = await responseGet.json();
+                //RESTAMOS 1 A LA CANT-EJEMPLARES DEL LIBRO QUE SE ESTA PRESTANDO
+                const nuevaCantidad = parseInt( libro.cant_ejemplares) - 1; 
+                //SI YA NO HAY EJEMPLARES LE AVISA AL USUARIO
+                if (nuevaCantidad < 0) {
+                    alert('No hay ejemplares disponibles para prestar.');
+                    return;
+                }
+                console.log('Nuevo valor de cantidad de ejemplares:', nuevaCantidad);
+
+                //USAMOS PUT PARA ACTUALIZAR LA CANT-EJEMPLARES POR nuevaCantidad
+                const responsePut = await fetch(`http://localhost:3000/libros/${idLibro}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cant_ejemplares: nuevaCantidad })
+                });
+                if (responsePut.ok) {
+                    console.log(`Cantidad de ejemplares del libro ${idLibro} actualizada a ${nuevaCantidad}.`);
+                } else {
+                    const error = await responsePut.json();
+                    alert(`Error al actualizar cantidad de ejemplares: ${responsePut.status} - ${error.message}`);
+                }
+            } catch (error) {
+                console.error('Error al actualizar la cantidad de ejemplares:', error);
+                alert('No se pudo actualizar la cantidad de ejemplares del libro.');
+            }
+        }
     </script>
 </body>
-</html> 
+
+</html>
