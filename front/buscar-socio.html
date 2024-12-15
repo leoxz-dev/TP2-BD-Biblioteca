@@ -21,7 +21,7 @@
                         <div class="field">
                             <label class="label">Busque por ID</label>
                             <div class="control">
-                                <input class="input" id="id" type="number" name="socio_id" placeholder=" " />
+                                <input class="input" id="id" type="number" min="1" name="socio_id" placeholder="123" pattern="[0-9]{1,10}" required/>
                             </div>
                         </div>
                         <div class="block">
@@ -30,17 +30,15 @@
                         <div class="field">
                             <label class="label">Nombre</label>
                             <div class="control">
-                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin" />
+                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required/>
                             </div>
                         </div>
                         <div class="field">
                             <label class="label">Apellido</label>
                             <div class="control">
-                                <input class="input" id="apellido" type="text" name="Apellido"
-                                    placeholder="Rodriguez" />
+                                <input class="input" id="apellido" type="text" name="Apellido" placeholder="Rodriguez" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required/>
                             </div>
                         </div>
-
                         <br>
                         <div class="buttons is-centered">
                             <button type="submit" class="button is-success is-normal">Buscar</button>
