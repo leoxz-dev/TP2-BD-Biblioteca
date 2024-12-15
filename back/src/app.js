@@ -147,7 +147,7 @@ app.put('/socios/:id', async (req,res) => {
 })
 
 
-//--------------------CRUD LIBROS--------------------
+//--------------------CRUD Prestamos--------------------
 
 /*
 Problema existePrestamo(id: Int) {
@@ -287,6 +287,9 @@ app.put('/prestamos/:id', async (req,res) => {
     prestamoActualizado: prestamoActualizado,
   });
 })
+
+//--------------------CRUD LIBROS--------------------
+
 
 app.get('/libros', async (req,res) => {
   const libros = await prisma.libros.findMany()
