@@ -70,7 +70,8 @@
                       <th>1</th>
                       <td>El imperio Final</td>
                       <td>sample</td>
-                      <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion Prestamo</a></button></td>
+                      <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion
+                            Prestamo</a></button></td>
                     </tr>
                   </tbody>
                 </table>
@@ -133,14 +134,15 @@
       alert("ID no válido");
       window.location.href = "buscar-socio.html"; //REDIRIGE A LA PAGINA PREVIA SI POR ALGUN MOTIVO NO SE PASA ID, ESTO HABRIA QUE CAMBIARLO YA QUE SE PUEDE PASAR EMAIL TAMBIEN
     } else {
-      // Hacer el fetch al backend para obtener la información del socio
-      fetch(`http://localhost:3000/socios/${socioId}`)
-        .then((Response) => Response.json())
-        .then(socio => {
-          //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
-          const socioInfo = document.getElementById('socio-info');
-          //HTML QUE VA EN socioInfo
-          socioInfo.innerHTML = `
+      try {
+        // Hacer el fetch al backend para obtener la información del socio
+        fetch(`http://localhost:3000/socios/${socioId}`)
+          .then((Response) => Response.json())
+          .then(socio => {
+            //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
+            const socioInfo = document.getElementById('socio-info');
+            //HTML QUE VA EN socioInfo
+            socioInfo.innerHTML = `
                 <h1 class="title">DATOS</h1>
                 <div class="block">
                 <p>Id de Usuario: ${socio.id}</p>
@@ -161,12 +163,17 @@
                 <p>Teléfono: ${socio.telefono}</p>
                 </div>
             `;
-        })
-        .catch(error => {
-          //SI NO EXISTE EL SOCIO O HAY ERRORES MUESTRA UN HTML ALTERNATIVO AL INTERIOR
-          document.getElementById('socio-info').innerHTML = `<h1 class="title">DATOS</h1>
-          <p>"SOCIO NO ENCONTRADO"</p>`;
-        });
+          })
+          .catch(error => {
+            //SI NO EXISTE EL SOCIO O HAY ERRORES MUESTRA UN HTML ALTERNATIVO AL INTERIOR
+            document.getElementById('socio-info').innerHTML = `<h1 class="title">DATOS</h1>
+              <p>"SOCIO NO ENCONTRADO"</p>`;
+          });
+      } catch (error) {
+        document.getElementById('socio-info').innerHTML = `<h1 class="title">DATOS</h1>
+        <p>Error al obtener la información del socio. Por favor, intente más tarde.</p>`;
+        console.error("Error al hacer el fetch: ", error);
+      }
     }
   </script>
 </body>
