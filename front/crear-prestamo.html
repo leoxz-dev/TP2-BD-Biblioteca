@@ -73,12 +73,12 @@
                                         <label class="label">Tipo de préstamo</label>
                                         <div class="control">
                                           <div class="select">
-                                            <select>
-                                                <option>Préstamo a domicilio o individual</option>
-                                                <option>Préstamo interbibliotecario</option>
-                                                <option>Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
-                                                <option>Préstamo en red</option>
-                                                <option>Préstamo colectivo</option>
+                                            <select id="tipo_prestamo" name="tipo_prestamo">
+                                                <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
+                                                <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
+                                                <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
+                                                <option value="réstamo en red">Préstamo en red</option>
+                                                <option value="Préstamo colectivo">Préstamo colectivo</option>
                                             </select>
                                           </div>
                                         </div>
@@ -106,6 +106,7 @@
             let fechaDevolucion = document.getElementById('fecha_devolucion').value;
             const idSocio = document.getElementById('socio_id').value;
             const idLibro = document.getElementById('libro_id').value;
+            const tipoPrestamo = document.getElementById('tipo_prestamo').value
             //Faltan las opciones de selección y la extensión de tiempo
             
             //Se le asigna el formato a las fechas
@@ -118,10 +119,13 @@
                 socio_id: parseInt(idSocio),
                 libro_id: parseInt(idLibro),
                 fecha_prestamo: fechaPrestamo,
-                fecha_devolucion: fechaDevolucion
+                fecha_devolucion: fechaDevolucion,
+                tipo_prestamo: tipoPrestamo
             };
             //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL prestamoData JSONIFICADO
             try {
+                console.log(prestamoData);
+                
                 const response = await fetch('http://localhost:3000/prestamos', {
                     method: 'POST',
                     headers: {
@@ -129,10 +133,13 @@
                     },
                     //JSONIFICACION
                     body: JSON.stringify(prestamoData),
+                    
                 });
                 //response.ok SE FIJA SI EL STATUS RESPONSE ESTA ENTRE 200 Y 299
                 if (response.ok) {
                     const nuevoPrestamo = await response.json();
+                    console.log(nuevoPrestamo);
+                    
                     alert(`¡Préstamo creado con éxito! ID: ${nuevoPrestamo.id}`);
                     //LIMPIAMOS EL FORM
                     document.getElementById('crear-prestamo').reset();
