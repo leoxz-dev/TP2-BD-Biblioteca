@@ -355,7 +355,7 @@ app.put("/libros/:id", async (req, res) => {
 //ESTE PUT ES ESPCIAL Y ESTA RELACIONADO CON CREAR PRESTAMOS YA QUE CUANDO CREAMOS UN
 //PRESTAMO TENEMOS QUE RESTAR 1 A LA CANTIDAD DE EJEMPLARES.
 app.put("/libros/:id/cantEjemplares", async (req, res) => {
-  const { cant_ejemplares } = req.body;
+  const { cant_ejemplares } = req.body;  
   //NO SE DEBE PASAR UNA CANTIDAD NULL O NEGATIVA
   if (cant_ejemplares === undefined || cant_ejemplares < 0) {
     return res
@@ -381,6 +381,7 @@ app.put("/libros/:id/cantEjemplares", async (req, res) => {
 
     res.status(200).json(libroActualizado);
   } catch (error) {
+    console.log('Cantidad de ejemplares que se va a actualizar:', cant_ejemplares);
     console.error("Error al actualizar la cantidad de ejemplares:", error);
     res.status(500).json({ error: "Error interno del servidor." });
   }
