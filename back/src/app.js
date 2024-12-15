@@ -25,7 +25,14 @@ app.get('/', (req,res) => {
 
 //TODOS LOS SOCIOS GET DEL CRUD
 app.get('/socios', async (req,res) => {
-  const socios = await prisma.socios.findMany()
+  const socios = await prisma.socios.findMany(
+    {
+      include:{
+        historial_prestamos:true,
+      }
+    }
+  )
+  
   res.json(socios)
 })
 
