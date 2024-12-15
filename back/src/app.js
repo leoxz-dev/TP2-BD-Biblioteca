@@ -25,7 +25,12 @@ app.get('/', (req,res) => {
 
 //TODOS LOS SOCIOS GET DEL CRUD
 app.get('/socios', async (req,res) => {
-  const socios = await prisma.socios.findMany()
+  const socios = await prisma.socios.findMany(
+    {
+      include:{
+        historial_prestamos:true,
+      }
+    })
   res.json(socios)
 })
 
@@ -37,6 +42,9 @@ app.get('/socios/:param', async (req, res) => {
     const socio = await prisma.socios.findUnique({
       where: {
         id: parseInt(param)
+      },
+      include:{
+        historial_prestamos:true,
       }
     });
 
