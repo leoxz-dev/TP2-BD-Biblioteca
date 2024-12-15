@@ -30,9 +30,7 @@ app.get('/socios', async (req,res) => {
       include:{
         historial_prestamos:true,
       }
-    }
-  )
-  
+    })
   res.json(socios)
 })
 
@@ -44,6 +42,9 @@ app.get('/socios/:param', async (req, res) => {
     const socio = await prisma.socios.findUnique({
       where: {
         id: parseInt(param)
+      },
+      include:{
+        historial_prestamos:true,
       }
     });
 
