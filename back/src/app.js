@@ -131,7 +131,7 @@ app.put('/socios/:id', async (req,res) => {
       direccion: req.body.direccion,
       telefono:  req.body.telefono,
       email:   req.body.email,
-      estado_activo: req.body.estado_activo
+      estado: req.body.estado
     }
   })
   res.json(socio)
