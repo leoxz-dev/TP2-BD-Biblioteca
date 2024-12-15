@@ -1,58 +1,58 @@
-const { PrismaClient } = require('@prisma/client')
-const { PrismaClientRustPanicError } = require('@prisma/client/runtime/library')
-const express = require('express')
-const app = express()
-const port = 3000
-const prisma = new PrismaClient()
-const cors = require('cors');
+const { PrismaClient } = require("@prisma/client");
+const {
+  PrismaClientRustPanicError,
+} = require("@prisma/client/runtime/library");
+const express = require("express");
+const app = express();
+const port = 3000;
+const prisma = new PrismaClient();
+const cors = require("cors");
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 //listen en la terminal tipica
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
 
 //home
 
-app.get('/', (req,res) => {
-  res.send('Hola mundo')
-}
-)
+app.get("/", (req, res) => {
+  res.send("Hola mundo");
+});
 
 //--------------------CRUD SOCIOS--------------------
 
 //TODOS LOS SOCIOS GET DEL CRUD
-app.get('/socios', async (req,res) => {
-  const socios = await prisma.socios.findMany(
-    {
-      include:{
-        historial_prestamos:true,
-      }
-    })
-  res.json(socios)
-})
+app.get("/socios", async (req, res) => {
+  const socios = await prisma.socios.findMany({
+    include: {
+      historial_prestamos: true,
+    },
+  });
+  res.json(socios);
+});
 
 //SOCIO ESPECIFICO GET DEL CRUD
-app.get('/socios/:param', async (req, res) => {
+app.get("/socios/:param", async (req, res) => {
   const param = req.params.param;
   // Verificar si el parámetro es un número (para buscar por ID)
   if (!isNaN(param)) {
     const socio = await prisma.socios.findUnique({
       where: {
-        id: parseInt(param)
+        id: parseInt(param),
       },
-      include:{
-        historial_prestamos:true,
-      }
+      include: {
+        historial_prestamos: true,
+      },
     });
 
     if (socio === null) {
-      return res.sendStatus(404); 
+      return res.sendStatus(404);
     }
 
-    return res.json(socio); 
+    return res.json(socio);
   }
 
   // Si el parámetro no es un número, buscar por nombre
@@ -60,16 +60,16 @@ app.get('/socios/:param', async (req, res) => {
     where: {
       nombre: {
         startsWith: param,
-        mode: 'insensitive'
-      }
-    }
+        mode: "insensitive",
+      },
+    },
   });
 
   if (socio === null) {
-    return res.sendStatus(404); 
+    return res.sendStatus(404);
   }
 
-  return res.json(socio); 
+  return res.json(socio);
 });
 
 //POST DEL CRUD
@@ -87,65 +87,64 @@ model socios {
   prestamo         prestamos[] // Relación con la tabla de préstamos
 }
 */
-app.post('/socios', async (req,res) => {
+app.post("/socios", async (req, res) => {
   const socio = await prisma.socios.create({
     data: {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
       direccion: req.body.direccion,
       telefono: req.body.telefono,
-      email: req.body.email
-    }
-})
-  res.json(socio)
-})
+      email: req.body.email,
+    },
+  });
+  res.json(socio);
+});
 
 //DELETEAR UN SOCIO DEL CRUD
-app.delete('/socios/:id', async (req,res) => {
+app.delete("/socios/:id", async (req, res) => {
   const socio = await prisma.socios.findUnique({
     where: {
-      id: parseInt(req.params.id)
-    }
-  })
-  if (socio===null){
-    res.sendStatus(404)
-    return
+      id: parseInt(req.params.id),
+    },
+  });
+  if (socio === null) {
+    res.sendStatus(404);
+    return;
   }
   await prisma.socios.delete({
     where: {
-      id: parseInt(req.params.id)
-    }
-  })
-  res.send(socio)
-})
+      id: parseInt(req.params.id),
+    },
+  });
+  res.send(socio);
+});
 
 //ACTUALIZAR SOCIO GET DEL CRUD
-app.put('/socios/:id', async (req,res) => {
+app.put("/socios/:id", async (req, res) => {
   const socio = await prisma.socios.findUnique({
     where: {
-      id: parseInt(req.params.id)
-    }
-  })
-  if (socio===null){
-    res.sendStatus(404)
-    return
+      id: parseInt(req.params.id),
+    },
+  });
+  if (socio === null) {
+    res.sendStatus(404);
+    return;
   }
   await prisma.socios.update({
     where: {
-      id: parseInt(req.params.id)
+      id: parseInt(req.params.id),
     },
     data: {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
       direccion: req.body.direccion,
-      telefono:  req.body.telefono,
-      email:   req.body.email,
-      estado: req.body.estado
-    }
-  })
-  res.json(socio)
-})
-
+      telefono: req.body.telefono,
+      email: req.body.email,
+      estado: req.body.estado,
+    },
+  });
+  res.json(socio);
+});
 
 //--------------------CRUD Prestamos--------------------
 
@@ -155,13 +154,13 @@ Problema existePrestamo(id: Int) {
   asegura: res(true) si existe un prestamo con ese id
 */
 
-async function existePrestamo(id){
+async function existePrestamo(id) {
   const prestamo = await prisma.prestamos.findUnique({
     where: {
-      id: parseInt(id)
-    }
-  })
-  return prestamo!==null
+      id: parseInt(id),
+    },
+  });
+  return prestamo !== null;
 }
 
 /*
@@ -170,11 +169,10 @@ problema getTodosLibros() {
   asegura: res(todos los libros)
 */
 
-app.get('/prestamos', async (req,res) => {
-  const prestamos = await prisma.prestamos.findMany()
-  res.json(prestamos)
-}
-)
+app.get("/prestamos", async (req, res) => {
+  const prestamos = await prisma.prestamos.findMany();
+  res.json(prestamos);
+});
 /*
 model prestamos {
   id               Int       @id @unique @default(autoincrement())
@@ -200,7 +198,7 @@ Problema postPrestamo(socio_id, libro_id, fecha_prestamo, fecha_devolucion) {
 }
 */
 
-app.post('/prestamos', async (req, res) => {
+app.post("/prestamos", async (req, res) => {
   const prestamo = await prisma.prestamos.create({
     data: {
       fecha_prestamo: req.body.fecha_prestamo,
@@ -209,11 +207,11 @@ app.post('/prestamos', async (req, res) => {
       garantia: req.body.garantia,
       tipo_prestamo: req.body.tipo_prestamo,
       socio_id: req.body.socio_id,
-      libro_id: req.body.libro_id
-    }
-  })
-  res.json(prestamo)
-})
+      libro_id: req.body.libro_id,
+    },
+  });
+  res.json(prestamo);
+});
 
 /*
 Problema: getPrestamo(id: Int) {
@@ -223,18 +221,17 @@ Problema: getPrestamo(id: Int) {
 }
 */
 
-app.get('/prestamos/:id', async (req,res) => {
+app.get("/prestamos/:id", async (req, res) => {
   const prestamo = await prisma.prestamos.findUnique({
-      where: {
-        id: parseInt(req.params.id)
-      }
-  })
-  if (prestamo===null){
-    return res.sendStatus(404)
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+  if (prestamo === null) {
+    return res.sendStatus(404);
   }
-  res.json(prestamo)
-    
-})
+  res.json(prestamo);
+});
 
 /*
 Problema: deletePrestamo(id: Int) {
@@ -246,17 +243,17 @@ Problema: deletePrestamo(id: Int) {
 
 */
 
-app.delete('/prestamos/:id', async (req,res) => {
-  if (!await existePrestamo(parseInt(req.params.id))) {
-    return res.sendStatus(404)
+app.delete("/prestamos/:id", async (req, res) => {
+  if (!(await existePrestamo(parseInt(req.params.id)))) {
+    return res.sendStatus(404);
   }
   const deletePrestamo = await prisma.prestamos.delete({
-    where:{
-      id: parseInt(req.params.id)
-    }
-  })
-  res.json(deletePrestamo)
-})
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+  res.json(deletePrestamo);
+});
 
 /*
 Problema: putPrestamo(id: Int, fecha_devolucion: DateTime) {
@@ -266,54 +263,53 @@ Problema: putPrestamo(id: Int, fecha_devolucion: DateTime) {
   asegura: res(404) si no existe un prestamo con ese id
 }
 */
-app.put('/prestamos/:id', async (req,res) => {
-  if (!await existePrestamo(parseInt(req.params.id))) {
-    return res.sendStatus(404)
+app.put("/prestamos/:id", async (req, res) => {
+  if (!(await existePrestamo(parseInt(req.params.id)))) {
+    return res.sendStatus(404);
   }
   const prestamoActualizado = await prisma.prestamos.update({
     where: {
-      id: parseInt(req.params.id)
+      id: parseInt(req.params.id),
     },
     data: {
       fecha_devolucion: req.body.fecha_devolucion,
       estado: req.body.estado,
       garantia: req.body.garantia,
-      tipo_prestamo: req.body.tipo_prestamo
-    }
-  })
+      tipo_prestamo: req.body.tipo_prestamo,
+    },
+  });
 
   return res.status(200).json({
     success: true,
     prestamoActualizado: prestamoActualizado,
   });
-})
+});
 
 //--------------------CRUD LIBROS--------------------
 
 //GET TODOS LOS LIBROS
-app.get('/libros', async (req,res) => {
-  const libros = await prisma.libros.findMany()
-  res.json(libros)
-}
-)
+app.get("/libros", async (req, res) => {
+  const libros = await prisma.libros.findMany();
+  res.json(libros);
+});
 
 //GET LIBRO ESPECIFICO
-app.get('/libros/:id', async (req, res) => {
-    const libro = await prisma.libros.findUnique({
-      where: {
-        id: parseInt(req.params.id)
-      }
-    })
+app.get("/libros/:id", async (req, res) => {
+  const libro = await prisma.libros.findUnique({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
 
-    if (libro === null){
-      res.sendStatus(404)
-      return
-    }
-    res.json(libro)
-})
+  if (libro === null) {
+    res.sendStatus(404);
+    return;
+  }
+  res.json(libro);
+});
 
 //POST LIBRO
-app.post('/libros', async (req, res) => {
+app.post("/libros", async (req, res) => {
   const libro = await prisma.libros.create({
     data: {
       titulo: req.body.titulo,
@@ -321,29 +317,28 @@ app.post('/libros', async (req, res) => {
       genero: req.body.genero,
       anio_publicacion: req.body.anio_publicacion,
       cant_paginas: req.body.cant_paginas,
-      cant_ejemplares: req.body.cant_ejemplares
-    }
-  })
+      cant_ejemplares: req.body.cant_ejemplares,
+    },
+  });
 
-  res.status(201).send(libro)
-})
+  res.status(201).send(libro);
+});
 
 //ACTUALIZAR LA DATA DE UN LIBRO
-app.put('/libros/:id', async (req, res) => {
+app.put("/libros/:id", async (req, res) => {
   let libro = await prisma.libros.findUnique({
     where: {
-      id: parseInt(req.params.id)
-    }
-  })
-
+      id: parseInt(req.params.id),
+    },
+  });
   if (libro === null) {
-    res.send(404)
-    return
+    res.send(404);
+    return;
   }
 
   libro = await prisma.libros.update({
     where: {
-      id: parseInt(req.params.id)
+      id: parseInt(req.params.id),
     },
     data: {
       titulo: req.body.titulo,
@@ -351,31 +346,64 @@ app.put('/libros/:id', async (req, res) => {
       genero: req.body.genero,
       anio_publicacion: req.body.anio_publicacion,
       cant_paginas: req.body.cant_paginas,
-      cant_ejemplares: req.body.cant_ejemplares
-    }
-  })
+      cant_ejemplares: req.body.cant_ejemplares,
+    },
+  });
+  res.json(libro);
+});
 
-  res.json(libro)
-})
+//ESTE PUT ES ESPCIAL Y ESTA RELACIONADO CON CREAR PRESTAMOS YA QUE CUANDO CREAMOS UN
+//PRESTAMO TENEMOS QUE RESTAR 1 A LA CANTIDAD DE EJEMPLARES.
+app.put("/libros/:id/cantidad", async (req, res) => {
+  const { cant_ejemplares } = req.body;
+  //NO SE DEBE PASAR UNA CANTIDAD NULL O NEGATIVA
+  if (cant_ejemplares === undefined || cant_ejemplares < 0) {
+    return res
+      .status(400)
+      .json({ error: "La cantidad de ejemplares es inválida." });
+  }
+  try {
+    const libroExistente = await prisma.libros.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    if (!libroExistente) {
+      return res.status(404).json({ error: "El libro no existe." });
+    }
+    //SE ACTUALIZA SOLAMENTE LA CANT.EJEMPLARES
+    const libroActualizado = await prisma.libros.update({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      data: { cant_ejemplares: cant_ejemplares },
+    });
+
+    res.status(200).json(libroActualizado);
+  } catch (error) {
+    console.error("Error al actualizar la cantidad de ejemplares:", error);
+    res.status(500).json({ error: "Error interno del servidor." });
+  }
+});
 
 //DELETEAR UN LIBRO ESPECIFICO
-app.delete('/libros/:id', async (req, res) => {
+app.delete("/libros/:id", async (req, res) => {
   const libro = await prisma.libros.findUnique({
     where: {
-      id: parseInt(req.params.id)
-    }
-  })
+      id: parseInt(req.params.id),
+    },
+  });
 
   if (libro === null) {
-    res.sendStatus(404)
-    return
+    res.sendStatus(404);
+    return;
   }
 
   await prisma.libros.delete({
     where: {
-      id: parseInt(req.params.id)
-    }
-  })
+      id: parseInt(req.params.id),
+    },
+  });
 
-  res.send(libro)
-})
+  res.send(libro);
+});
