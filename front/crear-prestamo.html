@@ -81,17 +81,28 @@
                                           </select>
                                        </div>
                                     </div>
-                                  </div>
+                                <div class="field">
+                                    <label class="label">Tipo de préstamo</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select id="tipo_prestamo" name="tipo_prestamo">
+                                                <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
+                                                <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
+                                                <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
+                                                <option value="Préstamo en red">Préstamo en red</option>
+                                                <option value="Préstamo colectivo">Préstamo colectivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Estado</label>
                                     <div class="control">
                                         <div class="select">
                                             <select id="estado" name="estado">
-                                                <option>En préstamo-con garantía paga</option>
-                                                <option>En préstamo-sin garantía paga</option>
-                                                <option>Finalizado</option>
-                                                <option>Atrasado</option>
+                                                <option value="En préstamo">En préstamo</option>
+                                                <option value="Finalizado">Finalizado</option>
+                                                <option value="En reclamo">En reclamo</option>
                                             </select>
                                           </div>
                                     </div>
@@ -162,7 +173,7 @@
                 } else {
                     const error = await response.json();
                     alert(`Error al crear socio: ${response.status}`);
-                    }
+                }
             //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
             } catch (error) {
                 console.error('Error al enviar la solicitud:', error);

@@ -276,7 +276,9 @@ app.put('/prestamos/:id', async (req,res) => {
     },
     data: {
       fecha_devolucion: req.body.fecha_devolucion,
-      garantia: req.body.garantia
+      estado: req.body.estado,
+      garantia: req.body.garantia,
+      tipo_prestamo: req.body.tipo_prestamo
     }
   })
 

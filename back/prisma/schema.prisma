@@ -43,7 +43,7 @@ model prestamos {
   id               Int      @id @unique @default(autoincrement())
   fecha_prestamo   DateTime @default(now()) @db.Date
   fecha_devolucion DateTime @db.Date
-  estado           String   @default("Activo")
+  estado           String   @default("En préstamo")
   garantia         Int      @default(0)
   tipo_prestamo    String
   socio            socios   @relation(fields: [socio_id], references: [id])

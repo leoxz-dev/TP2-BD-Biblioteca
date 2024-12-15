@@ -7,7 +7,7 @@
 <body>
     <header></header>
     <section>
-        <div class="container is-max-tablet my-6">
+        <div class="container is-max-desktop my-6">
             <article class="message">
                 <div class="message-header is-flex is-justify-content-center">
                     <h1 id="id_prestamo" class="title has-text-white">
@@ -21,7 +21,7 @@
                                 <div class="field">
                                     <label class="label is-size-4">Fecha de Préstamo</label>
                                     <div class="control">
-                                    <input id="fecha_prestamo" class="input" type="date" name="fecha_prestamo" required>
+                                    <input id="fecha_prestamo" class="input" type="date" name="fecha_prestamo" disabled>
                                     </div>
                                 </div>
                                 <div class="field">
@@ -41,32 +41,48 @@
                                 <div class="field">
                                     <label class="label is-size-4">ID socio</label>
                                     <div class="control">
-                                        <input id="socio_id" class="input" type="number" name="socio_id" required>
+                                        <input id="socio_id" class="input" type="number" name="socio_id" disabled>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label is-size-4">ID libro</label>
                                     <div class="control">
-                                        <input id="libro_id" class="input" type="number" name="libro_id" required>
+                                        <input id="libro_id" class="input" type="number" name="libro_id" disabled>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label is-size-4">Tipo de préstamo</label>
-                                    <div class="textContent">
-                                        <p id="tipo_prestamo"></p>
+                                    <label class="label">Tipo de préstamo</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select id="tipo_prestamo" name="tipo_prestamo" required>
+                                                <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
+                                                <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
+                                                <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
+                                                <option value="Préstamo en red">Préstamo en red</option>
+                                                <option value="Préstamo colectivo">Préstamo colectivo</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="field">
-                            <label class="label is-size-4">Estado</label>
-                            <p id="estado"></p>
+                            <label class="label">Estado</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select id="estado" name="estado" required>
+                                        <option value="En préstamo">En préstamo</option>
+                                        <option value="Finalizado">Finalizado</option>
+                                        <option value="En reclamo">En reclamo</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="message-footer">
                     <div class="buttons has-addons is-centered">
-                        <button id="boton1" class="button is-fullwidth" onclick="editarPrestamo()">Editar</button>
+                        <button id="boton1" class="button is-fullwidth">Editar</button>
                     </div>
                 </div>
             </article>
@@ -84,89 +100,92 @@
         }
         document.getElementById('id_prestamo').textContent += prestamoId;
         
+        document.addEventListener('DOMContentLoaded', async () => {
+            await llenarFormulario();
+        });
+
         llenarFormulario = function() {
             fetch(`http://localhost:3000/prestamos/${prestamoId}`)
             .then((Response) => Response.json())
             .then(prestamo =>{
-                document.getElementById('garantia').value = prestamo.garantia;
-                document.getElementById('estado').textContent = prestamo.estado;
-                document.getElementById('tipo_prestamo').textContent = prestamo.tipo_prestamo;
+                const fechaPrestamo = prestamo.fecha_prestamo.split('T')[0]; 
+                document.getElementById('fecha_prestamo').value = fechaPrestamo;
+                const fechaDevolucion = prestamo.fecha_devolucion.split('T')[0]; 
+                document.getElementById('fecha_devolucion').value = fechaDevolucion;
+
+                document.getElementById('garantia').value = prestamo.garantia;                
+                document.getElementById('estado').value = prestamo.estado;
+                document.getElementById('tipo_prestamo').value = prestamo.tipo_prestamo;
                 document.getElementById('socio_id').value = prestamo.socio_id;
                 document.getElementById('libro_id').value = prestamo.libro_id;
             })
         }
 
-        editarPrestamo = function() {
-            let formulario = document.getElementById('formulario');
-            let boton = document.getElementById('boton1');
-
-            if (formulario.style.pointerEvents === 'none') {
-                // Se modifica para que se pueda editar el form
-                boton.textContent = 'Guardar cambios';
-                formulario.style.pointerEvents = 'auto';
-
-            } else {
-                // Se modifica para que no se pueda editar el form
-                boton.disabled = true;
-                boton.addEventListener('click', actualizarPrestamo);
-                boton.textContent = 'Editar';
-                boton.disabled = false;
-                formulario.style.pointerEvents = 'none';
-            }
-        }
-
         window.onload = function() {
-            const fechaPrestamo = new Date().toISOString().split('T')[0]; 
-            document.getElementById('fecha_prestamo').value = fechaPrestamo;
-
-            const fechaDevolucion = new Date().toISOString().split('T')[0]; 
-            document.getElementById('fecha_devolucion').value = fechaDevolucion;
-        
             let formulario = document.getElementById('formulario');
+
             //Setea que no se pueda editar de base el form
             formulario.style.pointerEvents = 'none';
         };
 
-        async function actualizarPrestamo(event) {
-            event.preventDefault();
-            let fechaDevolucion = document.getElementById('fecha_devolucion').value;
-            const garantia = document.getElementById('garantia').value;
+        let sePuedeEditar = false;
+
+        document.getElementById('boton1').addEventListener('click', async function() {
+            const formulario = document.getElementById('formulario');
+            const boton = document.getElementById('boton1');
             
+            let fechaDevolucion = document.getElementById('fecha_devolucion').value;
+            const estado = document.getElementById('estado').value;
+            const garantia = document.getElementById('garantia').value;
+            const tipoPrestamo = document.getElementById('tipo_prestamo').value;
+
             //Se le asigna el formato a las fechas
             const formatoFecha = "T00:00:00.000Z";
             fechaDevolucion = fechaDevolucion.concat(formatoFecha);
 
             const prestamoData = {
                 fecha_devolucion: fechaDevolucion,
-                garantia: parseInt(garantia)
+                estado: estado,
+                garantia: parseInt(garantia),
+                tipo_prestamo: tipoPrestamo
             };
 
-            try {
-                const response = await fetch(`http://localhost:3000/prestamos/${prestamoId}`, { 
-                    method: 'PUT',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(prestamoData),
-                });
+            if (!sePuedeEditar) {
+                formulario.style.pointerEvents = "auto"; 
+                boton.textContent = "Guardar cambios"; 
+                sePuedeEditar = true; 
 
-                const prestamoActualizado = await response.json();
-                if (prestamoActualizado.success) {
-                    alert('¡El préstamo ha sido actualizado correctamente!');
-                } else {
-                    alert('Error al actualizar el préstamo.');
+            } else {
+                try {
+                    const response = await fetch(`http://localhost:3000/prestamos/${prestamoId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(prestamoData),
+                    });
+
+                    const prestamoActualizado = await response.json();
+                    if (prestamoActualizado.success) {
+                        alert('¡El préstamo ha sido actualizado!');
+                    } else {
+                        alert('Error al actualizar el préstamo.');
+                    }
+                } catch (error) {
+                    console.error('Error al enviar la solicitud:', error);
+                    alert('No se pudo conectar con el servidor.');
                 }
-            } catch (error) {
-                console.error('Error al enviar la solicitud:', error);
-                alert('No se pudo conectar con el servidor.');
-            }
-        }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            llenarFormulario();
-        })
+                formulario.style.pointerEvents = "none";
+                boton.textContent = "Editar"; 
+                sePuedeEditar = false; 
+            }
+        });
+
 
     </script>
+
+
+
 </body>
 </html>
