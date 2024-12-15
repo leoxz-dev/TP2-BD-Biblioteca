@@ -46,33 +46,33 @@
                         <div class="message-body">
                             <form id="crear_libro" class="mx-3">
                                 <div class="field">
-                                    <label class="label">Titulo del libro</label>
+                                    <label class="label">Título del libro</label>
                                     <div class="control">
-                                        <input type="text" class="input" id="titulo" required>
+                                        <input type="text" class="input" id="titulo" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9.-~\s]*" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Autor</label>
                                     <div class="control">
-                                        <input type="text" class="input" id="autor" required>
+                                        <input type="text" class="input" id="autor" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Año de publicación</label>
                                     <div class="control">
-                                        <input type="number" min="0" class="input" id="año" required>
+                                        <input type="number" min="0" max="2100" class="input" id="año" pattern="[0-9]{4}" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Cantidad de páginas</label>
                                     <div class="control">
-                                        <input type="number" min="0" class="input" id="paginas" required>
+                                        <input type="number" min="0" class="input" id="paginas" pattern="[0-9]{0,6}" required>
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label">Cantidad de ejemplares</label>
                                     <div class="control">
-                                        <input type="number" min="0" class="input" id="ejemplares"  required>
+                                        <input type="number" min="0" class="input" id="ejemplares" pattern="[0-9]{1,5}" required>
                                     </div>
                                 </div>
                                 <div class="field">

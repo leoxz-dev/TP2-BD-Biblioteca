@@ -24,31 +24,31 @@
                             <div class="field">
                                 <label class="label">Nombre</label>
                                 <div class="control">
-                                    <input id="nombre" class="input" type="text" name="nombre" placeholder="Nombre" required>
+                                    <input id="nombre" class="input" type="text" name="nombre" placeholder="Nombre" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Apellido</label>
                                 <div class="control">
-                                    <input id="apellido" class="input" type="text" name="apellido" placeholder="Apellido" required>
+                                    <input id="apellido" class="input" type="text" name="apellido" placeholder="Apellido" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Correo Electrónico</label>
                                 <div class="control">
-                                    <input id="email" class="input" type="email" name="email" placeholder="nombre@gmail.com" required>
+                                    <input id="email" class="input" type="email" name="email" placeholder="nombre@gmail.com" pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Domicilio</label>
                                 <div class="control">
-                                    <input id="direccion" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" required>
+                                    <input id="direccion" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" pattern="[A-Za-zÀ-ÿ.\sß-öø-ÿ]*[0-9]*" required>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Teléfono</label>
                                 <div class="control">
-                                    <input id="telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678" required>
+                                    <input id="telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678" pattern="[0-9]{2}\s[0-9]{4}-[0-9]{4}" required>
                                 </div>
                             </div>
                             <div id="lugar-estado">
