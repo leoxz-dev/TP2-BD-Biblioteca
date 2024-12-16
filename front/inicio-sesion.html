@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+</head>
+
+<body>
+    <header></header>
+
+    <section class="my-6">
+        <div class="container is-max-tablet">
+            <article class="message">
+                <div class="message-header is-flex is-justify-content-center">
+                    <h2 class="subtitle has-text-white"><b>Inicie sesion con email y contraseña</b></h2>
+                </div>
+                <div class="message-body has-text-centered px-6">
+                    <form id="busqueda-form" class="mx-3">
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" id="email" type="email" min="1" name="socio_id" placeholder="123" pattern="[0-9]{1,10}" required/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Contraseña</label>
+                            <div class="control">
+                                <input id="contraseña" class="input" type="text" name="contraseña" placeholder="Contraseña"  required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="buttons is-centered">
+                            <button type="submit" class="button is-success is-normal">Logearse</button>
+                        </div>
+                    </form>
+                </div>
+            </article>
+        </div>
+    </section>
+    <script src="./src/header_footer_inicio.js"></script>
+    
+    <script>
+        document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+        })
+    </script>
+
+</body>
+
+</html>
