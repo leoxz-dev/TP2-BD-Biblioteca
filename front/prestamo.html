@@ -200,11 +200,12 @@
 
                 const libro = await responseGet.json();
                 const nuevaCantidad = parseInt(libro.cant_ejemplares) + 1;
+                let nuevaDisponibilidad = true;
 
                 const responsePut = await fetch(`http://localhost:3000/libros/${idLibro}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ cant_ejemplares: nuevaCantidad })
+                    body: JSON.stringify({ cant_ejemplares: nuevaCantidad, disponibilidad: nuevaDisponibilidad })
                 });
 
                 if (responsePut.ok) {
