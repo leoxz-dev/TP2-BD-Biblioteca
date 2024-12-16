@@ -203,7 +203,6 @@ app.post("/prestamos", async (req, res) => {
     data: {
       fecha_prestamo: req.body.fecha_prestamo,
       fecha_devolucion: req.body.fecha_devolucion,
-      estado: req.body.estado,
       garantia: req.body.garantia,
       tipo_prestamo: req.body.tipo_prestamo,
       socio_id: req.body.socio_id,

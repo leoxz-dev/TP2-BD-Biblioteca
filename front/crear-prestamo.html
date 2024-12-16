@@ -123,18 +123,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="field">
-                                    <label class="label">Estado</label>
-                                    <div class="control">
-                                        <div class="select">
-                                            <select id="estado" name="estado">
-                                                <option value="En préstamo">En préstamo</option>
-                                                <option value="Finalizado">Finalizado</option>
-                                                <option value="En reclamo">En reclamo</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="control">
                                     <input class="button is-success is-fullwidth" type="submit"
                                         value="Crear préstamo" />
@@ -296,7 +284,6 @@
             let fechaPrestamo = document.getElementById('fecha_prestamo').value;
             let fechaDevolucion = document.getElementById('fecha_devolucion').value;
             const garantia = document.getElementById('garantia').value;
-            const estado = document.getElementById('estado').value;
             const tipoPrestamo = document.getElementById('tipo_prestamo').value;
             const idSocio = document.getElementById('socio_id').value;
             const idLibro = document.getElementById('libro_id').value;
@@ -310,7 +297,6 @@
             const prestamoData = {
                 fecha_prestamo: fechaPrestamo,
                 fecha_devolucion: fechaDevolucion,
-                estado: estado,
                 garantia: parseInt(garantia),
                 tipo_prestamo: tipoPrestamo,
                 socio_id: parseInt(idSocio),
