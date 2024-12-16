@@ -395,6 +395,7 @@ app.put("/libros/:id", async (req, res) => {
       anio_publicacion: req.body.anio_publicacion,
       cant_paginas: req.body.cant_paginas,
       cant_ejemplares: req.body.cant_ejemplares,
+      disponibilidad: req.body.disponibilidad,
     },
   });
   res.json(libro);
