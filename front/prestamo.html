@@ -143,6 +143,14 @@
             const formatoFecha = "T00:00:00.000Z";
             fechaDevolucion = fechaDevolucion.concat(formatoFecha);
 
+            
+            if (estado === 'Finalizado') {
+                const idLibro = document.getElementById('libro_id').value;
+                await actualizarEjemplares(idLibro);
+                // Deshabilitar el select si se cumple la condición
+                document.getElementById('estado').disabled = true;
+            }
+
             const prestamoData = {
                 fecha_devolucion: fechaDevolucion,
                 estado: estado,
@@ -182,7 +190,34 @@
             }
         });
 
+        async function actualizarEjemplares(idLibro) {
+            try{
+                const responseGet = await fetch(`http://localhost:3000/libros/${idLibro}`);
+                if (!responseGet.ok) {
+                    alert(`Error al obtener información del libro: ${responseGet.status}`);
+                    return;
+                }
 
+                const libro = await responseGet.json();
+                const nuevaCantidad = parseInt(libro.cant_ejemplares) + 1;
+
+                const responsePut = await fetch(`http://localhost:3000/libros/${idLibro}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cant_ejemplares: nuevaCantidad })
+                });
+
+                if (responsePut.ok) {
+                    console.log(`Cantidad de ejemplares del libro ${idLibro} actualizada a ${nuevaCantidad}.`);
+                } else {
+                    const error = await responsePut.json();
+                    alert(`Error al actualizar cantidad de ejemplares: ${responsePut.status} - ${error.message}`);
+                }
+            } catch (error) {
+                console.error('Error al actualizar la cantidad de ejemplares:', error);
+                alert('No se pudo actualizar la cantidad de ejemplares del libro.');
+            }
+        }
     </script>
 
 
