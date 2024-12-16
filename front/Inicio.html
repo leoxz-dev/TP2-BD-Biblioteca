@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INICIO</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+</head>
+
+<body>
+    <header>
+        <!--header por header_footer.js-->
+    </header>
+    <section class="py-6">
+        <div class="container py-6">
+            <h1 class="title">Lista de libros</h1>
+            <div class="table-container">
+                <table id="libros" class="table is-striped is-hoverable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Titulo</th>
+                            <th>Autor</th>
+                            <th>Año de publicación</th>
+                            <th>Genero</th>
+                            <th>Cantidad de páginas </th>
+                            <th>Cantidad de ejemplares </th>
+                            <th>Ver libro</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo_libros">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
+    <!--footer por header_footer.js-->
+    </footer>
+
+    <script src="./src/header_footer_inicio.js"></script>
+    <script>
+        function crearElementosTabla() {
+            fetch('http://localhost:3000/libros')
+                .then(response => response.json())
+                .then(libros => {
+
+                    let tabla = document.getElementById('cuerpo_libros')
+                    tabla.innerHTML = ''
+
+                    libros.forEach(libro => {
+                        let tr = document.createElement('tr')
+                        let id = document.createElement('th')
+                        id.textContent = libro.id
+
+                        let titulo = document.createElement('td')
+                        titulo.textContent = libro.titulo
+
+                        let autor = document.createElement('td')
+                        autor.textContent = libro.autor
+
+                        let año = document.createElement('td')
+                        año.textContent = libro.anio_publicacion
+
+                        let genero = document.createElement('td')
+                        genero.textContent = libro.genero
+
+                        let paginas = document.createElement('td')
+                        paginas.textContent = libro.cant_paginas
+
+                        let cantidadEjemplares = document.createElement('td')
+                        cantidadEjemplares.textContent = libro.cant_ejemplares
+
+                        let ver = document.createElement('td')
+                        let verLink = document.createElement('a')
+                        verLink.className = 'button is-info is-small'
+                        verLink.textContent = 'Ver'
+                        verLink.href = `libro.html?id=${libro.id}`
+                        ver.appendChild(verLink)
+
+
+
+                        tr.appendChild(id)
+                        tr.appendChild(titulo)
+                        tr.appendChild(autor)
+                        tr.appendChild(año)
+                        tr.appendChild(genero)
+                        tr.appendChild(paginas)
+                        tr.appendChild(cantidadEjemplares)
+                        tr.appendChild(ver)
+                        tabla.appendChild(tr)
+                    })
+
+                })
+        }
+        crearElementosTabla()
+
+    </script>
+</body>
+
+</html>
