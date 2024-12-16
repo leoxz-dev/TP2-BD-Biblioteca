@@ -315,9 +315,6 @@ app.get("/libros/:param", async (req, res) => {
       where: {
         id: parseInt(param),
       },
-      include: {
-        historial_prestamos: true,
-      },
     });
     if (libro === null) {
       return res.sendStatus(404);
