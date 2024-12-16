@@ -23,6 +23,50 @@
                         </p>
                     </div>
                 </form>
+                <div class="container has-text-centered">
+                    <div class="table-container is-inline-block is-size-5">
+                        <table class="table is-bordered is-hoverable">
+                            <thead class="is-size-5">
+                                <tr>
+                                    <th><abbr title="Id">Id</abbr></th>
+                                    <th><abbr title="Nombre">Nom</abbr></th>
+                                    <th><abbr title="Apellido">Apellido</abbr></th>
+                                    <th><abbr title="Disponibilidad">Disponibilidad</abbr></th>
+                                    <th><abbr title="Informacion">Info</abbr></th>
+                                </tr>
+                            </thead>
+                            <tfoot class="is-size-5">
+                                <tr>
+                                    <th><abbr title="Id">Id</abbr></th>
+                                    <th><abbr title="Nombre">Titulo</abbr></th>
+                                    <th><abbr title="Apellido">Autor</abbr></th>
+                                    <th><abbr title="Disponibilidad">Disponibilidad</abbr></th>
+                                    <th><abbr title="Informacion">Info</abbr></th>
+
+                                </tr>
+                            </tfoot>
+                            <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
+                            <tbody class="is-size-6" id="tablaLibros">
+                                <tr>
+                                    <th>1</th>
+                                    <td>El Principito</td>
+                                    <td>Montesquie</td>
+                                    <td>Bool</td>
+                                    <td><button class="button is-info is-small"><a href="crear-socio.html">Info</a></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+            
+                        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                            <button class="pagination-previous" id="prevPage">Anterior</button>
+                            <button class="pagination-next" id="nextPage">Siguiente</button>
+                            <ul class="pagination-list" id="paginationList">
+                              <!-- Botones de página dinámicos -->
+                            </ul>
+                          </nav>
+            
+                    </div>
+                </div>
             </div>
             <div class="column">
                 <article class="message">
@@ -104,6 +148,103 @@
     <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+        const tableBody = document.getElementById("tablaLibros");
+        const paginationList = document.getElementById("paginationList");
+        const prevPageButton = document.getElementById("prevPage");
+        const nextPageButton = document.getElementById("nextPage");
+        const rowsPerPage = 10;
+        let currentPage = 1;
+        //LISTA QUE SE VA A LLENAR CON LOS LIBROS
+        let usuarios = []; 
+        let totalPages = 1;
+        
+
+        async function fetchLibros() {
+            try {
+                const response = await fetch("http://localhost:3000/libros"); // Ruta de la API
+                libros = await response.json();
+                totalPages = Math.ceil(libros.length / rowsPerPage);
+                renderTable(currentPage);
+                renderPagination();
+            } catch (error) {
+                console.error("Error al obtener los usuarios:", error);
+            }
+        }
+
+        function renderTable(page) {
+            tableBody.innerHTML = ""; // LIMPIA LA TABLA
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            //AL PARECER SE LE PUEDE HACER SLICES A LISTAS EN JS
+            const pageLibros = libros.slice(start, end);
+            //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
+            pageLibros.forEach((libro) => {
+                const row = `
+                <tr>
+                    <th>${libro.id}</th>
+                    <td>${libro.titulo}</td>
+                    <td>${libro.autor}</</td>
+                    <td>${libro.disponibilidad}</</td>
+                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></</td>
+                </tr>
+                `;
+                //USAMOS insertAdj... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
+                //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
+                tableBody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+
+        function renderPagination() {
+            //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
+            paginationList.innerHTML = "";
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement("li");
+                //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
+                // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
+                pageButton.innerHTML = `
+                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
+                    ${i}
+                </a>
+                `;
+                paginationList.appendChild(pageButton);
+            }
+        }
+
+        //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
+        paginationList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("pagination-link")) {
+                //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+                //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+                currentPage = parseInt(e.target.dataset.numPagina);
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        prevPageButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        nextPageButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchLibros();
+        });
+
+
+        ///////////////////////////////////////////////////////////
+        //SE CREA EL PRESTAMO Y SE SUBE A LA BASE DE DATOS CON POST
         document.getElementById('crear-prestamo').addEventListener('submit', async function (event) {
             event.preventDefault();
             //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
