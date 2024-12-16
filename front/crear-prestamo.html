@@ -13,16 +13,54 @@
         <div class="columns">
             <div class="column is-two-fifths">
                 <h1 class="title">Buscar libro</h1>
-                <form>
+                <form id="busqueda-form">
                     <div class="field has-addons">
                         <p class="control">
-                          <input class="input" type="text" placeholder="Búsqueda">
+                            <input id="titulo" class="input" type="text" placeholder="Búsqueda">
                         </p>
                         <p class="control">
                             <input class="button" type="submit" value="Buscar" />
                         </p>
                     </div>
                 </form>
+                <div class="container has-text-centered">
+                    <div class="table-container is-inline-block is-size-5">
+                        <table class="table is-bordered is-hoverable">
+                            <thead class="is-size-5">
+                                <tr>
+                                    <th><abbr title="Id">Id</abbr></th>
+                                    <th><abbr title="Nombre">Nom</abbr></th>
+                                    <th><abbr title="Apellido">Apellido</abbr></th>
+                                    <th><abbr title="Disponibilidad">Disponibilidad</abbr></th>
+                                    <th><abbr title="Informacion">Info</abbr></th>
+                                </tr>
+                            </thead>
+                            <tfoot class="is-size-5">
+                                <tr>
+                                    <th><abbr title="Id">Id</abbr></th>
+                                    <th><abbr title="Nombre">Titulo</abbr></th>
+                                    <th><abbr title="Apellido">Autor</abbr></th>
+                                    <th><abbr title="Disponibilidad">Disponibilidad</abbr></th>
+                                    <th><abbr title="Informacion">Info</abbr></th>
+
+                                </tr>
+                            </tfoot>
+                            <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
+                            <tbody class="is-size-6" id="tablaLibros">
+                                <!--ACA VAN LOS LIBROS-->
+                            </tbody>
+                        </table>
+
+                        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                            <button class="pagination-previous" id="prevPage">Anterior</button>
+                            <button class="pagination-next" id="nextPage">Siguiente</button>
+                            <ul class="pagination-list" id="paginationList">
+                                <!-- Botones de página dinámicos -->
+                            </ul>
+                        </nav>
+
+                    </div>
+                </div>
             </div>
             <div class="column">
                 <article class="message">
@@ -36,62 +74,71 @@
                             <div class="field">
                                 <label class="label">Fecha de Préstamo</label>
                                 <div class="control">
-                                    <input id="fecha_prestamo" class="input" type="date" max="2030-12-31" name="fecha_prestamo" required>
+                                    <input id="fecha_prestamo" class="input" type="date" max="2030-12-31"
+                                        name="fecha_prestamo" required>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Fecha de Devolución</label>
                                 <div class="control">
-                                    <input id="fecha_devolucion" class="input" type="date" max="2030-12-31" name="fecha_devolucion"required>
+                                    <input id="fecha_devolucion" class="input" type="date" max="2030-12-31"
+                                        name="fecha_devolucion" required>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">ID socio</label>
                                 <div class="control">
-                                    <input id="socio_id" class="input" type="number" min="1" name="socio_id" placeholder="123" pattern="[0-9]{1,10}" required/>
+                                    <input id="socio_id" class="input" type="number" min="1" name="socio_id"
+                                        placeholder="123" pattern="[0-9]{1,10}" required />
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">ID Libro</label>
                                 <div class="control">
-                                    <input id="libro_id" class="input" type="number" min="1" name="libro_id" placeholder="46" pattern="[0-9]{1,10}" required>
+                                    <input id="libro_id" class="input" type="number" min="1" name="libro_id"
+                                        placeholder="46" pattern="[0-9]{1,10}" required>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Garantía</label>
                                 <div class="control">
-                                    <input id="garantia" class="input" type="number" min="0" name="garantia" pattern="[0-9]{0,10}" required>
+                                    <input id="garantia" class="input" type="number" min="0" name="garantia"
+                                        pattern="[0-9]{0,10}" required>
                                 </div>
-                                   <div class="field">
-                                      <label class="label">Tipo de préstamo</label>
-                                        <div class="control">
-                                            <div class="select">
-                                                <select id="tipo_prestamo" name="tipo_prestamo" required>
-                                                    <option value="Préstamo a domicilio o individual">Préstamo a domicilio o individual</option>
-                                                    <option value="Préstamo interbibliotecario">Préstamo interbibliotecario</option>
-                                                    <option value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
-                                                    <option value="Préstamo en red">Préstamo en red</option>
-                                                    <option value="Préstamo colectivo">Préstamo colectivo</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">Estado</label>
-                                        <div class="control">
-                                            <div class="select">
-                                                <select id="estado" name="estado">
-                                                    <option value="En préstamo">En préstamo</option>
-                                                    <option value="Finalizado">Finalizado</option>
-                                                    <option value="En reclamo">En reclamo</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="field">
+                                    <label class="label">Tipo de préstamo</label>
                                     <div class="control">
-                                        <input class="button is-success is-fullwidth" type="submit"
-                                            value="Crear préstamo" />
+                                        <div class="select">
+                                            <select id="tipo_prestamo" name="tipo_prestamo" required>
+                                                <option value="Préstamo a domicilio o individual">Préstamo a domicilio o
+                                                    individual</option>
+                                                <option value="Préstamo interbibliotecario">Préstamo interbibliotecario
+                                                </option>
+                                                <option
+                                                    value="Préstamo intercampus (sólo en Bibliotecas Universitarias)">
+                                                    Préstamo intercampus (sólo en Bibliotecas Universitarias)</option>
+                                                <option value="Préstamo en red">Préstamo en red</option>
+                                                <option value="Préstamo colectivo">Préstamo colectivo</option>
+                                            </select>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Estado</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select id="estado" name="estado">
+                                                <option value="En préstamo">En préstamo</option>
+                                                <option value="Finalizado">Finalizado</option>
+                                                <option value="En reclamo">En reclamo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <input class="button is-success is-fullwidth" type="submit"
+                                        value="Crear préstamo" />
+                                </div>
                         </form>
                     </div>
                 </article>
@@ -104,6 +151,145 @@
     <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+        const tableBody = document.getElementById("tablaLibros");
+        const paginationList = document.getElementById("paginationList");
+        const prevPageButton = document.getElementById("prevPage");
+        const nextPageButton = document.getElementById("nextPage");
+        const rowsPerPage = 10;
+        let currentPage = 1;
+        //LISTA QUE SE VA A LLENAR CON LOS LIBROS
+        let libros = [];
+        let totalPages = 1;
+
+
+        async function fetchLibros() {
+            try {
+                const response = await fetch("http://localhost:3000/libros"); // Ruta de la API
+                libros = await response.json();
+                totalPages = Math.ceil(libros.length / rowsPerPage);
+                renderTable(currentPage);
+                renderPagination();
+            } catch (error) {
+                console.error("Error al obtener los usuarios:", error);
+            }
+        }
+
+        function renderTable(page) {
+            tableBody.innerHTML = ""; // LIMPIA LA TABLA
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            //AL PARECER SE LE PUEDE HACER SLICES A LISTAS EN JS
+            const pageLibros = libros.slice(start, end);
+            //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
+            pageLibros.forEach((libro) => {
+                const row = `
+                <tr>
+                    <th>${libro.id}</th>
+                    <td>${libro.titulo}</td>
+                    <td>${libro.autor}</</td>
+                    <td>${libro.disponibilidad}</td>
+                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></td>
+                </tr>
+                `;
+                //USAMOS insertAdj... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
+                //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
+                tableBody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+
+        function renderPagination() {
+            //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
+            paginationList.innerHTML = "";
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement("li");
+                //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
+                // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
+                pageButton.innerHTML = `
+                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
+                    ${i}
+                </a>
+                `;
+                paginationList.appendChild(pageButton);
+            }
+        }
+
+        //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
+        paginationList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("pagination-link")) {
+                //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+                //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+                currentPage = parseInt(e.target.dataset.numPagina);
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        prevPageButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+        nextPageButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(currentPage);
+                renderPagination();
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchLibros();
+        });
+
+
+        document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const titulo = document.getElementById('titulo').value.trim();
+            //SI NO HAY ID Y ADEMAS NO HAY NOMBRE SALTA ALERT
+            if (!titulo) {
+                alert('INGRESE UN TITULO');
+                return
+            }
+            try {
+                const response = await fetch(`http://localhost:3000/libros/${titulo}`);
+                if (response.ok) {
+                    const librosEncontrados = await response.json();
+                    //const tablaSocios = document.getElementById('tablaSocios');
+                    tableBody.innerHTML = '';
+                    //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
+                    if (librosEncontrados.length === 0) {
+                        alert('No se encontraron Libros con ese nombre.');
+                        return;
+                    }
+                    //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
+                    librosEncontrados.forEach(libro => {
+                        const filaLibro = `
+                                    <tr>
+                    <th>${libro.id}</th>
+                    <td>${libro.titulo}</td>
+                    <td>${libro.autor}</</td>
+                    <td>${libro.disponibilidad}</td>
+                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></td>
+                    </tr>`;
+                        //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
+                        tableBody.insertAdjacentHTML("beforeend", filaLibro);
+                    });
+                } else {
+                    alert('Hubo un error al buscar los libros.');
+                }
+            } catch (error) {
+                console.error('Error al conectar con el servidor:', error);
+                alert('No se pudo conectar con el servidor.');
+            }
+        })
+
+
+        ///////////////////////////////////////////////////////////
+        //SE CREA EL PRESTAMO Y SE SUBE A LA BASE DE DATOS CON POST
         document.getElementById('crear-prestamo').addEventListener('submit', async function (event) {
             event.preventDefault();
             //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
@@ -177,7 +363,7 @@
 
                 const libro = await responseGet.json();
                 //RESTAMOS 1 A LA CANT-EJEMPLARES DEL LIBRO QUE SE ESTA PRESTANDO
-                const nuevaCantidad = parseInt( libro.cant_ejemplares) - 1; 
+                const nuevaCantidad = parseInt(libro.cant_ejemplares) - 1;
                 //SI YA NO HAY EJEMPLARES LE AVISA AL USUARIO
                 if (nuevaCantidad < 0) {
                     alert('No hay ejemplares disponibles para prestar.');
