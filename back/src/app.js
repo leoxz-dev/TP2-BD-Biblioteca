@@ -305,6 +305,44 @@ app.get("/libros", async (req, res) => {
 });
 
 
+//LIBRO ESPECIFICO GET DEL CRUD
+//ADMITE ID O TITULO
+app.get("/libros/:param", async (req, res) => {
+  const param = req.params.param;
+  // Verificar si el parámetro es un número (para buscar por ID)
+  if (!isNaN(param)) {
+    const libro = await prisma.libros.findUnique({
+      where: {
+        id: parseInt(param),
+      },
+      include: {
+        historial_prestamos: true,
+      },
+    });
+    if (libro === null) {
+      return res.sendStatus(404);
+    }
+    return res.json(libro);
+  }
+  // Si el parámetro no es un número, buscar por titulo
+  const libro = await prisma.libros.findMany({
+    where: {
+      titulo: {
+        startsWith: param,
+        mode: "insensitive",
+      },
+    },
+  });
+  if (libro === null) {
+    return res.sendStatus(404);
+  }
+  return res.json(libro);
+});
+
+
+
+/*
+VIEJO GET 
 //GET LIBRO ESPECIFICO
 app.get("/libros/:id", async (req, res) => {
   const libro = await prisma.libros.findUnique({
@@ -319,6 +357,8 @@ app.get("/libros/:id", async (req, res) => {
   }
   res.json(libro);
 });
+*/
+
 
 //POST LIBRO
 app.post("/libros", async (req, res) => {
