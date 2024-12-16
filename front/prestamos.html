@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Prestamos</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    </head>
+<body>
+    <header>
+        <!--header por header_footer.js-->
+    </header>
+    <section class="section is-medium">
+        <div class="container">
+            <h1 class="title">Lista de prestamos</h1>
+            <div class="table-container">
+                <table class="table is-striped is-hoverable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Titulo</th>
+                            <th>Socio</th>
+                            <th>Fecha prestamo</th>
+                            <th>Fecha devolución</th>
+                        </tr>
+                        <tbody>
+                        </tbody>
+                    </thead>
+                </table>
+                <p id="error"></p>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+                        <!--footer por header_footer.js-->
+    </footer>
+
+    <script src="./src/header_footer.js" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></script>
+    <script>
+        fetch('http://localhost:3000/prestamos')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.length);
+                if (data.length === 0) {
+                    const error = document.getElementById('error');
+                    error.innerHTML = 'No hay prestamos :C';
+                }
+                else{
+                const table = document.querySelector('table tbody');
+                data.forEach(prestamo => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${prestamo.id}</td>
+                        <td>${prestamo.titulo}</td>
+                        <td>${prestamo.socio}</td>
+                        <td>${prestamo.fecha_prestamo}</td>
+                        <td>${prestamo.fecha_devolucion}</td>
+                    `;
+                    table.appendChild(row);
+                });
+            }
+            });
+
+    </script>
+</body>
+</html>

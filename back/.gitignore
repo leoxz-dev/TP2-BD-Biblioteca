@@ -1,3 +1,4 @@
 node_modules/
 psql-data/
 .env
+front/node_modules/
