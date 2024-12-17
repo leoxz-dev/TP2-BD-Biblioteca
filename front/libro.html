@@ -48,7 +48,7 @@
     </section>
     <section class="has-background-dark">
         <div class="container p-6 mx-6">
-            <p class="is-size-5">Un día, Bastian entra a una librería donde encuentra un misterioso libro que a pesar de las advertencias del dueño, decide leerlo. Es entonces cuando Bastian se introduce en un mundo fantástico, repleto de seres extraordinarios.</p>
+            <p id="sinopsis" class="is-size-5">Un día, Bastian entra a una librería donde encuentra un misterioso libro que a pesar de las advertencias del dueño, decide leerlo. Es entonces cuando Bastian se introduce en un mundo fantástico, repleto de seres extraordinarios.</p>
         </div>
     </section>
 
@@ -64,27 +64,29 @@
         .then(response => response.json())
         .then(datos => {
             console.log(datos)
-
+            
             let estado = document.getElementById("estado")
             if (datos.cant_ejemplares > 0) {
                 estado.innerHTML = `<b>Estado: </b><FONT COLOR="green">Disponible</FONT>`
             } else {
                 estado.innerHTML = `<b>Estado: </b><FONT COLOR="red">No disponible</FONT>`
             }
-
+            
             let titulo = document.getElementById("title")
             titulo.innerText = datos.titulo
             let libro = document.getElementById("libro")
             libro.alt = ` ${datos.titulo} de ${datos.autor}`
-
-            fetchBookCover(title.innerText)
-            .then(url => {
-                libro.src = url;
-            })
-            .catch(error => {
-                console.error("Error al obtener la imagen del libro:", error);
-            });
-
+            
+            let sinopsis = document.getElementById("sinopsis")
+            sinopsis.innerText = datos.sinopsis
+            let isbn = datos.codigo_isbn;
+            let portadaUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+            if (portadaUrl) {
+                libro.src = portadaUrl;
+            } else {
+                libro.src = "https://via.placeholder.com/300";
+            }
+            
             let caracteristicas = document.getElementById("caracteristicas")
             caracteristicas.innerHTML = 
             `<b>Autor: </b>${datos.autor} <br>
@@ -93,40 +95,7 @@
             <b>Cantidad de ejemplares: </b>${datos.cant_ejemplares} <br>
             <b>Género: </b>
             <span class="tag is-success">${datos.genero}</span>`
-
         })
-
-        async function fetchBookCover(bookTitle) {
-            try {
-      // Hacer la búsqueda en Open Library
-                const response = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(bookTitle)}`);
-                const data = await response.json();
-
-      // Verificar si hay resultados
-                if (data.docs && data.docs.length > 0) {
-                    const book = data.docs[1]; // Tomamos el primer resultado
-                    const coverId = book.cover_i;
-
-                    if (coverId) {
-          // Construir la URL de la portada
-                        const coverUrl = `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`
-                        console.log("URL de la portada:", coverUrl);
-
-          // Retornar la URL de la portada
-                        return coverUrl;
-                    } else {
-                        console.log("No se encontró portada para este título.");
-                        return null;
-                    }
-                } else {
-                    console.log("No se encontraron resultados para el título proporcionado.");
-                    return null;
-                }
-            } catch (error) {
-                console.error("Error al buscar la portada:", error);
-                return null;
-            }
-        };  
 
     </script>
 </body>

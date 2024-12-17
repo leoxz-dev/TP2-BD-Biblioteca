@@ -1,85 +1,93 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Crear Socio</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-    
-    
-    
-    </head>
-    <body>
-        <header>
-            <!--header por header_footer.js-->
-        </header>
 
-        <section class="my-6">
-            <div class="container is-max-tablet">
-                <article class="message">
-                    <div class="message-header is-flex is-justify-content-center">
-                        <h2 class="subtitle has-text-white"><b>Ingresar información del nuevo socio</b></h2>
-                    </div>
-                    <div class="message-body">
-                        <form id="crear-socio" class="mx-3">
-                            <div class="field">
-                                <label class="label">Nombre</label>
-                                <div class="control">
-                                    <input id="nombre" class="input" type="text" name="nombre" placeholder="Nombre" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Apellido</label>
-                                <div class="control">
-                                    <input id="apellido" class="input" type="text" name="apellido" placeholder="Apellido" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Correo Electrónico</label>
-                                <div class="control">
-                                    <input id="email" class="input" type="email" name="email" placeholder="nombre@gmail.com" pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Domicilio</label>
-                                <div class="control">
-                                    <input id="direccion" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9\s.'-]*" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Teléfono</label>
-                                <div class="control">
-                                    <input id="telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678" pattern="[0-9]{2}\s[0-9]{4}-[0-9]{4}" required>
-                                </div>
-                            </div>
-                            <div id="lugar-estado">
+<head>
+    <title>Crear Socio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
 
+
+
+</head>
+
+<body>
+    <header>
+        <!--header por header_footer.js-->
+    </header>
+
+    <section class="my-6">
+        <div class="container is-max-tablet">
+            <article class="message">
+                <div class="message-header is-flex is-justify-content-center">
+                    <h2 class="subtitle has-text-white"><b>Ingresar información del nuevo socio</b></h2>
+                </div>
+                <div class="message-body">
+                    <form id="crear-socio" class="mx-3">
+                        <div class="field">
+                            <label class="label">Nombre</label>
+                            <div class="control">
+                                <input id="nombre" class="input" type="text" name="nombre" placeholder="Nombre"
+                                    pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
                             </div>
-                            <br>
-                            <div class="buttons is-centered">
-                                <input id="button-submit" class="button is-success is-normal" type="submit" value="Guardar cambios" />
-                                <a class="button is-white is-normal" href="">Cancelar</a>
+                        </div>
+                        <div class="field">
+                            <label class="label">Apellido</label>
+                            <div class="control">
+                                <input id="apellido" class="input" type="text" name="apellido" placeholder="Apellido"
+                                    pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
                             </div>
-                        </form>
-                    </div>
-                </article>
-            </div>
-        </section>    
-        
-        <footer class="footer"  style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
-        <!--footer por header_footer.js-->
-        </footer>
-        <script src="./src/header_footer.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', async () => {
-                
-                const urlParams = new URLSearchParams(window.location.search);
-                const id = urlParams.get('id');
-                if (id) {
-                    //CAMBIA EL TEXTO DEL BOTON 'GUARDAR CAMBIOS' A 'EDITAR'
-                    document.getElementById('button-submit').value = 'Editar';
-                    const estado = document.getElementById('lugar-estado')
-                    //SE AGREGA UN DROPDOWN PARA ELEGIR CUAL VA A SER EL ESTADO DEL SOCIO
-                    const estadoInput = `
+                        </div>
+                        <div class="field">
+                            <label class="label">Correo Electrónico</label>
+                            <div class="control">
+                                <input id="email" class="input" type="email" name="email" placeholder="nombre@gmail.com"
+                                    pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Domicilio</label>
+                            <div class="control">
+                                <input id="direccion" class="input" type="text" name="direccion"
+                                    placeholder="Av. Alcorta 1500" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9\s.'-]*" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Teléfono</label>
+                            <div class="control">
+                                <input id="telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678"
+                                    pattern="[0-9]{2}\s[0-9]{4}-[0-9]{4}" required>
+                            </div>
+                        </div>
+                        <div id="lugar-estado">
+
+                        </div>
+                        <br>
+                        <div class="buttons is-centered">
+                            <input id="button-submit" class="button is-success is-normal" type="submit"
+                                value="Guardar cambios" />
+                            <a class="button is-white is-normal" href="">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
+    <!--footer por header_footer.js-->
+    </footer>
+    <script src="./src/header_footer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                //CAMBIA EL TEXTO DEL BOTON 'GUARDAR CAMBIOS' A 'EDITAR'
+                document.getElementById('button-submit').value = 'Editar';
+                const estado = document.getElementById('lugar-estado')
+                //SE AGREGA UN DROPDOWN PARA ELEGIR CUAL VA A SER EL ESTADO DEL SOCIO
+                const estadoInput = `
                         <div class="field">
                             <label class="label">Estado</label>
                             <div class="control">
@@ -92,99 +100,100 @@
                                 </div>
                             </div>
                         </div>`;
-                    estado.innerHTML+=estadoInput
-                    try {
-                        const response = await fetch(`http://localhost:3000/socios/${id}`);
-                        if (response.ok) {
-                            const socio = await response.json();
-                            console.log(socio);
-                            //SI EL ID EXISTE RELLENAMOS LOS CAMPOS DEL FORM YA CON LOS PREEXISTENTES DEL SOCIO
-                            document.getElementById('nombre').value = socio.nombre;
-                            document.getElementById('apellido').value = socio.apellido;
-                            document.getElementById('email').value = socio.email;
-                            document.getElementById('direccion').value = socio.direccion;
-                            document.getElementById('telefono').value = socio.telefono;
-                            document.getElementById('estado').value = socio.estado;
-                            
-                        } else {
-                            alert('Error al obtener los datos del socio.');
-                        }
-                    } catch (error) {
-                        console.error('Error al obtener los datos del socio:', error);
-                        alert('No se pudo conectar con el servidor.');
-                    }
-                }
-            });
-
-            document.getElementById('crear-socio').addEventListener('submit', async function(event) {
-                event.preventDefault();
-                
-                //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
-                const nombre = document.getElementById('nombre').value;
-                const apellido = document.getElementById('apellido').value;
-                const email = document.getElementById('email').value;
-                const direccion = document.getElementById('direccion').value;
-                const telefono = document.getElementById('telefono').value;
-                //CREAMOS UN BODY CON ESOS DATOS
-                const socioData = {
-                    nombre: nombre,
-                    apellido: apellido,
-                    direccion: direccion,
-                    telefono: telefono,
-                    email: email,
-                };
-                if (document.getElementById('estado')) {  // Verificar si el elemento existe
-                    const estado = document.getElementById('estado').value;
-                    if (estado.trim() !== "") {
-                        socioData.estado = estado;
-                    }
-                }
-
-                const urlParams = new URLSearchParams(window.location.search);
-                const id = urlParams.get('id');
-
+                estado.innerHTML += estadoInput
                 try {
-                    let response;
-                    if (id) {
-                    //INTENTAMOS HACER UN PUT UTILIZANDO COMO BODY EL socioData JSONIFICADO SI NOS PASARON EL ID POR PARAMETRO DE URL
-                    
-                        response = await fetch(`http://localhost:3000/socios/${id}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            //JSONIFICACION
-                            body: JSON.stringify(socioData),
-                        });
-                        alert('Socio actualizado con éxito');
-                    //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL socioData JSONIFICADO
+                    const response = await fetch(`http://localhost:3000/socios/${id}`);
+                    if (response.ok) {
+                        const socio = await response.json();
+                        console.log(socio);
+                        //SI EL ID EXISTE RELLENAMOS LOS CAMPOS DEL FORM YA CON LOS PREEXISTENTES DEL SOCIO
+                        document.getElementById('nombre').value = socio.nombre;
+                        document.getElementById('apellido').value = socio.apellido;
+                        document.getElementById('email').value = socio.email;
+                        document.getElementById('direccion').value = socio.direccion;
+                        document.getElementById('telefono').value = socio.telefono;
+                        document.getElementById('estado').value = socio.estado;
+
                     } else {
-                        response = await fetch('http://localhost:3000/socios', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            //JSONIFICACION
-                            body: JSON.stringify(socioData),
+                        alert('Error al obtener los datos del socio.');
+                    }
+                } catch (error) {
+                    console.error('Error al obtener los datos del socio:', error);
+                    alert('No se pudo conectar con el servidor.');
+                }
+            }
+        });
+
+        document.getElementById('crear-socio').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const email = document.getElementById('email').value;
+            const direccion = document.getElementById('direccion').value;
+            const telefono = document.getElementById('telefono').value;
+            //CREAMOS UN BODY CON ESOS DATOS
+            const socioData = {
+                nombre: nombre,
+                apellido: apellido,
+                direccion: direccion,
+                telefono: telefono,
+                email: email,
+            };
+            if (document.getElementById('estado')) {  // Verificar si el elemento existe
+                const estado = document.getElementById('estado').value;
+                if (estado.trim() !== "") {
+                    socioData.estado = estado;
+                }
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            try {
+                let response;
+                if (id) {
+                    //INTENTAMOS HACER UN PUT UTILIZANDO COMO BODY EL socioData JSONIFICADO SI NOS PASARON EL ID POR PARAMETRO DE URL
+
+                    response = await fetch(`http://localhost:3000/socios/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        //JSONIFICACION
+                        body: JSON.stringify(socioData),
+                    });
+                    alert('Socio actualizado con éxito');
+                    //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL socioData JSONIFICADO
+                } else {
+                    response = await fetch('http://localhost:3000/socios', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        //JSONIFICACION
+                        body: JSON.stringify(socioData),
                     });
                     alert('¡Socio creado con éxito!');
                 }
-                    //response.ok SE FIJA SI EL STATUS RESPONSE ESTA ENTRE 200 Y 299
-                    if (response.ok) {
-                        const nuevoSocio = await response.json();
-                        alert(`¡Socio creado con éxito! ID: ${nuevoSocio.id}`);
-                        //LIMPIAMOS EL FORM
-                        document.getElementById('crear-socio').reset();
-                    } else {
-                        const error = await response.json();
-                        alert(`Error al crear socio: ${response.status}`);
-                        }
-                //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
-                } catch (error) {
-                    console.error('Error al enviar la solicitud:', error);
-                    alert('No se pudo conectar con el servidor.');
+                //response.ok SE FIJA SI EL STATUS RESPONSE ESTA ENTRE 200 Y 299
+                if (response.ok) {
+                    const nuevoSocio = await response.json();
+                    alert(`¡Socio creado con éxito! ID: ${nuevoSocio.id}`);
+                    //LIMPIAMOS EL FORM
+                    document.getElementById('crear-socio').reset();
+                } else {
+                    const error = await response.json();
+                    alert(`Error al crear socio: ${response.status}`);
                 }
-            })
-        </script>
-    </body>
+                //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
+            } catch (error) {
+                console.error('Error al enviar la solicitud:', error);
+                alert('No se pudo conectar con el servidor.');
+            }
+        })
+    </script>
+</body>
+
 </html>

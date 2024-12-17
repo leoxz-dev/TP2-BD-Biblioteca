@@ -48,7 +48,7 @@
                                 <div class="field">
                                     <label class="label">Título del libro</label>
                                     <div class="control">
-                                        <input type="text" class="input" id="titulo" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9.-~\s]*" required>
+                                        <input type="text" class="input" id="titulo" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9.,-~\s]*" required>
                                     </div>
                                 </div>
                                 <div class="field">
@@ -64,6 +64,12 @@
                                     </div>
                                 </div>
                                 <div class="field">
+                                    <label class="label">Codigo ISBN</label>
+                                    <div class="control">
+                                        <input type="number" min="0" class="input" id="isbn" pattern="[0-9]{13}" required>
+                                    </div>
+                                </div>
+                                <div class="field">
                                     <label class="label">Cantidad de páginas</label>
                                     <div class="control">
                                         <input type="number" min="0" class="input" id="paginas" pattern="[0-9]{0,6}" required>
@@ -73,6 +79,12 @@
                                     <label class="label">Cantidad de ejemplares</label>
                                     <div class="control">
                                         <input type="number" min="0" class="input" id="ejemplares" pattern="[0-9]{1,5}" required>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Sinopsis</label>
+                                    <div class="control">
+                                        <textarea type="text" class="textarea" id="sinopsis" maxlength="300" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9.,-~\s]*" required></textarea>
                                     </div>
                                 </div>
                                 <div class="field">
@@ -121,15 +133,19 @@
             event.preventDefault();
             const titulo = document.getElementById('titulo').value
             const autor = document.getElementById('autor').value
+            const isbn = document.getElementById('isbn').value
             const año = document.getElementById('año').value
             const paginas = document.getElementById('paginas').value
             const ejemplares = document.getElementById('ejemplares').value
+            const sinopsis = document.getElementById('sinopsis').value
             const genero = document.getElementById('genero').value
             
             const libroData = {
                 titulo: titulo,
                 autor: autor,
                 genero: genero,
+                sinopsis: sinopsis,
+                codigo_isbn: isbn.toString(),
                 anio_publicacion: parseInt(año),
                 cant_paginas: parseInt(paginas),
                 cant_ejemplares: parseInt(ejemplares)

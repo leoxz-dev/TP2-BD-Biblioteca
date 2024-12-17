@@ -319,6 +319,7 @@ app.get("/libros/:param", async (req, res) => {
     if (libro === null) {
       return res.sendStatus(404);
     }
+
     return res.json(libro);
   }
   // Si el parámetro no es un número, buscar por titulo
@@ -333,6 +334,7 @@ app.get("/libros/:param", async (req, res) => {
   if (libro === null) {
     return res.sendStatus(404);
   }
+
   return res.json(libro);
 });
 
@@ -363,6 +365,8 @@ app.post("/libros", async (req, res) => {
     data: {
       titulo: req.body.titulo,
       autor: req.body.autor,
+      codigo_isbn: req.body.codigo_isbn.toString(),
+      sinopsis: req.body.sinopsis,
       genero: req.body.genero,
       anio_publicacion: req.body.anio_publicacion,
       cant_paginas: req.body.cant_paginas,
@@ -392,6 +396,8 @@ app.put("/libros/:id", async (req, res) => {
     data: {
       titulo: req.body.titulo,
       autor: req.body.autor,
+      codigo_isbn: req.body.codigo_isbn,
+      sinopsis: req.body.sinopsis,
       genero: req.body.genero,
       anio_publicacion: req.body.anio_publicacion,
       cant_paginas: req.body.cant_paginas,
