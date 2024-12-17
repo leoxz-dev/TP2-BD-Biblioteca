@@ -17,7 +17,7 @@ model socios {
   id                  Int         @id @unique @default(autoincrement())
   nombre              String
   apellido            String
-  contraseña          String      @db.VarChar(20)
+  contraseña          String      
   direccion           String
   telefono            String
   email               String      @unique
