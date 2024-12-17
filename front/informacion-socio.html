@@ -162,7 +162,7 @@
         return nombreLibro;
 
       } catch (error){
-        console.error('no se pudo obtener el libro');
+        console.error('No se pudo obtener el título del libro');
       }
     }
 
@@ -177,8 +177,7 @@
       pagePrestamo.forEach((prestamo) => {
         devolverTituloLibro(prestamo.libro_id)
         .then(titulo_libro => {
-          let tituloLibro = titulo_libro;
-          console.log(tituloLibro);
+          const tituloLibro = titulo_libro;
 
           const row = `
           <tr class="is-size-6">
@@ -186,7 +185,7 @@
           <td>${tituloLibro}</td>
           <td>${prestamo.estado}</td>
           <td>${prestamo.fecha_devolucion}</td>
-          <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Informacion PRestamo</button></a></td>
+          <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Ver información</button></a></td>
           </tr>
           `;
           //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
