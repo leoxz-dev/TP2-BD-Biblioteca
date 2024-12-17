@@ -17,26 +17,31 @@
                     <h2 class="subtitle has-text-white"><b>Introduzca el id o el nombre</b></h2>
                 </div>
                 <div class="message-body has-text-centered px-6">
+                    <label class="label">Elige un tipo de búsqueda</label>
+                    <div class="control">
+                        <div class="select">
+                            <select id="tipo-busqueda" class="select" onchange="elegirBusqueda()" required>
+                                <option value="socio-id">Id socio</option>
+                                <option value="nombre-apellido">Nombre y apellido</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
                     <form id="busqueda-form" class="mx-3">
-                        <div class="field">
-                            <label class="label">Busque por ID</label>
+                        <div class="field" id="opcion-id-socio" style="display: none;">
+                            <label class="label">Ingrese un id</label>
                             <div class="control">
-                                <input class="input" id="id" type="number" min="1" name="socio_id" placeholder="123" pattern="[0-9]{1,10}" required/>
+                                <input class="input" id="socio_id" type="number" min="1" name="socio_id" placeholder="123" pattern="[0-9]{1,10}"/>
                             </div>
                         </div>
-                        <div class="block">
-                            <p class="is-size-5">Buscar por Nombre y Apellido</p>
-                        </div>
-                        <div class="field">
+                        <div class="field" id="opcion-nombre-apellido" style="display: none;">
                             <label class="label">Nombre</label>
                             <div class="control">
-                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required/>
+                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+"/>
                             </div>
-                        </div>
-                        <div class="field">
                             <label class="label">Apellido</label>
                             <div class="control">
-                                <input class="input" id="apellido" type="text" name="Apellido" placeholder="Rodriguez" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required/>
+                                <input class="input" id="apellido" type="text" name="Apellido" placeholder="Rodriguez" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*"/>
                             </div>
                         </div>
                         <br>
@@ -83,7 +88,7 @@
                         <td>Agus</td>
                         <td>sample</td>
                         <td>sample@gmail.com</td>
-                        <td>1111-1111</td>
+                        <td>11 1111-1111</td>
                         <td><button class="button is-info is-small"><a href="crear-socio.html">Editar</a></button></td>
                         <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion</a></button></td>
                         <td><button class="button is-info is-small"><a href="crear-socio.html">Prestamo</a></button></td>
@@ -129,6 +134,39 @@
             }
         }
 
+        function elegirBusqueda() {
+            //Buscamos el id donde están las opciones de despliegue y guardamos el valor.
+            let seleccion = document.getElementById('tipo-busqueda').value;
+            
+            //Según la opción elegida visibiliza el/los campo/s para rellenar el formulario.
+            if (seleccion === 'socio-id') {
+                document.getElementById('opcion-nombre-apellido').style.display = 'none';
+                document.getElementById('opcion-id-socio').style.display = 'block';
+                
+                document.getElementById('socio_id').required = true;
+                document.getElementById('nombre').required = false;
+                document.getElementById('apellido').required = false;
+
+                //Vacía los campos que no van a ser rellenados.
+                document.getElementById('nombre').value = "";
+                document.getElementById('apellido').value = "";
+
+            } else if (seleccion === 'nombre-apellido') {
+                document.getElementById('opcion-id-socio').style.display = 'none';
+                document.getElementById('opcion-nombre-apellido').style.display = 'block';
+                
+                document.getElementById('socio_id').required = false;
+                document.getElementById('nombre').required = true;
+                document.getElementById('apellido').required = true;
+
+                document.getElementById('socio_id').value = "";
+            }
+        }
+    
+        window.onload = function() {
+          elegirBusqueda(); 
+        };
+
         function renderTable(page) {
             tableBody.innerHTML = ""; // LIMPIA LA TABLA
             const start = (page - 1) * rowsPerPage;
@@ -143,7 +181,7 @@
                     <td>${user.nombre}</td>
                     <td>${user.apellido}</td>
                     <td>${user.email}</td>
-                    <td>${user.tel}</td>
+                    <td>${user.telefono}</td>
                     <td><a href="crear-socio.html?id=${user.id}"><button class="button is-info is-small">Editar</button></a></td>
                     <td><a href="informacion-socio.html?id=${user.id}"><button class="button is-primary is-small">Información</button></a></td>
                     <td> <a href="crear-prestamo.html?id=${user.id}"><button class="button is-link is-small">Préstamo</button></a></td>
@@ -204,33 +242,7 @@
             fetchUsuarios();
         });
 
-        document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
-            const id = parseInt(document.getElementById('id').value);
-            const nombre = document.getElementById('nombre').value.trim();
-            if (id) {
-                //REDIRIGE A OTRA PAGINA Y PASA EN LA URL EL ID
-                window.location.href = `informacion-socio.html?id=${id}`;
-            } else {
-                //SI NO HAY ID Y ADEMAS NO HAY NOMBRE SALTA ALERT
-                if (!nombre) {
-                    alert('INGRESE UN NOMBRE');
-                    return
-                }
-            }
-            try {
-                const response = await fetch(`http://localhost:3000/socios/${nombre}`);
-                if (response.ok) {
-                    const socios = await response.json();
-                    const tablaSocios = document.getElementById('tablaSocios');
-                    tablaSocios.innerHTML = '';
-                    //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
-                    if (socios.length === 0) {
-                        alert('No se encontraron socios con ese nombre.');
-                        return;
-                    }
-                    //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
-                    socios.forEach(socio => {
+        function armarTabla(socio, tablaSocios){
                         const tabla = `
                                     <tr>
                                         <th>${socio.id}</th>
@@ -244,7 +256,58 @@
                                     </tr>`;
                         //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
                         tablaSocios.innerHTML += tabla;
-                    });
+                        return tablaSocios;
+        }
+
+
+        document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            // Obtener los valores de los campos del formulario
+            const id = document.getElementById('socio_id').value;
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+
+            // Construir la URL con los parámetros de búsqueda
+            let url = 'http://localhost:3000/socios?';
+
+            // Añadir parámetros a la URL de forma condicional
+            if (id) {
+                url += `id=${id}`;
+                document
+            }
+            if (nombre) {
+                url += `nombre=${nombre}&`;
+            }
+            if (apellido) {
+                url += `apellido=${apellido}`;
+            }
+            
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    const tablaSocios = document.getElementById('tablaSocios');
+                    tablaSocios.innerHTML = '';
+
+                    const sociosRecibidos = await response.json();
+
+                    //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
+                    if (sociosRecibidos.length === 0 ) {
+                        alert('No se encontraron socios con ese nombre.');
+                        return;
+                    }
+                    
+                    if(url == `http://localhost:3000/socios?id=${id}` ){
+                        const socio = sociosRecibidos;
+                        armarTabla(socio, tablaSocios);
+
+                    } else {
+                        const socios = sociosRecibidos;
+                        //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
+                        socios.forEach(socio => {
+                            armarTabla(socio, tablaSocios);
+                        })
+                    }
+                    alert('Se han encontrado socios');
                 } else {
                     alert('Hubo un error al buscar los socios.');
                 }

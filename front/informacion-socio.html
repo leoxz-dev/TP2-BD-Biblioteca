@@ -142,7 +142,7 @@
 
     async function fetchUsuario(socioId) {
       try {
-        const response = await fetch(`http://localhost:3000/socios/${socioId}`); // Ruta de la API
+        const response = await fetch(`http://localhost:3000/socios?id=${socioId}`); // Ruta de la API
         usuarios = await response.json();
         prestamos = usuarios.historial_prestamos;
         totalPages = Math.ceil(prestamos.length / rowsPerPage);
@@ -153,6 +153,17 @@
       }
     }
 
+    async function devolverTituloLibro(idLibro) {
+      try{
+        const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
+        const libro = await infoLibro.json();
+        const nombreLibro = libro.titulo;
+        return nombreLibro;
+
+      } catch (error){
+        console.error('No se pudo obtener el título del libro');
+      }
+    }
 
     function renderTable(page) {
       tableBody.innerHTML = ""; // LIMPIA LA TABLA
@@ -163,20 +174,26 @@
       //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
       //FALTA AGREGAR EL TITULO DEL LIBRO
       pagePrestamo.forEach((prestamo) => {
-        const row = `
-        <tr class="is-size-6">
+        devolverTituloLibro(prestamo.libro_id)
+        .then(titulo_libro => {
+          const tituloLibro = titulo_libro;
+          const fechaDevolucion = prestamo.fecha_devolucion.split('T')[0]; 
+
+          const row = `
+          <tr class="is-size-6">
           <td >${prestamo.id}</td>
-          <td>ACA VA TITULO LIBRO</td>
+          <td>${tituloLibro}</td>
           <td>${prestamo.estado}</td>
-          <td>${prestamo.fecha_devolucion}</td>
-          <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Informacion PRestamo</button></a></td>
+          <td>${fechaDevolucion}</td>
+          <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Ver información</button></a></td>
           </tr>
           `;
           //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
           //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
           tableBody.insertAdjacentHTML("beforeend", row);
         });
-      }
+      });
+    }
 
       function renderPagination() {
         //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
@@ -230,7 +247,7 @@
     } else {
       try {
         // Hacer el fetch al backend para obtener la información del socio
-        fetch(`http://localhost:3000/socios/${socioId}`)
+        fetch(`http://localhost:3000/socios?id=${socioId}`)
           .then((Response) => Response.json())
           .then(socio => {
             //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
