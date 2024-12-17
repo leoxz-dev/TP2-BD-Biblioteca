@@ -58,8 +58,6 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search)
         const idLibro = parseInt(urlParams.get("id"))
-
-
         fetch(`http://localhost:3000/libros/${idLibro}`)
         .then(response => response.json())
         .then(datos => {
