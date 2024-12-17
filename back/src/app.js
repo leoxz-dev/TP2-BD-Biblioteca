@@ -75,16 +75,17 @@ app.get("/socios/:param", async (req, res) => {
 //POST DEL CRUD
 /*
 model socios {
-  id                Int         @id @unique @default(autoincrement())
-  nombre            String
-  apellido          String
-  direccion         String
-  telefono          String     
-  email             String     @unique
-  estado_activo     String
-  libro_prestado    libros?     @relation(fields: [libro_prestado_id], references: [id])
-  libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
-  prestamo         prestamos[] // Relación con la tabla de préstamos
+  id                  Int         @id @unique @default(autoincrement())
+  nombre              String
+  apellido            String
+  contraseña          String      @db.VarChar(20)
+  direccion           String
+  telefono            String
+  email               String      @unique
+  estado              String      @default("activo")
+  libro_prestado      libros?     @relation(fields: [libro_prestado_id], references: [id], onDelete: Cascade)
+  libro_prestado_id   Int? // Clave foránea opcional para permitir socios sin libros prestados
+  historial_prestamos prestamos[] // Relación con la tabla de préstamos
 }
 */
 app.post("/socios", async (req, res) => {
@@ -92,6 +93,7 @@ app.post("/socios", async (req, res) => {
     data: {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
+      contraseña: req.body.contraseña,
       direccion: req.body.direccion,
       telefono: req.body.telefono,
       email: req.body.email,
