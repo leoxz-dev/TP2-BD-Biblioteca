@@ -82,6 +82,12 @@
                                     </div>
                                 </div>
                                 <div class="field">
+                                    <label class="label">Sinopsis</label>
+                                    <div class="control">
+                                        <textarea type="text" class="textarea" id="sinopsis" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9.,-~\s]*" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="field">
                                     <label class="label">Genero</label>
                                     <div class="control">
                                         <div class="select">
@@ -131,12 +137,14 @@
             const año = document.getElementById('año').value
             const paginas = document.getElementById('paginas').value
             const ejemplares = document.getElementById('ejemplares').value
+            const sinopsis = document.getElementById('sinopsis').value
             const genero = document.getElementById('genero').value
             
             const libroData = {
                 titulo: titulo,
                 autor: autor,
                 genero: genero,
+                sinopsis: sinopsis,
                 codigo_isbn: isbn.toString(),
                 anio_publicacion: parseInt(año),
                 cant_paginas: parseInt(paginas),
