@@ -17,11 +17,11 @@
             <h1 class="title mt-5 ml-5">Bienvenido a la biblioteca</h1> <!-- Added ml-5 class for margin-left -->
             <h2 class="subtitle ml-5">Libros disponibles</h2>
         </div>
-        <div id="cards_libros">
+        <div id="cards_libros" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; padding: 1rem;">
             <div class="card" style="max-width: 15rem; margin: auto;">
                 <div class="card-image">
-                    <figure class="image is-4by3" >
-                        <img src="https://images-na.ssl-images-amazon.com/images/P/8429150013.01.LZZZZZZZ.jpg" alt="Placeholder image" style="max-width: 10rem; height: auto; display: block; margin-left: auto; margin-right: auto;">
+                    <figure class="image is-4by2" >
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/8429150013.01.LZZZZZZZ.jpg" alt="Placeholder image" style="width: auto; display: block; margin-left: auto; margin-right: auto;">
                     </figure>
                 </div>
                     <div class="content">
@@ -59,12 +59,13 @@
                 
 
                         let figure = document.createElement('figure')
-                        figure.className = 'image is-4by3'
+                        figure.className = 'image is-4by2'
 
 
                         let img = document.createElement('img')
                         img.src = 'https://images-na.ssl-images-amazon.com/images/P/8429150013.01.LZZZZZZZ.jpg'
-                        img.alt = 'Placeholder image'                        
+                        img.alt = 'Placeholder image'    
+                        img.style.width = 'auto'                    
                         let content = document.createElement('div')
                         content.className = 'content'
 
