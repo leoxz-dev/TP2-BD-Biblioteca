@@ -178,13 +178,14 @@
         devolverTituloLibro(prestamo.libro_id)
         .then(titulo_libro => {
           const tituloLibro = titulo_libro;
+          const fechaDevolucion = prestamo.fecha_devolucion.split('T')[0]; 
 
           const row = `
           <tr class="is-size-6">
           <td >${prestamo.id}</td>
           <td>${tituloLibro}</td>
           <td>${prestamo.estado}</td>
-          <td>${prestamo.fecha_devolucion}</td>
+          <td>${fechaDevolucion}</td>
           <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Ver información</button></a></td>
           </tr>
           `;
