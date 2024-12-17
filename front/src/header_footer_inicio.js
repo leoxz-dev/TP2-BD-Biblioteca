@@ -21,8 +21,8 @@ header.innerHTML = `
                 <!-- Links que se modificarán dinámicamente -->
                 <a class="navbar-item" href="inicio.html">Inicio</a>
                 <a class="navbar-item" href="inicio-sesion.html" id="login-link">Iniciar Sesión</a>
-                <a class="navbar-item" href="perfil.html" id="perfil-link" style="display: none;">Perfil</a>
-                <!-- INICIALMENTE EL LINK PERFIL.HTML NO SE MUESTRA-->
+                <a class="navbar-item" href="perfil.html" id="perfil-link" style="display: none;">Perfil</a> <!-- Inicialmente oculto -->
+                <a class="navbar-item" href="#" id="cerrar-sesion-link" style="display: none;">Cerrar Sesión</a> <!-- Inicialmente oculto -->
             </div>
         </div>
     </nav>
@@ -48,6 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mostrar el enlace "Perfil" y ocultar "Iniciar sesión"
         document.getElementById('login-link').style.display = 'none';
         document.getElementById('perfil-link').style.display = 'flex';
+        document.getElementById('cerrar-sesion-link').style.display = 'flex';
+    } else{
+        document.getElementById('login-link').style.display = 'flex';
+        document.getElementById('perfil-link').style.display = 'none';
+        document.getElementById('cerrar-sesion-link').style.display = 'none';
     }
 
     // Lógica del menú burger
@@ -59,5 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
             el.classList.toggle('is-active');
             $target.classList.toggle('is-active');
         });
+    });
+
+    document.getElementById('cerrar-sesion-link').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        //ELIMINA LA INFO DE sessionStorage PARA QUE AL CARGAR LA PAGINA SE CAMBIE EL NAV BAR
+        sessionStorage.removeItem('usuarioLogueado');
+        // Actualizar los enlaces del navbar
+        document.getElementById('perfil-link').style.display = 'none';
+        document.getElementById('cerrar-sesion-link').style.display = 'none';
+        document.getElementById('login-link').style.display = 'flex';
     });
 });
