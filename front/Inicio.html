@@ -63,7 +63,8 @@
 
 
                         let img = document.createElement('img')
-                        img.src = 'https://images-na.ssl-images-amazon.com/images/P/8429150013.01.LZZZZZZZ.jpg'
+                        let imagen =  `https://covers.openlibrary.org/b/isbn/${libro.codigo_isbn}-L.jpg`
+                        img.src = imagen
                         img.alt = 'Placeholder image'    
                         img.style.width = 'auto'                    
                         let content = document.createElement('div')
