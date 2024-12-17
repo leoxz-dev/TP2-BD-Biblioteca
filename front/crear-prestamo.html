@@ -346,10 +346,14 @@
                 const libro = await responseGet.json();
                 //RESTAMOS 1 A LA CANT-EJEMPLARES DEL LIBRO QUE SE ESTA PRESTANDO
                 const nuevaCantidad = parseInt(libro.cant_ejemplares) - 1;
+                let nuevaDisponibilidad = true;
+
                 //SI YA NO HAY EJEMPLARES LE AVISA AL USUARIO
                 if (nuevaCantidad < 0) {
                     alert('No hay ejemplares disponibles para prestar.');
                     return;
+                } else if (nuevaCantidad == 0){
+                    nuevaDisponibilidad = false;
                 }
                 console.log('Nuevo valor de cantidad de ejemplares:', nuevaCantidad);
 
@@ -357,7 +361,7 @@
                 const responsePut = await fetch(`http://localhost:3000/libros/${idLibro}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ cant_ejemplares: nuevaCantidad })
+                    body: JSON.stringify({ cant_ejemplares: nuevaCantidad, disponibilidad: nuevaDisponibilidad })
                 });
                 if (responsePut.ok) {
                     console.log(`Cantidad de ejemplares del libro ${idLibro} actualizada a ${nuevaCantidad}.`);
