@@ -31,7 +31,7 @@ model libros {
   titulo           String      @unique
   autor            String
   genero           String
-  codigo_isbn      Int         @unique
+  codigo_isbn      String     @unique
   anio_publicacion Int
   cant_paginas     Int
   cant_ejemplares  Int
