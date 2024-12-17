@@ -71,7 +71,7 @@ app.get("/socios/:param", async (req, res) => {
   return res.json(socio);
 });
 
-//SOCIO ESPECIFICO GET DEL CRUD
+//SOCIO ESPECIFICO GET DEL CRUD PARA INICIO-SESION.HTML
 app.get("/socios/:email/login", async (req, res) => {
   try {
     const email = req.params.email;
@@ -88,7 +88,6 @@ app.get("/socios/:email/login", async (req, res) => {
     }
     return res.json(socio);
   } catch (error) {
-    // Manejo de errores
     console.error("Error al buscar el socio:", error);
     return res.status(500).json({ error: "Error del servidor." });
   }
@@ -100,7 +99,7 @@ model socios {
   id                  Int         @id @unique @default(autoincrement())
   nombre              String
   apellido            String
-  contraseña          String      @db.VarChar(20)
+  contrasenia          String      @db.VarChar(20)
   direccion           String
   telefono            String
   email               String      @unique
@@ -115,7 +114,7 @@ app.post("/socios", async (req, res) => {
     data: {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
-      contraseña: req.body.contraseña,
+      contrasenia: req.body.contrasenia,
       direccion: req.body.direccion,
       telefono: req.body.telefono,
       email: req.body.email,
