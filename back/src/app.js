@@ -54,7 +54,6 @@ app.get("/socios/:param", async (req, res) => {
 
     return res.json(socio);
   }
-
   // Si el parámetro no es un número, buscar por nombre
   const socio = await prisma.socios.findMany({
     where: {
@@ -70,6 +69,29 @@ app.get("/socios/:param", async (req, res) => {
   }
 
   return res.json(socio);
+});
+
+//SOCIO ESPECIFICO GET DEL CRUD
+app.get("/socios/:email/login", async (req, res) => {
+  try {
+    const email = req.params.email;
+    if (!email) {
+      return res.status(400).json({ error: "El email es requerido." });
+    }
+    const socio = await prisma.socios.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (socio === null) {
+      return res.sendStatus(404);
+    }
+    return res.json(socio);
+  } catch (error) {
+    // Manejo de errores
+    console.error("Error al buscar el socio:", error);
+    return res.status(500).json({ error: "Error del servidor." });
+  }
 });
 
 //POST DEL CRUD
@@ -298,13 +320,12 @@ app.get("/libros", async (req, res) => {
       },
     });
 
-    res.json(libros); 
+    res.json(libros);
   } catch (error) {
     console.error("Error al obtener los libros:", error);
     res.status(500).send("Error al obtener los libros.");
   }
 });
-
 
 //LIBRO ESPECIFICO GET DEL CRUD
 //ADMITE ID O TITULO
@@ -339,8 +360,6 @@ app.get("/libros/:param", async (req, res) => {
   return res.json(libro);
 });
 
-
-
 /*
 VIEJO GET 
 //GET LIBRO ESPECIFICO
@@ -358,7 +377,6 @@ app.get("/libros/:id", async (req, res) => {
   res.json(libro);
 });
 */
-
 
 //POST LIBRO
 app.post("/libros", async (req, res) => {
