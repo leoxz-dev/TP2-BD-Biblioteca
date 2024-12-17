@@ -19,16 +19,22 @@
         </div>
         <div id="cards_libros" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; padding: 1rem;">
             <div class="card" style="max-width: 15rem; margin: auto;">
+                <a href="libro.html?id=1">
                 <div class="card-image">
+
                     <figure class="image is-4by2" >
                         <img src="https://images-na.ssl-images-amazon.com/images/P/8429150013.01.LZZZZZZZ.jpg" alt="Placeholder image" style="width: auto; display: block; margin-left: auto; margin-right: auto;">
                     </figure>
                 </div>
-                    <div class="content">
-                        <p class="title is-4">Calculos 2</p>
-                        <p class="subtitle is-6">Tom M. Apostol</p>
-                        <time datetime="2016-1-1">1 Jan 2016</time>
-                    </div>
+                </a>
+
+                <div class="content">
+                    <a href="libro.html?id=1">
+                    <p class="title is-4">Calculos 2</p>
+                    <p class="subtitle is-6">Tom M. Apostol</p>
+                    <time datetime="2016-1-1">1 Jan 2016</time>
+                    </a>
+                </div>
                 </div>
             </div>
         </div>
@@ -53,14 +59,18 @@
                         card.style.width = '15rem'
                         card.style.height = 'auto'
 
+                        let enlace = document.createElement('a')
+                        enlace.href = `libro.html?id=${libro.id}`
+                        enlace.style.display = 'block'
+                        enlace.style.height = '100%'
+                        enlace.style.color = 'inherit'
+                        enlace.style.textDecoration = 'none'
 
                         let cardImage = document.createElement('div')
                         cardImage.className = 'card-image'
                 
-
                         let figure = document.createElement('figure')
                         figure.className = 'image is-4by2'
-
 
                         let img = document.createElement('img')
                         let imagen =  `https://covers.openlibrary.org/b/isbn/${libro.codigo_isbn}-L.jpg`
@@ -80,15 +90,16 @@
 
                         let time = document.createElement('time')
                         time.datetime = libro.anio_publicacion
-                        time.textContent = libro.anio_publicacion
+                        time.textContent = `fecha de publicación: ${libro.anio_publicacion}`
 
                         figure.appendChild(img)
                         cardImage.appendChild(figure)
-                        card.appendChild(cardImage)
-                        card.appendChild(content)
+                        enlace.appendChild(cardImage)
+                        enlace.appendChild(content)
                         content.appendChild(title)
                         content.appendChild(subtitle)
                         content.appendChild(time)
+                        card.appendChild(enlace)
                         cards.appendChild(card)
                     })
                 })
