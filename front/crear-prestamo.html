@@ -324,7 +324,7 @@
                     document.getElementById('crear-prestamo').reset();
                 } else {
                     const error = await response.json();
-                    alert(`Error al crear socio: ${response.status}`);
+                    alert(error.error);
                 }
                 //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
             } catch (error) {

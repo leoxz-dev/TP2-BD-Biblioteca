@@ -224,6 +224,34 @@ Problema postPrestamo(socio_id, libro_id, fecha_prestamo, fecha_devolucion) {
 */
 
 app.post("/prestamos", async (req, res) => {
+  const socioId = req.body.socio_id;
+  const libroId = req.body.libro_id;
+
+  // Verifica si el socio existe en la base de datos
+  const socio = await prisma.socios.findUnique({
+    where: {
+      id: socioId,
+    },
+  });
+
+  // Si no lo encuentra, responde con un mensaje de error
+  if (!socio) {
+    return res.status(404).json({ error: "Socio no encontrado" });
+  }
+
+  const libro = await prisma.libros.findUnique({
+    where: {
+      id: libroId,
+    },
+  });
+
+  if (!libro) {
+    return res.status(404).json({ error: "Libro no encontrado" });
+  } else if (libro.disponibilidad == false) {
+    return res.status(404).json({ error: "Libro sin stock" });
+  }
+
+
   const prestamo = await prisma.prestamos.create({
     data: {
       fecha_prestamo: req.body.fecha_prestamo,
