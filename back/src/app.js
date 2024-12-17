@@ -23,25 +23,13 @@ app.get("/", (req, res) => {
 });
 
 //--------------------CRUD SOCIOS--------------------
-
-//TODOS LOS SOCIOS GET DEL CRUD
 app.get("/socios", async (req, res) => {
-  const socios = await prisma.socios.findMany({
-    include: {
-      historial_prestamos: true,
-    },
-  });
-  res.json(socios);
-});
+  const { id, nombre, apellido } = req.query;
 
-//SOCIO ESPECIFICO GET DEL CRUD
-app.get("/socios/:param", async (req, res) => {
-  const param = req.params.param;
-  // Verificar si el parámetro es un número (para buscar por ID)
-  if (!isNaN(param)) {
+  if (id) {
     const socio = await prisma.socios.findUnique({
       where: {
-        id: parseInt(param),
+        id: parseInt(id),
       },
       include: {
         historial_prestamos: true,
@@ -52,25 +40,38 @@ app.get("/socios/:param", async (req, res) => {
       return res.sendStatus(404);
     }
 
-    return res.json(socio);
+    return res.json(socio); 
   }
 
-  // Si el parámetro no es un número, buscar por nombre
-  const socio = await prisma.socios.findMany({
-    where: {
-      nombre: {
-        startsWith: param,
-        mode: "insensitive",
+  if (nombre && apellido) {
+    const socios = await prisma.socios.findMany({
+      where: {
+        nombre: {
+          startsWith: nombre, 
+          mode: "insensitive", 
+        },
+        apellido: {
+          startsWith: apellido,
+          mode: "insensitive",
+        },
       },
+    });
+
+    if (socios.length === 0) {
+      return res.sendStatus(404);
+    }
+
+    return res.json(socios); 
+  }
+
+  const socios = await prisma.socios.findMany({
+    include: {
+      historial_prestamos: true,
     },
   });
-
-  if (socio === null) {
-    return res.sendStatus(404);
-  }
-
-  return res.json(socio);
+  return res.json(socios); 
 });
+
 
 //POST DEL CRUD
 /*
@@ -395,6 +396,7 @@ app.put("/libros/:id", async (req, res) => {
       anio_publicacion: req.body.anio_publicacion,
       cant_paginas: req.body.cant_paginas,
       cant_ejemplares: req.body.cant_ejemplares,
+      disponibilidad: req.body.disponibilidad,
     },
   });
   res.json(libro);

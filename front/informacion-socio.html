@@ -142,9 +142,8 @@
 
     async function fetchUsuario(socioId) {
       try {
-        const response = await fetch(`http://localhost:3000/socios/${socioId}`); // Ruta de la API
+        const response = await fetch(`http://localhost:3000/socios?id=${socioId}`); // Ruta de la API
         usuarios = await response.json();
-        console.log(usuarios);
         prestamos = usuarios.historial_prestamos;
         totalPages = Math.ceil(prestamos.length / rowsPerPage);
         renderTable(currentPage);
@@ -248,7 +247,7 @@
     } else {
       try {
         // Hacer el fetch al backend para obtener la información del socio
-        fetch(`http://localhost:3000/socios/${socioId}`)
+        fetch(`http://localhost:3000/socios?id=${socioId}`)
           .then((Response) => Response.json())
           .then(socio => {
             //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
