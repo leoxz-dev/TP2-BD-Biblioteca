@@ -25,31 +25,10 @@
                     </div>
                 </form>
                 <br>
-                <div class="container has-text-centered">
-                    <div class="table-container is-inline-block is-size-5">            
-                        <table class="table is-bordered is-hoverable">
-                            <thead class="is-size-5">
-                                <tr>
-                                    <th><abbr title="Id">Id</abbr></th>
-                                    <th><abbr title="Título">Título</abbr></th>
-                                    <th><abbr title="Autor">Apellido</abbr></th>
-                                    <th><abbr title="Pedir">Pedir</abbr></th>
-                                </tr>
-                            </thead>
-                            <tfoot class="is-size-5">
-                                <tr>
-                                    <th><abbr title="Id">Id</abbr></th>
-                                    <th><abbr title="Nombre">Titulo</abbr></th>
-                                    <th><abbr title="Autor">Autor</abbr></th>
-                                    <th><abbr title="Pedir">Pedir</abbr></th>
-
-                                </tr>
-                            </tfoot>
-                            <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
-                            <tbody class="is-size-6" id="tablaLibros">
-                                <!--ACA VAN LOS LIBROS-->
-                            </tbody>
-                        </table>
+                <div class="container is-fullwidth has-text-left">
+                    <div class="table-container is-inline-block is-size-5 ">            
+                        <ul id="lista-libros">
+                        </ul>
 
                         <nav class="pagination is-centered" role="navigation" aria-label="pagination">
                             <button class="pagination-previous" id="prevPage">Anterior</button>
@@ -58,7 +37,6 @@
                                 <!-- Botones de página dinámicos -->
                             </ul>
                         </nav>
-
                     </div>
                 </div>
             </div>
@@ -139,59 +117,89 @@
     <footer class="footer"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
-        const tableBody = document.getElementById("tablaLibros");
+        let listaLibros = document.getElementById("lista-libros");
         const paginationList = document.getElementById("paginationList");
         const prevPageButton = document.getElementById("prevPage");
         const nextPageButton = document.getElementById("nextPage");
         const rowsPerPage = 3;
         let currentPage = 1;
         //LISTA QUE SE VA A LLENAR CON LOS LIBROS
-        let libros = [];
+        let librosDisponibles = [];
         let totalPages = 1;
         
 
         async function fetchLibros() {
             try {
                 const response = await fetch("http://localhost:3000/libros"); // Ruta de la API
-                libros = await response.json();
-                let librosDisponibles = 0;
+                const libros = await response.json();
+
                 libros.forEach( libro => {
                     if(libro.disponibilidad){
-                        librosDisponibles += 1;
+                        librosDisponibles.push(libro);
                     }
                 });
-                console.log(librosDisponibles);
 
-                totalPages = Math.ceil(libros.length / rowsPerPage);
-                renderTable(currentPage);
+                totalPages = Math.ceil(librosDisponibles.length / rowsPerPage);
+                mostrarLibros(currentPage);
                 renderPagination();
             } catch (error) {
                 console.error("Error al obtener los usuarios:", error);
             }
         }
 
-        function renderTable(page) {
-            tableBody.innerHTML = ""; // LIMPIA LA TABLA
+        function mostrarLibros(page){
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
-            //AL PARECER SE LE PUEDE HACER SLICES A LISTAS EN JS
-            const pageLibros = libros.slice(start, end);
-            //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
-            pageLibros.forEach((libro) => {
-                if(libro.disponibilidad === true){
-                    const row = `
-                    <tr>
-                        <th>${libro.id}</th>
-                        <td>${libro.titulo}</td>
-                        <td>${libro.autor}</</td>
-                        <td><button class="button is-primary is-small" id="elegir-libro-${libro.id}" >Elegir</button></td>
-                    </tr>
-                    `;
-                    //USAMOS insertAdj... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
-                    //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
-                    tableBody.insertAdjacentHTML("beforeend", row);
-                }
-            });
+            const pageLibros = librosDisponibles.slice(start, end);
+
+            pageLibros.forEach( libro => {
+                const li = document.createElement('li');
+                li.className = "has-background-link";
+
+                const div = document.createElement('div');
+                div.className = 'columns is-1';
+                li.appendChild(div);
+
+                const col1 = document.createElement('div');
+                col1.className = 'column';
+                div.appendChild(col1);
+
+                const col2 = document.createElement('div');
+                col2.className = 'column is-one-quarter';
+                div.appendChild(col2);
+            
+                const div1 = document.createElement('div');
+                div1.className = 'notification';
+                col1.appendChild(div1);
+
+                const titulo = document.createElement('p');
+                //titulo.className = 'subtitle';
+                titulo.textContent = libro.titulo;
+                div1.appendChild(titulo);
+
+                const autor = document.createElement('p');
+                autor.textContent = libro.autor;
+                div1.appendChild(autor);
+
+                const boton = document.createElement('button');
+                boton.className = 'button is-primary is-responsive';
+                boton.setAttribute("id", `elegir-libro-${libro.id}`);
+                col2.appendChild(boton);
+
+                boton.innerHTML = `
+                <span class="icon is-large">
+                </span>
+                <style>
+                    .icon {
+                        widht: 200px;
+                        height: 200px;
+                    }   
+                </style>
+                `;
+
+                listaLibros.appendChild(li);
+                console.log(listaLibros);
+            })
         }
 
         function renderPagination() {
@@ -223,7 +231,7 @@
                 //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
                 //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
                 currentPage = parseInt(e.target.dataset.numPagina);
-                renderTable(currentPage);
+                mostrarLibros(currentPage);
                 renderPagination();
             }
         });
@@ -231,7 +239,7 @@
         prevPageButton.addEventListener("click", () => {
             if (currentPage > 1) {
                 currentPage--;
-                renderTable(currentPage);
+                mostrarLibros(currentPage);
                 renderPagination();
             }
         });
@@ -239,7 +247,7 @@
         nextPageButton.addEventListener("click", () => {
             if (currentPage < totalPages) {
                 currentPage++;
-                renderTable(currentPage);
+                mostrarLibros(currentPage);
                 renderPagination();
             }
         });
@@ -261,8 +269,7 @@
                 const response = await fetch(`http://localhost:3000/libros/${titulo}`);
                 if (response.ok) {
                     const librosEncontrados = await response.json();
-                    //const tablaSocios = document.getElementById('tablaSocios');
-                    tableBody.innerHTML = '';
+                    
                     //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
                     if (librosEncontrados.length === 0) {
                         alert('No se encontraron Libros con ese nombre.');
@@ -272,14 +279,13 @@
                     librosEncontrados.forEach(libro => {
                         if(libro.disponibilidad){
                             const filaLibro = `
-                                <tr>
-                                    <th>${libro.id}</th>
-                                    <td>${libro.titulo}</td>
-                                    <td>${libro.autor}</</td>
-                                    <td><button class="button is-primary is-small" id="elegir-libro-${libro.id}" >Elegir</button></td>
-                                </tr>`;
+                                <div class="notification">
+                                    <p>${libro.titulo}</p>
+                                    <p>${libro.autor}</p>
+                                    <button class="button is-primary is-small" id="elegir-libro-${libro.id}" >Elegir</button>
+                                </div>`;
                         //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
-                        tableBody.insertAdjacentHTML("beforeend", filaLibro);
+                        //tableBody.insertAdjacentHTML("beforeend", filaLibro);
                         }
                     });
                 } else {
@@ -322,8 +328,7 @@
 
             //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL prestamoData JSONIFICADO
             try {
-                console.log(prestamoData);
-
+                
                 const response = await fetch('http://localhost:3000/prestamos', {
                     method: 'POST',
                     headers: {
