@@ -15,20 +15,24 @@
         <div class="container py-6">
             <div class="columns">
                 <div class="container column">
-                    <h1 class="title">Lista de libros</h1>
+                    <div class="message-header is-flex is-justify-content-left" id="cuadro_encabezado">
+                        <h1 class="title">
+                            Lista de libros 
+                        </h1>
+                    </div>
                     <div class="table-container column">
                         <table id="libros" class="table is-striped is-hoverable">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Titulo</th>
-                                    <th>Autor</th>
-                                    <th>Año de publicación</th>
-                                    <th>Genero</th>
-                                    <th>Cantidad de páginas </th>
-                                    <th>Cantidad de ejemplares </th>
-                                    <th>Ver libro</th>
-                                    <th>Eliminar</th>
+                                    <th id="tabla_columna">Id</th>
+                                    <th id="tabla_columna">Titulo</th>
+                                    <th id="tabla_columna">Autor</th>
+                                    <th id="tabla_columna">Año de publicación</th>
+                                    <th id="tabla_columna">Genero</th>
+                                    <th id="tabla_columna">Cantidad de páginas </th>
+                                    <th id="tabla_columna">Cantidad de ejemplares </th>
+                                    <th id="tabla_columna">Ver libro</th>
+                                    <th id="tabla_columna">Eliminar</th>
 
                                 </tr>
                             </thead>
@@ -39,57 +43,57 @@
                 </div>
                 <div class="container column">
                    <article class="message">
-                        <div class="message-header">
-                            <h1 class="title has-text-white">
-                                Agregar libro
-                            </h1>
-                        </div>
-                        <div class="message-body">
+                    <div class="message-header is-flex is-justify-content-left" id="cuadro_encabezado">
+                        <h1 class="title">
+                            Agregar libro 
+                        </h1>
+                    </div>
+                        <div class="message-body" id="tabla_principal">
                             <form id="crear_libro" class="mx-3">
                                 <div class="field">
-                                    <label class="label">Título del libro</label>
+                                    <label class="label" id="tabla_columna">Título del libro</label>
                                     <div class="control">
                                         <input type="text" class="input" id="titulo" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9.,-~\s]*" required>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Autor</label>
+                                    <label class="label" id="tabla_columna">Autor</label>
                                     <div class="control">
                                         <input type="text" class="input" id="autor" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Año de publicación</label>
+                                    <label class="label" id="tabla_columna">Año de publicación</label>
                                     <div class="control">
                                         <input type="number" min="0" max="2100" class="input" id="año" pattern="[0-9]{4}" required>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Codigo ISBN</label>
+                                    <label class="label" id="tabla_columna">Codigo ISBN</label>
                                     <div class="control">
                                         <input type="number" min="0" class="input" id="isbn" pattern="[0-9]{13}" required>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Cantidad de páginas</label>
+                                    <label class="label" id="tabla_columna">Cantidad de páginas</label>
                                     <div class="control">
                                         <input type="number" min="0" class="input" id="paginas" pattern="[0-9]{0,6}" required>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Cantidad de ejemplares</label>
+                                    <label class="label" id="tabla_columna" >Cantidad de ejemplares</label>
                                     <div class="control">
                                         <input type="number" min="0" class="input" id="ejemplares" pattern="[0-9]{1,5}" required>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Sinopsis</label>
+                                    <label class="label" id="tabla_columna">Sinopsis</label>
                                     <div class="control">
                                         <textarea type="text" class="textarea" id="sinopsis" maxlength="300" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9.,-~\s]*" required></textarea>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label class="label">Genero</label>
+                                    <label class="label" id="tabla_columna">Genero</label>
                                     <div class="control">
                                         <div class="select">
                                             <select id="genero" class="select" required>
@@ -181,24 +185,31 @@
                     let tr = document.createElement('tr')
                     let id = document.createElement('th')
                     id.textContent = libro.id
+                    id.id="tabla_columna"
 
                     let titulo = document.createElement('td')
                     titulo.textContent = libro.titulo
+                    titulo.id = "tabla_columna"
 
                     let autor = document.createElement('td')
                     autor.textContent = libro.autor
+                    autor.id = "tabla_columna"
 
                     let año = document.createElement('td')
                     año.textContent = libro.anio_publicacion
+                    año.id = "tabla_columna"
 
                     let genero = document.createElement('td')
                     genero.textContent = libro.genero
+                    genero.id = "tabla_columna"
 
                     let paginas = document.createElement('td')
                     paginas.textContent = libro.cant_paginas
+                    paginas.id = "tabla_columna"
 
                     let cantidadEjemplares = document.createElement('td')
                     cantidadEjemplares.textContent = libro.cant_ejemplares
+                    cantidadEjemplares.id = "tabla_columna"
 
                     let ver = document.createElement('td')
                     let verLink = document.createElement('a')
