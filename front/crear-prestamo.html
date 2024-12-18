@@ -117,6 +117,10 @@
     <footer class="footer"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const idSocio = urlParams.get("id");
+        document.getElementById('socio_id').value = idSocio;
+    
         let listaLibros = document.getElementById("lista-libros");
         const paginationList = document.getElementById("paginationList");
         const prevPageButton = document.getElementById("prevPage");
