@@ -23,25 +23,13 @@ app.get("/", (req, res) => {
 });
 
 //--------------------CRUD SOCIOS--------------------
-
-//TODOS LOS SOCIOS GET DEL CRUD
 app.get("/socios", async (req, res) => {
-  const socios = await prisma.socios.findMany({
-    include: {
-      historial_prestamos: true,
-    },
-  });
-  res.json(socios);
-});
+  const { id, nombre, apellido } = req.query;
 
-//SOCIO ESPECIFICO GET DEL CRUD
-app.get("/socios/:param", async (req, res) => {
-  const param = req.params.param;
-  // Verificar si el parámetro es un número (para buscar por ID)
-  if (!isNaN(param)) {
+  if (id) {
     const socio = await prisma.socios.findUnique({
       where: {
-        id: parseInt(param),
+        id: parseInt(id),
       },
       include: {
         historial_prestamos: true,
@@ -52,39 +40,75 @@ app.get("/socios/:param", async (req, res) => {
       return res.sendStatus(404);
     }
 
-    return res.json(socio);
+    return res.json(socio); 
+  }
+  // Si el parámetro no es un número, buscar por nombre
+  if (nombre && apellido) {
+    const socios = await prisma.socios.findMany({
+      where: {
+        nombre: {
+          startsWith: nombre, 
+          mode: "insensitive", 
+        },
+        apellido: {
+          startsWith: apellido,
+          mode: "insensitive",
+        },
+      },
+    });
+
+    if (socios.length === 0) {
+      return res.sendStatus(404);
+    }
+
+    return res.json(socios); 
   }
 
-  // Si el parámetro no es un número, buscar por nombre
-  const socio = await prisma.socios.findMany({
-    where: {
-      nombre: {
-        startsWith: param,
-        mode: "insensitive",
-      },
+  const socios = await prisma.socios.findMany({
+    include: {
+      historial_prestamos: true,
     },
   });
-
-  if (socio === null) {
-    return res.sendStatus(404);
-  }
-
-  return res.json(socio);
+  return res.json(socios); 
 });
+
+//SOCIO ESPECIFICO GET DEL CRUD PARA INICIO-SESION.HTML
+app.get("/socios/:email/login", async (req, res) => {
+  try {
+    const email = req.params.email;
+    if (!email) {
+      return res.status(400).json({ error: "El email es requerido." });
+    }
+    const socio = await prisma.socios.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (socio === null) {
+      return res.sendStatus(404);
+    }
+    return res.json(socio);
+  } catch (error) {
+    console.error("Error al buscar el socio:", error);
+    return res.status(500).json({ error: "Error del servidor." });
+  }
+});
+
 
 //POST DEL CRUD
 /*
 model socios {
-  id                Int         @id @unique @default(autoincrement())
-  nombre            String
-  apellido          String
-  direccion         String
-  telefono          String     
-  email             String     @unique
-  estado_activo     String
-  libro_prestado    libros?     @relation(fields: [libro_prestado_id], references: [id])
-  libro_prestado_id Int? // Clave foránea opcional para permitir socios sin libros prestados
-  prestamo         prestamos[] // Relación con la tabla de préstamos
+  id                  Int         @id @unique @default(autoincrement())
+  nombre              String
+  apellido            String
+  contrasenia          String      @db.VarChar(20)
+  direccion           String
+  telefono            String
+  email               String      @unique
+  estado              String      @default("activo")
+  libro_prestado      libros?     @relation(fields: [libro_prestado_id], references: [id], onDelete: Cascade)
+  libro_prestado_id   Int? // Clave foránea opcional para permitir socios sin libros prestados
+  historial_prestamos prestamos[] // Relación con la tabla de préstamos
 }
 */
 app.post("/socios", async (req, res) => {
@@ -92,6 +116,7 @@ app.post("/socios", async (req, res) => {
     data: {
       nombre: req.body.nombre,
       apellido: req.body.apellido,
+      contrasenia: req.body.contrasenia,
       direccion: req.body.direccion,
       telefono: req.body.telefono,
       email: req.body.email,
@@ -199,6 +224,34 @@ Problema postPrestamo(socio_id, libro_id, fecha_prestamo, fecha_devolucion) {
 */
 
 app.post("/prestamos", async (req, res) => {
+  const socioId = req.body.socio_id;
+  const libroId = req.body.libro_id;
+
+  // Verifica si el socio existe en la base de datos
+  const socio = await prisma.socios.findUnique({
+    where: {
+      id: socioId,
+    },
+  });
+
+  // Si no lo encuentra, responde con un mensaje de error
+  if (!socio) {
+    return res.status(404).json({ error: "Socio no encontrado" });
+  }
+
+  const libro = await prisma.libros.findUnique({
+    where: {
+      id: libroId,
+    },
+  });
+
+  if (!libro) {
+    return res.status(404).json({ error: "Libro no encontrado" });
+  } else if (libro.disponibilidad == false) {
+    return res.status(404).json({ error: "Libro sin stock" });
+  }
+
+
   const prestamo = await prisma.prestamos.create({
     data: {
       fecha_prestamo: req.body.fecha_prestamo,
@@ -296,13 +349,12 @@ app.get("/libros", async (req, res) => {
       },
     });
 
-    res.json(libros); 
+    res.json(libros);
   } catch (error) {
     console.error("Error al obtener los libros:", error);
     res.status(500).send("Error al obtener los libros.");
   }
 });
-
 
 //LIBRO ESPECIFICO GET DEL CRUD
 //ADMITE ID O TITULO
@@ -337,8 +389,6 @@ app.get("/libros/:param", async (req, res) => {
   return res.json(libro);
 });
 
-
-
 /*
 VIEJO GET 
 //GET LIBRO ESPECIFICO
@@ -356,7 +406,6 @@ app.get("/libros/:id", async (req, res) => {
   res.json(libro);
 });
 */
-
 
 //POST LIBRO
 app.post("/libros", async (req, res) => {

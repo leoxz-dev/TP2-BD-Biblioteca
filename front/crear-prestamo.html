@@ -29,9 +29,8 @@
                             <thead class="is-size-5">
                                 <tr>
                                     <th><abbr title="Id">Id</abbr></th>
-                                    <th><abbr title="Nombre">Nom</abbr></th>
+                                    <th><abbr title="Título">Título</abbr></th>
                                     <th><abbr title="Apellido">Apellido</abbr></th>
-                                    <th><abbr title="Disponibilidad">Disponibilidad</abbr></th>
                                     <th><abbr title="Informacion">Info</abbr></th>
                                 </tr>
                             </thead>
@@ -40,7 +39,6 @@
                                     <th><abbr title="Id">Id</abbr></th>
                                     <th><abbr title="Nombre">Titulo</abbr></th>
                                     <th><abbr title="Apellido">Autor</abbr></th>
-                                    <th><abbr title="Disponibilidad">Disponibilidad</abbr></th>
                                     <th><abbr title="Informacion">Info</abbr></th>
 
                                 </tr>
@@ -175,7 +173,6 @@
                     <th>${libro.id}</th>
                     <td>${libro.titulo}</td>
                     <td>${libro.autor}</</td>
-                    <td>${libro.disponibilidad}</td>
                     <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></td>
                 </tr>
                 `;
@@ -260,7 +257,6 @@
                     <th>${libro.id}</th>
                     <td>${libro.titulo}</td>
                     <td>${libro.autor}</</td>
-                    <td>${libro.disponibilidad}</td>
                     <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></td>
                     </tr>`;
                         //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
@@ -328,7 +324,7 @@
                     document.getElementById('crear-prestamo').reset();
                 } else {
                     const error = await response.json();
-                    alert(`Error al crear socio: ${response.status}`);
+                    alert(error.error);
                 }
                 //EN CASO DE QUE ALGO SALE MAL CON EL FETCH EL CATCH AGARRA EL ERROR Y MUESTA UN MENSAJE AL USUARIO 
             } catch (error) {
