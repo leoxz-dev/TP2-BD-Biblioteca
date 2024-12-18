@@ -202,7 +202,7 @@
                 //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
                 // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
                 pageButton.innerHTML = `
-                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
+                <a id="currentPage" class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
                     ${i}
                 </a>
                 `;
