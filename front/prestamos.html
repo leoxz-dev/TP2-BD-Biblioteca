@@ -52,7 +52,24 @@
     <script src="./src/header_footer.js" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></script>
     <script>
         let tablaPrestamos = document.getElementById('tabla-prestamos');
-
+        let prestamosTotales = [];
+        let prestamosFiltrados = [];
+        
+        fetch('http://localhost:3000/prestamos')
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.length === 0) {
+                const error = document.getElementById('error');
+                error.innerHTML = 'No hay prestamos :C';
+            }
+            else{
+                data.forEach(prestamo => { 
+                    prestamosTotales.push(prestamo);
+                });
+                cargarDatos();
+            }
+        });
+        
         async function devolverTituloLibro(idLibro) {
             try{
                 const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
@@ -77,47 +94,36 @@
             }
         }
 
+        
         function cargarDatos() {
             tablaPrestamos.innerHTML = ' ';
+            prestamosFiltrados = [];
 
-            fetch('http://localhost:3000/prestamos')
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.length === 0) {
-                    const error = document.getElementById('error');
-                    error.innerHTML = 'No hay prestamos :C';
+            const estadoBuscado = document.getElementById('estado-busqueda').value;
+
+            prestamosTotales.forEach(prestamo => {   
+                if(prestamo.estado === estadoBuscado || estadoBuscado === "todos"){
+                    prestamosFiltrados.push(prestamo);
                 }
-                else{
-                const table = document.querySelector('table tbody');
-                const estadoBuscado = document.getElementById('estado-busqueda').value;
-                const elementoElegido = document.getElementById('estado-busqueda').value;
-
-                data.forEach(prestamo => {        
-                    if(prestamo.estado === elementoElegido || elementoElegido === "todos"){
-                        devolverTituloLibro(prestamo.libro_id).then(tituloLibro => {
-                            devolverNombreSocio(prestamo.socio_id).then( nombreSocio => {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                    <td>${prestamo.id}</td>
-                                    <td>${tituloLibro}</td>
-                                    <td>${nombreSocio}</td>
-                                    <td>${prestamo.fecha_prestamo}</td>
-                                    <td>${prestamo.fecha_devolucion}</td>
-                                `;
-                                table.appendChild(row);     
-                            })
-                        });
-                    }
+            });
+            
+            prestamosFiltrados.forEach(prestamo => {        
+                devolverTituloLibro(prestamo.libro_id).then(tituloLibro => {
+                    devolverNombreSocio(prestamo.socio_id).then( nombreSocio => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${prestamo.id}</td>
+                            <td>${tituloLibro}</td>
+                            <td>${nombreSocio}</td>
+                            <td>${prestamo.fecha_prestamo}</td>
+                            <td>${prestamo.fecha_devolucion}</td>
+                            `;
+                        tablaPrestamos.appendChild(row);     
+                    })
                 });
-            }
             });
         }
-
-        window.onload = function() {
-          cargarDatos(); 
-        };
-
-
+        
     </script>
 </body>
 </html>
