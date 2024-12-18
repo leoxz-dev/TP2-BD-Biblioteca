@@ -95,7 +95,7 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const socioId = urlParams.get("id");
-    
+
     //VAMOS A USAR FUNCIONES PARA QUE QUEDE BIEN ORDENADO EL CODIGO
     //BASAMOS EL CODIGO EN EL IMPLEMENTADO EN BUSCAR SOCIO YA QUE ES CASI EL MISMO CONCEPTO
 
@@ -103,7 +103,7 @@
     const paginationList = document.getElementById("paginationList");
     const prevPageButton = document.getElementById("prevPage");
     const nextPageButton = document.getElementById("nextPage");
-    
+
     const rowsPerPage = 3;
     let currentPage = 1;
     //LISTA QUE SE VA A LLENAR CON LOS PRESTAMOS DEL USUARIO
@@ -124,13 +124,13 @@
     }
 
     async function devolverTituloLibro(idLibro) {
-      try{
+      try {
         const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
         const libro = await infoLibro.json();
         const nombreLibro = libro.titulo;
         return nombreLibro;
 
-      } catch (error){
+      } catch (error) {
         console.error('No se pudo obtener el título del libro');
       }
     }
@@ -144,12 +144,13 @@
       //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
       //FALTA AGREGAR EL TITULO DEL LIBRO
       pagePrestamo.forEach((prestamo) => {
-        devolverTituloLibro(prestamo.libro_id)
-        .then(titulo_libro => {
-          const tituloLibro = titulo_libro;
-          const fechaDevolucion = prestamo.fecha_devolucion.split('T')[0]; 
+        if (prestamo.estado === "En préstamo") {
+          devolverTituloLibro(prestamo.libro_id)
+            .then(titulo_libro => {
+              const tituloLibro = titulo_libro;
+              const fechaDevolucion = prestamo.fecha_devolucion.split('T')[0];
 
-          const row = `
+              const row = `
           <tr class="is-size-6">
           <td id="tabla_columna">${prestamo.id}</td>
           <td id="tabla_columna">${tituloLibro}</td>
@@ -158,10 +159,11 @@
           <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Ver información</button></a></td>
           </tr>
           `;
-          //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
-          //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
-          tableBody.insertAdjacentHTML("beforeend", row);
-        });
+              //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
+              //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
+              tableBody.insertAdjacentHTML("beforeend", row);
+            });
+        }
       });
     }
 
@@ -173,44 +175,45 @@
           //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
           // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
           pageButton.innerHTML = `
-          <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}" id="currentPage">${i}</a>`;
+          <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-num-pagina="${i}">${i}</a>`;
           paginationList.appendChild(pageButton);
         }
       }
-        //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
-        paginationList.addEventListener("click", (e) => {
-            if (e.target.classList.contains("pagination-link")) {
-                //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
-                //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
-                currentPage = parseInt(e.target.dataset.numPagina);
-                renderTable(currentPage);
-                renderPagination();
-            }
-        });
+    }
+    //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
+    paginationList.addEventListener("click", (e) => {
+      if (e.target.classList.contains("pagination-link")) {
+        //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+        //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+        currentPage = parseInt(e.target.dataset.numPagina);
+        renderTable(currentPage);
+        renderPagination();
+      }
+    });
 
 
-        prevPageButton.addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                renderTable(currentPage);
-                renderPagination();
-            }
-        });
+    prevPageButton.addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable(currentPage);
+        renderPagination();
+      }
+    });
 
-        nextPageButton.addEventListener("click", () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderTable(currentPage);
-                renderPagination();
-            }
-        });
+    nextPageButton.addEventListener("click", () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable(currentPage);
+        renderPagination();
+      }
+    });
 
 
-        document.addEventListener("DOMContentLoaded", function() {
-            fetchUsuario(socioId);
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+      fetchUsuario(socioId);
+    });
 
-      
+
     if (!socioId) {
       alert("ID no válido");
       window.location.href = "buscar-socio.html"; //REDIRIGE A LA PAGINA PREVIA SI POR ALGUN MOTIVO NO SE PASA ID, ESTO HABRIA QUE CAMBIARLO YA QUE SE PUEDE PASAR EMAIL TAMBIEN
