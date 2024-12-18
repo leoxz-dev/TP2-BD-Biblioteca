@@ -8,36 +8,34 @@ const port = 3000;
 const prisma = new PrismaClient();
 const cors = require("cors");
 
-const bcrypt = require('bcryptjs');
-const saltRounds = 10; 
-const jwt = require('jsonwebtoken');
-const CLAVE_ULTRAMEGASEGURA = 'tu_clave_secreta'; 
+const bcrypt = require("bcryptjs");
+const saltRounds = 10;
+const jwt = require("jsonwebtoken");
+const CLAVE_ULTRAMEGASEGURA = "tu_clave_secreta";
 
 function validarToken(req, res, next) {
-  const authHeader = req.headers['authorization']; // Obtiene el header 'Authorization'
+  const authHeader = req.headers["authorization"]; // Obtiene el header 'Authorization'
 
   // Verificar si el header existe
   if (!authHeader) {
-    return res.status(403).json({ error: 'Token no proporcionado.' });
+    return res.status(403).json({ error: "Token no proporcionado." });
   }
 
   // Extraer el token quitando el prefijo "Bearer"
-  const token = authHeader.split(' ')[1];
+  const token = authHeader.split(" ")[1];
 
   if (!token) {
-      return res.status(403).json({ error: 'Token no proporcionado.' });
+    return res.status(403).json({ error: "Token no proporcionado." });
   }
 
-  jwt.verify(token, SECRET_KEY, (err, decoded) => {
-      if (err) {
-          return res.status(401).json({ error: 'Token inválido o expirado.' });
-      }
-      req.usuario = decoded; // Guarda la información del token en `req.usuario`
-      next(); // Continúa con la siguiente función (ruta o middleware)
+  jwt.verify(token, CLAVE_ULTRAMEGASEGURA, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Token inválido o expirado." });
+    }
+    req.usuario = decoded; // Guarda la información del token en `req.usuario`
+    next(); // Continúa con la siguiente función (ruta o middleware)
   });
 }
-
-
 
 app.use(cors());
 app.use(express.json());
@@ -71,15 +69,15 @@ app.get("/socios", async (req, res) => {
       return res.sendStatus(404);
     }
 
-    return res.json(socio); 
+    return res.json(socio);
   }
   // Si el parámetro no es un número, buscar por nombre
   if (nombre && apellido) {
     const socios = await prisma.socios.findMany({
       where: {
         nombre: {
-          startsWith: nombre, 
-          mode: "insensitive", 
+          startsWith: nombre,
+          mode: "insensitive",
         },
         apellido: {
           startsWith: apellido,
@@ -92,7 +90,7 @@ app.get("/socios", async (req, res) => {
       return res.sendStatus(404);
     }
 
-    return res.json(socios); 
+    return res.json(socios);
   }
 
   const socios = await prisma.socios.findMany({
@@ -100,7 +98,7 @@ app.get("/socios", async (req, res) => {
       historial_prestamos: true,
     },
   });
-  return res.json(socios); 
+  return res.json(socios);
 });
 
 //SOCIO ESPECIFICO GET DEL CRUD PARA INICIO-SESION.HTML
@@ -125,7 +123,6 @@ app.get("/socios/:email/login", async (req, res) => {
   }
 });
 
-
 //POST DEL CRUD
 /*
 model socios {
@@ -143,8 +140,8 @@ model socios {
 }
 */
 app.post("/socios", async (req, res) => {
-
-  const { nombre, apellido, direccion, telefono, email, contrasenia } = req.body;
+  const { nombre, apellido, direccion, telefono, email, contrasenia } =
+    req.body;
 
   try {
     // Encriptar la contraseña antes de guardarla
@@ -159,16 +156,15 @@ app.post("/socios", async (req, res) => {
         telefono: telefono,
         email: email,
       },
-    });
-
+    });    
     // Devolver respuesta exitosa
-    res.status(201).json({
-      mensaje: 'Socio registrado correctamente',
-      socio: { id: socio.id, nombre: socio.nombre, email: socio.email }
-    });
+    res.status(201).json(socio
+    );
   } catch (error) {
-    console.error('Error al registrar socio:', error);
-    res.status(500).json({ error: 'Error al registrar socio en la base de datos' });
+    console.error("Error al registrar socio:", error);
+    res
+      .status(500)
+      .json({ error: "Error al registrar socio en la base de datos" });
   }
 });
 
@@ -297,7 +293,6 @@ app.post("/prestamos", async (req, res) => {
   } else if (libro.disponibilidad == false) {
     return res.status(404).json({ error: "Libro sin stock" });
   }
-
 
   const prestamo = await prisma.prestamos.create({
     data: {
@@ -525,42 +520,43 @@ app.delete("/libros/:id", async (req, res) => {
   res.send(libro);
 });
 
-
 //--------------------POST PARA LOGIN/ENCRIPTAR CONTRASEÑAS--------------------
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, contraseña } = req.body;
-
   try {
-      // 1. Buscar el usuario por email en la base de datos simulada
-      const usuario = usuarios.find(u => u.email === email);
+    // 1. Buscar el usuario por email en la base de datos simulada
+    const socio = await prisma.socios.findUnique({
+      where: { email: email },
+    });
+    if (!socio) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
 
-      if (!usuario) {
-          return res.status(404).json({ error: 'Usuario no encontrado' });
-      }
+    // 2. Comparar la contraseña recibida con la almacenada usando bcrypt
+    const contraseñaValida = await bcrypt.compare(
+      contraseña,
+      socio.contrasenia
+    );
 
-      // 2. Comparar la contraseña recibida con la almacenada usando bcrypt
-      const contraseñaValida = await bcrypt.compare(contraseña, usuario.contraseña);
+    if (!contraseñaValida) {
+      return res.status(401).json({ error: "Contraseña incorrecta" });
+    }
 
-      if (!contraseñaValida) {
-          return res.status(401).json({ error: 'Contraseña incorrecta' });
-      }
+    // 3. Opcional: Generar un token JWT para la sesión
+    const token = jwt.sign(
+      { email: socio.email, nombre: socio.nombre },
+      CLAVE_ULTRAMEGASEGURA, // Clave secreta (en un entorno real, usa variables de entorno)
+      { expiresIn: "1h" } // Expiración de 1 hora
+    );
 
-      // 3. Opcional: Generar un token JWT para la sesión
-      const token = jwt.sign(
-          { email: usuario.email, nombre: usuario.nombre },
-          CLAVE_ULTRAMEGASEGURA, // Clave secreta (en un entorno real, usa variables de entorno)
-          { expiresIn: '1h' } // Expiración de 1 hora
-      );
-
-      // 4. Devolver el token y los datos del usuario (sin la contraseña)
-      return res.json({
-          mensaje: 'Login exitoso',
-          token: token,
-          usuario: { email: usuario.email, nombre: usuario.nombre }
-      });
-
+    // 4. Devolver el token y los datos del usuario (sin la contraseña)
+    return res.json({
+      mensaje: "Login exitoso",
+      token: token,
+      socio: { email: socio.email, nombre: socio.nombre },
+    });
   } catch (error) {
-      console.error('Error en el login:', error);
-      return res.status(500).json({ error: 'Error en el servidor' });
+    console.error("Error en el login:", error);
+    return res.status(500).json({ error: "Error en el servidor" });
   }
 });
