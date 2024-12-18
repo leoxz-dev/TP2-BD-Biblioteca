@@ -89,6 +89,43 @@
                   </ul>
                 </nav>
 
+                <form id="modificar-socio" class="mx-3">
+                  <div class="field">
+                    <label class="label">Nombre</label>
+                    <div class="control">
+                      <input id="nombre" class="input" type="text" name="nombre" placeholder="Nombre" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Apellido</label>
+                    <div class="control">
+                      <input id="apellido" class="input" type="text" name="apellido" placeholder="Apellido" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Correo Electrónico</label>
+                    <div class="control">
+                      <input id="email" class="input" type="email" name="email" placeholder="nombre@gmail.com" pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Domicilio</label>
+                    <div class="control">
+                      <input id="direccion" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9\s.'-]*" required>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Teléfono</label>
+                    <div class="control">
+                      <input id="telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678" pattern="[0-9]{2}\s[0-9]{4}-[0-9]{4}" required>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="buttons is-centered">
+                    <input id="button-submit" class="button is-success is-normal" type="submit" value="Guardar cambios" />
+                  </div>
+                </form>
+
               </div>
             </div>
           </div>
@@ -300,6 +337,46 @@
         console.error("Error al hacer el fetch: ", error);
       }
     }
+
+    document.getElementById('modificar-socio').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const apellido = document.getElementById('apellido').value;
+      const email = document.getElementById('email').value;
+      const direccion = document.getElementById('direccion').value;
+      const telefono = document.getElementById('telefono').value;
+  
+      const socioData = {
+        nombre: nombre,
+        apellido: apellido,
+        direccion: direccion,
+        telefono: telefono,
+        email: email
+      };
+  
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+  
+      try {
+        const response = await fetch(`http://localhost:3000/socios/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(socioData),
+        });
+  
+        if (response.ok) {
+          alert('¡Datos actualizados con éxito!');
+          window.location.reload(); // Refrescar la página
+        } else {
+          alert('Error al actualizar los datos.');
+        }
+      } catch (error) {
+        console.error('Error al enviar la solicitud:', error);
+        alert('No se pudo conectar con el servidor.');
+      }
+    });
   </script>
 </body>
 
