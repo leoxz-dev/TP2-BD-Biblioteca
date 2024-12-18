@@ -8,7 +8,7 @@ const port = 3000;
 const prisma = new PrismaClient();
 const cors = require("cors");
 
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcryptjs');
 const saltRounds = 10; 
 const jwt = require('jsonwebtoken');
 const CLAVE_ULTRAMEGASEGURA = 'tu_clave_secreta'; 
@@ -23,7 +23,7 @@ function validarToken(req, res, next) {
 
   // Extraer el token quitando el prefijo "Bearer"
   const token = authHeader.split(' ')[1];
-  
+
   if (!token) {
       return res.status(403).json({ error: 'Token no proporcionado.' });
   }
