@@ -18,7 +18,8 @@
                 <div class="column">
                 <div class="control ">
                     <div class="select">
-                        <select id="tipo-busqueda" class="select" onchange="elegirBusqueda()" required>
+                        <select id="estado-busqueda" class="select" onchange="cargarDatos()" required>
+                            <option value="todos">Sin filtro</option>
                             <option value="En préstamo">En préstamo</option>
                             <option value="Finalizado">Finalizado</option>
                             <option value="En reclamo">En reclamo</option>
@@ -36,7 +37,7 @@
                             <th>Fecha prestamo</th>
                             <th>Fecha devolución</th>
                         </tr>
-                        <tbody>
+                        <tbody id="tabla-prestamos">
                         </tbody>
                     </thead>
                 </table>
@@ -50,8 +51,8 @@
 
     <script src="./src/header_footer.js" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></script>
     <script>
-        const filtro = ["En préstamo", "", ""];
-        
+        let tablaPrestamos = document.getElementById('tabla-prestamos');
+
         async function devolverTituloLibro(idLibro) {
             try{
                 const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
@@ -68,7 +69,7 @@
             try{
                 const infoSocio = await fetch(`http://localhost:3000/socios?id=${idSocio}`);
                 const socio = await infoSocio.json();
-                const nombreEnteroSocio = socio.nombre + ' ' + socio.apellido;
+                const nombreEnteroSocio = socio.id + '-' + socio.nombre + ' ' + socio.apellido;
                 return nombreEnteroSocio;
 
             } catch (error){
@@ -76,7 +77,10 @@
             }
         }
 
-        fetch('http://localhost:3000/prestamos')
+        function cargarDatos() {
+            tablaPrestamos.innerHTML = ' ';
+
+            fetch('http://localhost:3000/prestamos')
             .then((response) => response.json())
             .then((data) => {
                 if (data.length === 0) {
@@ -85,23 +89,34 @@
                 }
                 else{
                 const table = document.querySelector('table tbody');
-                data.forEach(prestamo => {
-                    devolverTituloLibro(prestamo.libro_id).then(tituloLibro => {
-                        devolverNombreSocio(prestamo.socio_id).then( nombreSocio => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td>${prestamo.id}</td>
-                                <td>${tituloLibro}</td>
-                                <td>${nombreSocio}</td>
-                                <td>${prestamo.fecha_prestamo}</td>
-                                <td>${prestamo.fecha_devolucion}</td>
-                            `;
-                            table.appendChild(row);     
-                        })
-                    });
+                const estadoBuscado = document.getElementById('estado-busqueda').value;
+                const elementoElegido = document.getElementById('estado-busqueda').value;
+
+                data.forEach(prestamo => {        
+                    if(prestamo.estado === elementoElegido || elementoElegido === "todos"){
+                        devolverTituloLibro(prestamo.libro_id).then(tituloLibro => {
+                            devolverNombreSocio(prestamo.socio_id).then( nombreSocio => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                    <td>${prestamo.id}</td>
+                                    <td>${tituloLibro}</td>
+                                    <td>${nombreSocio}</td>
+                                    <td>${prestamo.fecha_prestamo}</td>
+                                    <td>${prestamo.fecha_devolucion}</td>
+                                `;
+                                table.appendChild(row);     
+                            })
+                        });
+                    }
                 });
             }
             });
+        }
+
+        window.onload = function() {
+          cargarDatos(); 
+        };
+
 
     </script>
 </body>
