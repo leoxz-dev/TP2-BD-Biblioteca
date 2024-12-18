@@ -14,10 +14,10 @@
     <section class="my-6">
         <div class="container is-max-tablet">
             <article class="message">
-                <div class="message-header is-flex is-justify-content-center">
+                <div class="message-header is-flex is-justify-content-center" id="cuadro_encabezado">
                     <h2 class="subtitle has-text-white"><b>Introduzca el id o el nombre</b></h2>
                 </div>
-                <div class="message-body has-text-centered px-6">
+                <div class="message-body has-text-centered px-6" id="cuadro_principal">
                     <label class="label">Elige un tipo de búsqueda</label>
                     <div class="control">
                         <div class="select">
@@ -47,8 +47,8 @@
                         </div>
                         <br>
                         <div class="buttons is-centered">
-                            <button type="submit" class="button is-success is-normal">Buscar</button>
-                            <button class="button is-white is-normal">Cancelar</button>
+                            <button type="submit" class="button is-normal" id="boton_principal">Buscar</button>
+                            <button class="button is-normal" id="boton_secundario">Cancelar</button>
                         </div>
                     </form>
                 </div>
@@ -57,7 +57,7 @@
     </section>
     <div class="container has-text-centered">
         <div class="table-container is-inline-block is-size-5">
-            <table class="table is-bordered is-hoverable">
+            <table class="table is-bordered is-hoverable" id="tabla_principal">
                 <thead>
                     <tr>
                         <th><abbr title="Id">Id</abbr></th>
@@ -202,7 +202,7 @@
                 //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
                 // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
                 pageButton.innerHTML = `
-                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
+                <a id="currentPage" class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
                     ${i}
                 </a>
                 `;
