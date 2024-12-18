@@ -177,6 +177,7 @@
           paginationList.appendChild(pageButton);
         }
       }
+<<<<<<< Updated upstream
         //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
         paginationList.addEventListener("click", (e) => {
             if (e.target.classList.contains("pagination-link")) {
@@ -187,6 +188,19 @@
                 renderPagination();
             }
         });
+=======
+    //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
+    paginationList.addEventListener("click", (e) => {
+      if (e.target.classList.contains("pagination-link")) {
+        //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+        //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+        currentPage = parseInt(e.target.dataset.numPagina);
+        renderTable(currentPage);
+        renderPagination();
+      }
+    });
+
+>>>>>>> Stashed changes
 
 
         prevPageButton.addEventListener("click", () => {
