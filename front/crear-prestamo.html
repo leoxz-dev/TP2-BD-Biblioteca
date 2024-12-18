@@ -4,7 +4,7 @@
     <title>Crear Préstamo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-    <link rel="stylesheet" href="/front/styles/header_footer.css">
+    <link rel="stylesheet" href="styles/header_footer.css">
 </head>
 
 <body>
@@ -24,23 +24,24 @@
                         </p>
                     </div>
                 </form>
+                <br>
                 <div class="container has-text-centered">
-                    <div class="table-container is-inline-block is-size-5">
+                    <div class="table-container is-inline-block is-size-5">            
                         <table class="table is-bordered is-hoverable">
                             <thead class="is-size-5">
                                 <tr>
                                     <th><abbr title="Id">Id</abbr></th>
                                     <th><abbr title="Título">Título</abbr></th>
-                                    <th><abbr title="Apellido">Apellido</abbr></th>
-                                    <th><abbr title="Informacion">Info</abbr></th>
+                                    <th><abbr title="Autor">Apellido</abbr></th>
+                                    <th><abbr title="Pedir">Pedir</abbr></th>
                                 </tr>
                             </thead>
                             <tfoot class="is-size-5">
                                 <tr>
                                     <th><abbr title="Id">Id</abbr></th>
                                     <th><abbr title="Nombre">Titulo</abbr></th>
-                                    <th><abbr title="Apellido">Autor</abbr></th>
-                                    <th><abbr title="Informacion">Info</abbr></th>
+                                    <th><abbr title="Autor">Autor</abbr></th>
+                                    <th><abbr title="Pedir">Pedir</abbr></th>
 
                                 </tr>
                             </tfoot>
@@ -142,17 +143,25 @@
         const paginationList = document.getElementById("paginationList");
         const prevPageButton = document.getElementById("prevPage");
         const nextPageButton = document.getElementById("nextPage");
-        const rowsPerPage = 2;
+        const rowsPerPage = 3;
         let currentPage = 1;
         //LISTA QUE SE VA A LLENAR CON LOS LIBROS
         let libros = [];
         let totalPages = 1;
-
+        
 
         async function fetchLibros() {
             try {
                 const response = await fetch("http://localhost:3000/libros"); // Ruta de la API
                 libros = await response.json();
+                let librosDisponibles = 0;
+                libros.forEach( libro => {
+                    if(libro.disponibilidad){
+                        librosDisponibles += 1;
+                    }
+                });
+                console.log(librosDisponibles);
+
                 totalPages = Math.ceil(libros.length / rowsPerPage);
                 renderTable(currentPage);
                 renderPagination();
@@ -169,17 +178,19 @@
             const pageLibros = libros.slice(start, end);
             //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
             pageLibros.forEach((libro) => {
-                const row = `
-                <tr>
-                    <th>${libro.id}</th>
-                    <td>${libro.titulo}</td>
-                    <td>${libro.autor}</</td>
-                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></td>
-                </tr>
-                `;
-                //USAMOS insertAdj... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
-                //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
-                tableBody.insertAdjacentHTML("beforeend", row);
+                if(libro.disponibilidad === true){
+                    const row = `
+                    <tr>
+                        <th>${libro.id}</th>
+                        <td>${libro.titulo}</td>
+                        <td>${libro.autor}</</td>
+                        <td><button class="button is-primary is-small" id="elegir-libro-${libro.id}" >Elegir</button></td>
+                    </tr>
+                    `;
+                    //USAMOS insertAdj... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
+                    //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
+                    tableBody.insertAdjacentHTML("beforeend", row);
+                }
             });
         }
 
@@ -196,6 +207,13 @@
                 </a>
                 `;
                 paginationList.appendChild(pageButton);
+
+                document.querySelectorAll('[id^="elegir-libro-"]').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const libroId = this.id.split('-').pop();
+                        document.getElementById('libro_id').value = libroId;
+                    });
+                });
             }
         }
 
@@ -226,14 +244,13 @@
             }
         });
 
-
         document.addEventListener("DOMContentLoaded", function () {
             fetchLibros();
         });
 
-
         document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
             event.preventDefault();
+
             const titulo = document.getElementById('titulo').value.trim();
             //SI NO HAY ID Y ADEMAS NO HAY NOMBRE SALTA ALERT
             if (!titulo) {
@@ -253,15 +270,17 @@
                     }
                     //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
                     librosEncontrados.forEach(libro => {
-                        const filaLibro = `
-                                    <tr>
-                    <th>${libro.id}</th>
-                    <td>${libro.titulo}</td>
-                    <td>${libro.autor}</</td>
-                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></td>
-                    </tr>`;
+                        if(libro.disponibilidad){
+                            const filaLibro = `
+                                <tr>
+                                    <th>${libro.id}</th>
+                                    <td>${libro.titulo}</td>
+                                    <td>${libro.autor}</</td>
+                                    <td><button class="button is-primary is-small" id="elegir-libro-${libro.id}" >Elegir</button></td>
+                                </tr>`;
                         //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
                         tableBody.insertAdjacentHTML("beforeend", filaLibro);
+                        }
                     });
                 } else {
                     alert('Hubo un error al buscar los libros.');
@@ -277,6 +296,7 @@
         //SE CREA EL PRESTAMO Y SE SUBE A LA BASE DE DATOS CON POST
         document.getElementById('crear-prestamo').addEventListener('submit', async function (event) {
             event.preventDefault();
+
             //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
             let fechaPrestamo = document.getElementById('fecha_prestamo').value;
             let fechaDevolucion = document.getElementById('fecha_devolucion').value;
@@ -323,6 +343,7 @@
                     await actualizarEjemplares(idLibro);
                     //LIMPIAMOS EL FORM
                     document.getElementById('crear-prestamo').reset();
+                    fetchLibros();
                 } else {
                     const error = await response.json();
                     alert(error.error);
