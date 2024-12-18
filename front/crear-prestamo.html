@@ -29,7 +29,7 @@
                     <div class="table-container is-inline-block is-size-5 ">            
                         <ul id="lista-libros">
                         </ul>
-
+                        <br>
                         <nav class="pagination is-centered" role="navigation" aria-label="pagination">
                             <button class="pagination-previous" id="prevPage">Anterior</button>
                             <button class="pagination-next" id="nextPage">Siguiente</button>
@@ -117,6 +117,10 @@
     <footer class="footer"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const idSocio = urlParams.get("id");
+        document.getElementById('socio_id').value = idSocio;
+    
         let listaLibros = document.getElementById("lista-libros");
         const paginationList = document.getElementById("paginationList");
         const prevPageButton = document.getElementById("prevPage");
@@ -147,14 +151,9 @@
             }
         }
 
-        function mostrarLibros(page){
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            const pageLibros = librosDisponibles.slice(start, end);
-
-            pageLibros.forEach( libro => {
+        function mostrarLibro(libro){
+            if(libro.disponibilidad){
                 const li = document.createElement('li');
-                li.className = "has-background-link";
 
                 const div = document.createElement('div');
                 div.className = 'columns is-1';
@@ -165,7 +164,7 @@
                 div.appendChild(col1);
 
                 const col2 = document.createElement('div');
-                col2.className = 'column is-one-quarter';
+                col2.className = 'column is-one-quarter is-flex is-align-content-center';
                 div.appendChild(col2);
             
                 const div1 = document.createElement('div');
@@ -173,7 +172,7 @@
                 col1.appendChild(div1);
 
                 const titulo = document.createElement('p');
-                //titulo.className = 'subtitle';
+                titulo.className = 'title is-3';
                 titulo.textContent = libro.titulo;
                 div1.appendChild(titulo);
 
@@ -182,23 +181,24 @@
                 div1.appendChild(autor);
 
                 const boton = document.createElement('button');
-                boton.className = 'button is-primary is-responsive';
+                boton.className = 'button is-fullwidth has-background-primary';
+                boton.textContent = 'Elegir';
                 boton.setAttribute("id", `elegir-libro-${libro.id}`);
                 col2.appendChild(boton);
 
-                boton.innerHTML = `
-                <span class="icon is-large">
-                </span>
-                <style>
-                    .icon {
-                        widht: 200px;
-                        height: 200px;
-                    }   
-                </style>
-                `;
-
                 listaLibros.appendChild(li);
-                console.log(listaLibros);
+            }
+        }
+
+        function mostrarLibros(page){
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const pageLibros = librosDisponibles.slice(start, end);
+
+            listaLibros.innerHTML = '';
+        
+            pageLibros.forEach( libro => {
+                mostrarLibro(libro);
             })
         }
 
@@ -275,19 +275,19 @@
                         alert('No se encontraron Libros con ese nombre.');
                         return;
                     }
+                    listaLibros.innerHTML = '';
                     //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
                     librosEncontrados.forEach(libro => {
-                        if(libro.disponibilidad){
-                            const filaLibro = `
-                                <div class="notification">
-                                    <p>${libro.titulo}</p>
-                                    <p>${libro.autor}</p>
-                                    <button class="button is-primary is-small" id="elegir-libro-${libro.id}" >Elegir</button>
-                                </div>`;
-                        //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
-                        //tableBody.insertAdjacentHTML("beforeend", filaLibro);
-                        }
+                        mostrarLibro(libro);
                     });
+
+                    document.querySelectorAll('[id^="elegir-libro-"]').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const libroId = this.id.split('-').pop();
+                            document.getElementById('libro_id').value = libroId;
+                        });
+                    });
+
                 } else {
                     alert('Hubo un error al buscar los libros.');
                 }
