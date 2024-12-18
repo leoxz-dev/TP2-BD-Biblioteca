@@ -24,8 +24,8 @@
                                         <label class="label">Email</label>
                                         <div class="control">
                                             <input class="input" id="email-login" type="email" min="1" name="socio_id"
-                                                placeholder="123" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
-                                                required />
+                                                placeholder="123"
+                                                pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required />
                                         </div>
                                     </div>
                                     <div class="field">
@@ -179,10 +179,14 @@
                 if (response.ok) {
                     const socio = await response.json();
                     if (socio.contrasenia === contraseña) {
-                        // Almacenar los datos del usuario en sessionStorage
-                        sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio)); // Guardamos los datos del socio
-                        alert('¡LOG IN REALIZADO CON EXITO!');
-                        window.location.href = 'Inicio.html';
+                        //Esto guarda los datos del socio en el almacenamiento local del navegador
+                        sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio)); 
+                        if (socio.email === 'camejo@gmail.com') {
+                            window.location.href = 'libros.html'
+                        } else {
+                            alert('¡LOG IN REALIZADO CON EXITO!');
+                            window.location.href = 'Inicio.html';
+                        }
                     }
                     else {
                         alert('INTRODUZCA LA CONTRASEÑA CORRECTA')
