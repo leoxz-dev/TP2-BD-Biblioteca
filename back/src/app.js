@@ -553,7 +553,7 @@ app.post("/login", async (req, res) => {
     return res.json({
       mensaje: "Login exitoso",
       token: token,
-      socio: { email: socio.email, nombre: socio.nombre },
+      socio: { email: socio.email, nombre: socio.nombre, id:socio.id },
     });
   } catch (error) {
     console.error("Error en el login:", error);
