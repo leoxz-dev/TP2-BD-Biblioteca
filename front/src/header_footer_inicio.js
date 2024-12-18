@@ -12,7 +12,7 @@ header.innerHTML = `
         </div>
 
         <div class="navbar-menu">
-            <a class="navbar-item p-2 ml-1" href="libros.html">
+            <a class="navbar-item p-2 ml-1" href="#">
                 <img src="https://i.imgur.com/kGfyxfC.png" alt="logout">
             </a>
         </div>
