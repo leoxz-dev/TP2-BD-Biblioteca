@@ -8,6 +8,37 @@ const port = 3000;
 const prisma = new PrismaClient();
 const cors = require("cors");
 
+const bcrypt = require('bcrypt'); 
+const saltRounds = 10; 
+const jwt = require('jsonwebtoken');
+const CLAVE_ULTRAMEGASEGURA = 'tu_clave_secreta'; 
+
+function validarToken(req, res, next) {
+  const authHeader = req.headers['authorization']; // Obtiene el header 'Authorization'
+
+  // Verificar si el header existe
+  if (!authHeader) {
+    return res.status(403).json({ error: 'Token no proporcionado.' });
+  }
+
+  // Extraer el token quitando el prefijo "Bearer"
+  const token = authHeader.split(' ')[1];
+  
+  if (!token) {
+      return res.status(403).json({ error: 'Token no proporcionado.' });
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+      if (err) {
+          return res.status(401).json({ error: 'Token inválido o expirado.' });
+      }
+      req.usuario = decoded; // Guarda la información del token en `req.usuario`
+      next(); // Continúa con la siguiente función (ruta o middleware)
+  });
+}
+
+
+
 app.use(cors());
 app.use(express.json());
 
@@ -112,17 +143,33 @@ model socios {
 }
 */
 app.post("/socios", async (req, res) => {
-  const socio = await prisma.socios.create({
-    data: {
-      nombre: req.body.nombre,
-      apellido: req.body.apellido,
-      contrasenia: req.body.contrasenia,
-      direccion: req.body.direccion,
-      telefono: req.body.telefono,
-      email: req.body.email,
-    },
-  });
-  res.json(socio);
+
+  const { nombre, apellido, direccion, telefono, email, contrasenia } = req.body;
+
+  try {
+    // Encriptar la contraseña antes de guardarla
+    const hashedPassword = await bcrypt.hash(contrasenia, saltRounds);
+
+    const socio = await prisma.socios.create({
+      data: {
+        nombre: nombre,
+        apellido: apellido,
+        contrasenia: hashedPassword,
+        direccion: direccion,
+        telefono: telefono,
+        email: email,
+      },
+    });
+
+    // Devolver respuesta exitosa
+    res.status(201).json({
+      mensaje: 'Socio registrado correctamente',
+      socio: { id: socio.id, nombre: socio.nombre, email: socio.email }
+    });
+  } catch (error) {
+    console.error('Error al registrar socio:', error);
+    res.status(500).json({ error: 'Error al registrar socio en la base de datos' });
+  }
 });
 
 //DELETEAR UN SOCIO DEL CRUD
@@ -476,4 +523,44 @@ app.delete("/libros/:id", async (req, res) => {
   });
 
   res.send(libro);
+});
+
+
+//--------------------POST PARA LOGIN/ENCRIPTAR CONTRASEÑAS--------------------
+app.post('/login', async (req, res) => {
+  const { email, contraseña } = req.body;
+
+  try {
+      // 1. Buscar el usuario por email en la base de datos simulada
+      const usuario = usuarios.find(u => u.email === email);
+
+      if (!usuario) {
+          return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+
+      // 2. Comparar la contraseña recibida con la almacenada usando bcrypt
+      const contraseñaValida = await bcrypt.compare(contraseña, usuario.contraseña);
+
+      if (!contraseñaValida) {
+          return res.status(401).json({ error: 'Contraseña incorrecta' });
+      }
+
+      // 3. Opcional: Generar un token JWT para la sesión
+      const token = jwt.sign(
+          { email: usuario.email, nombre: usuario.nombre },
+          CLAVE_ULTRAMEGASEGURA, // Clave secreta (en un entorno real, usa variables de entorno)
+          { expiresIn: '1h' } // Expiración de 1 hora
+      );
+
+      // 4. Devolver el token y los datos del usuario (sin la contraseña)
+      return res.json({
+          mensaje: 'Login exitoso',
+          token: token,
+          usuario: { email: usuario.email, nombre: usuario.nombre }
+      });
+
+  } catch (error) {
+      console.error('Error en el login:', error);
+      return res.status(500).json({ error: 'Error en el servidor' });
+  }
 });
