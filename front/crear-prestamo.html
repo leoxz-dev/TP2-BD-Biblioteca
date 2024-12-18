@@ -13,20 +13,24 @@
     <div class="container py-6">
         <div class="columns">
             <div class="column is-two-fifths">
-                <h1 class="title">Buscar libro</h1>
+                <div class="message-header is-flex is-justify-content-left" id="cuadro_encabezado">
+                    <h1 id="id_prestamo" class="title">
+                        Buscar libro
+                    </h1>
+                </div>
                 <form id="busqueda-form">
                     <div class="field has-addons">
                         <p class="control">
                             <input id="titulo" class="input" type="text" placeholder="Búsqueda">
                         </p>
                         <p class="control">
-                            <input class="button" type="submit" value="Buscar" />
+                            <input id="boton_principal" class="button" type="submit" value="Buscar" />
                         </p>
                     </div>
                 </form>
                 <div class="container has-text-centered">
                     <div class="table-container is-inline-block is-size-5">
-                        <table class="table is-bordered is-hoverable">
+                        <table class="table is-bordered is-hoverable" id="tabla_principal">
                             <thead class="is-size-5">
                                 <tr>
                                     <th><abbr title="Id">Id</abbr></th>
@@ -63,8 +67,8 @@
             </div>
             <div class="column">
                 <article class="message">
-                    <div class="message-header is-justify-content-center">
-                        <h1 class="title has-text-white">
+                    <div class="message-header is-justify-content-center" id="cuadro_encabezado">
+                        <h1 class="title">
                             NUEVO PRÉSTAMO
                         </h1>
                     </div>
@@ -123,7 +127,7 @@
                                     </div>
                                 </div>
                                 <div class="control">
-                                    <input class="button is-success is-fullwidth" type="submit"
+                                    <input class="button is-fullwidth"  id="boton_principal" type="submit"
                                         value="Crear préstamo" />
                                 </div>
                         </form>
@@ -171,10 +175,10 @@
             pageLibros.forEach((libro) => {
                 const row = `
                 <tr>
-                    <th>${libro.id}</th>
-                    <td>${libro.titulo}</td>
-                    <td>${libro.autor}</</td>
-                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></td>
+                    <th id="tabla_columna">${libro.id}</th>
+                    <td id="tabla_columna">${libro.titulo}</td>
+                    <td id="tabla_columna">${libro.autor}</</td>
+                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small" id="boton_secundario">Información</button></a></td>
                 </tr>
                 `;
                 //USAMOS insertAdj... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
@@ -258,7 +262,7 @@
                     <th>${libro.id}</th>
                     <td>${libro.titulo}</td>
                     <td>${libro.autor}</</td>
-                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small">Información</button></a></td>
+                    <td><a href="libro.html?id=${libro.id}"><button class="button is-small" id="boton_principal">Información</button></a></td>
                     </tr>`;
                         //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
                         tableBody.insertAdjacentHTML("beforeend", filaLibro);
