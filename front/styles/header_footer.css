@@ -1,14 +1,14 @@
 :root{
     --color-background: #152C3D;
-    --color-tablas-principal: #324C5E;
-
     --color-footer_navbar: #035c9c;
 
+    --color-cuadro-secundario: #324C5E;
     --color-tablas-encabezado: #035c9c;
     --color-tablas-encabezado-texto: white;
 
+    --color-cuadro-principal: #15354d;
     --color-tablas-background: #122837;
-    --color-tablas-form: #324C5E;
+    --color-tablas-form: #16212a;
     --color-tablas-celda-texto: white;
 
     /* Colores para hover en tablas */
@@ -46,14 +46,14 @@ body{
 
 
 #cuadro_principal{
-    background-color: var(--color-tablas-principal);
+    background-color: var(--color-cuadro-principal);
 }
 #cuadro_encabezado, #cuadro_encabezado > h1, #cuadro_encabezado > h2, #cuadro_encabezado > h2>b{
     background-color: var(--color-tablas-encabezado);
     color: var(--color-tablas-encabezado-texto);
 }
 #cuadro_secundario{
-    background-color: yellow;
+    background-color: var(--color-cuadro-secundario);
 }
 #tabla_principal, #libros, #cuerpo_libros{
     background-color: var(--color-tablas-background);
