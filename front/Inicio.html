@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>INICIO</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/front/styles/inicio.css">
+    <link rel="stylesheet" href="/front/styles/header_footer.css">
+    
 </head>
 
 <body>
@@ -17,85 +20,35 @@
             <h1 class="title mt-5 ml-5">Bienvenido a la biblioteca</h1> <!-- Added ml-5 class for margin-left -->
             <h2 class="subtitle ml-5">Libros disponibles</h2>
         </div>
-        <div id="cards_libros" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; padding: 1rem;">
-            <div class="card" style="max-width: 15rem; margin: auto;">
+        <div id="cards_libros">
+            <div class="card">
+                <a href="libro.html?id=1">
                 <div class="card-image">
+
                     <figure class="image is-4by2" >
-                        <img src="https://images-na.ssl-images-amazon.com/images/P/8429150013.01.LZZZZZZZ.jpg" alt="Placeholder image" style="width: auto; display: block; margin-left: auto; margin-right: auto;">
+                        <img src="https://images-na.ssl-images-amazon.com/images/P/8429150013.01.LZZZZZZZ.jpg" alt="">
                     </figure>
                 </div>
-                    <div class="content">
-                        <p class="title is-4">Calculos 2</p>
-                        <p class="subtitle is-6">Tom M. Apostol</p>
-                        <time datetime="2016-1-1">1 Jan 2016</time>
-                    </div>
+                </a>
+
+                <div class="content">
+                    <a href="libro.html?id=1">
+                    <p class="title is-4">Calculos 2</p>
+                    <p class="subtitle is-6">Tom M. Apostol</p>
+                    <time datetime="2016-1-1">1 Jan 2016</time>
+                    </a>
+                </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
+    <footer class="footer"></footer>
     <!--footer por header_footer.js-->
     </footer>
 
     <script src="./src/header_footer_inicio.js"></script>
-    <script>
-        function crearCartas(){
-            fetch('http://localhost:3000/libros')
-                .then(response => response.json())
-                .then(libros => {
-                    let cards = document.getElementById('cards_libros')
-                    cards.innerHTML = ''
-
-                    libros.forEach(libro => {
-                        let card = document.createElement('div')
-                        card.className = 'card'
-                        card.style.width = '15rem'
-                        card.style.height = 'auto'
-
-
-                        let cardImage = document.createElement('div')
-                        cardImage.className = 'card-image'
-                
-
-                        let figure = document.createElement('figure')
-                        figure.className = 'image is-4by2'
-
-
-                        let img = document.createElement('img')
-                        let imagen =  `https://covers.openlibrary.org/b/isbn/${libro.codigo_isbn}-L.jpg`
-                        img.src = imagen
-                        img.alt = 'Placeholder image'    
-                        img.style.width = 'auto'                    
-                        let content = document.createElement('div')
-                        content.className = 'content'
-
-                        let title = document.createElement('p')
-                        title.className = 'title is-4'
-                        title.textContent = libro.titulo
-
-                        let subtitle = document.createElement('p')
-                        subtitle.className = 'subtitle is-6'
-                        subtitle.textContent = libro.autor
-
-                        let time = document.createElement('time')
-                        time.datetime = libro.anio_publicacion
-                        time.textContent = libro.anio_publicacion
-
-                        figure.appendChild(img)
-                        cardImage.appendChild(figure)
-                        card.appendChild(cardImage)
-                        card.appendChild(content)
-                        content.appendChild(title)
-                        content.appendChild(subtitle)
-                        content.appendChild(time)
-                        cards.appendChild(card)
-                    })
-                })
-                
-        }
-    crearCartas()
-    </script>
+    <script src="./src/inicio.js"></script>
 </body>
 
 </html>
