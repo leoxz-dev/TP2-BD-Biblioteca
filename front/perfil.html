@@ -166,16 +166,17 @@
       });
     }
 
-    function renderPagination() {
-      //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
-      paginationList.innerHTML = "";
-      for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement("li");
-        //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
-        // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
-        pageButton.innerHTML = `
-          <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">${i}</a>`;
-        paginationList.appendChild(pageButton);
+      function renderPagination() {
+        //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
+        paginationList.innerHTML = "";
+        for (let i = 1; i <= totalPages; i++) {
+          const pageButton = document.createElement("li");
+          //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
+          // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
+          pageButton.innerHTML = `
+          <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-num-pagina="${i}">${i}</a>`;
+          paginationList.appendChild(pageButton);
+        }
       }
     }
     //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
