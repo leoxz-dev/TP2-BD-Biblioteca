@@ -1,5 +1,5 @@
 const header = document.querySelector("header");
-const footer = document.querySelector(".footer");
+const footer = document.querySelector("footer");
 
 header.innerHTML = `
             <nav class="navbar is-dark" role="navigation" aria-label="main navigation">

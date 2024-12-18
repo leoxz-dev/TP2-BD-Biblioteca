@@ -1,5 +1,5 @@
 const header = document.querySelector("header");
-const footer = document.querySelector(".footer");
+const footer = document.querySelector("footer");
 
 header.innerHTML = `
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -21,8 +21,8 @@ header.innerHTML = `
                 <!-- Links que se modificarán dinámicamente -->
                 <a class="navbar-item" href="inicio.html">Inicio</a>
                 <a class="navbar-item" href="inicio-sesion.html" id="login-link">Iniciar Sesión</a>
-                <a class="navbar-item" href="perfil.html" id="perfil-link" style="display: none;">Perfil</a> <!-- Inicialmente oculto -->
-                <a class="navbar-item" href="#" id="cerrar-sesion-link" style="display: none;">Cerrar Sesión</a> <!-- Inicialmente oculto -->
+                <a class="navbar-item" href="perfil.html" id="perfil-link" >Perfil</a>
+                <a class="navbar-item" href="#" id="cerrar-sesion-link">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
