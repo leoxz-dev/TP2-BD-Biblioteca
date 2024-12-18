@@ -3,25 +3,19 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-    <link rel="stylesheet" href="/front/styles/header_footer.css">
+    <link rel="stylesheet" href="styles/header_footer.css">
 </head>
 <body>
     <header></header>
     <section class="hero is-small">
         <div class="block"></div>
     </section>
-<<<<<<< Updated upstream
-    <section>
-=======
 
     <section class="section">
->>>>>>> Stashed changes
         <div class="container is-max-desktop">
-            <div class="notification py-6" id="cuadro_principal">
+            <div class="notification has-background-grey-lighter py-6" id="cuadro_principal">
                 <div class="columns">
                     <div class="column">
-                        
-
                         <div class="block p-4" id="cuadro_encabezado">
                             <h1 id="title" class="title">Calculus 2</h1>
                         </div>
@@ -49,12 +43,12 @@
             </div>
         </div>
     </section>
-    <section class="hero is-small">
+    <section class="hero is-small has-background-grey-darker">
         <div class="hero-body has-text-centered" id="cuadro_encabezado">
-            <h1 class="title">Sinopsis</h1>
+            <h1 class="title has-text-white-ter">Sinopsis</h1>
         </div>
     </section>
-    <section style="justify-items: center;">
+    <section class="has-background-grey-lighter" style="justify-items: center;">
         <div class="container p-6 mx-6" id="cuadro_secundario">
             <p id="sinopsis_libro" class="is-size-5">Un día, Bastian entra a una librería donde encuentra un misterioso libro que a pesar de las advertencias del dueño, decide leerlo. Es entonces cuando Bastian se introduce en un mundo fantástico, repleto de seres extraordinarios.</p>
         </div>
@@ -64,14 +58,15 @@
     <footer class="footer"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search)
+        const urlParams = new URLSearchParams(window.location.search);
         const idLibro = parseInt(urlParams.get("id"))
+
         fetch(`http://localhost:3000/libros/${idLibro}`)
         .then(response => response.json())
         .then(datos => {
-            console.log(datos)
+            console.log(datos);
             
-            let estado = document.getElementById("estado")
+            let estado = document.getElementById("estado");
             if (datos.cant_ejemplares > 0) {
                 estado.innerHTML = `<b id="tabla_columna"> Estado: </b><FONT COLOR="green">Disponible</FONT>`
             } else {
@@ -84,10 +79,9 @@
             let libro = document.getElementById("libro")
             libro.alt = ` ${datos.titulo} de ${datos.autor}`
             
-            
-            
             let sinopsis = document.getElementById("sinopsis_libro")
             sinopsis.innerText = datos.sinopsis
+
             let isbn = datos.codigo_isbn;
             let portadaUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
             fetch(portadaUrl).then(response => {

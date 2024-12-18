@@ -4,7 +4,7 @@
     <title>Crear Préstamo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-    <link rel="stylesheet" href="/front/styles/header_footer.css">
+    <link rel="stylesheet" href="styles/header_footer.css">
 </head>
 
 <body>
@@ -28,32 +28,12 @@
                         </p>
                     </div>
                 </form>
-                <div class="container has-text-centered">
-                    <div class="table-container is-inline-block is-size-5">
-                        <table class="table is-bordered is-hoverable" id="tabla_principal">
-                            <thead class="is-size-5">
-                                <tr>
-                                    <th><abbr title="Id">Id</abbr></th>
-                                    <th><abbr title="Título">Título</abbr></th>
-                                    <th><abbr title="Apellido">Apellido</abbr></th>
-                                    <th><abbr title="Informacion">Info</abbr></th>
-                                </tr>
-                            </thead>
-                            <tfoot class="is-size-5">
-                                <tr>
-                                    <th><abbr title="Id">Id</abbr></th>
-                                    <th><abbr title="Nombre">Titulo</abbr></th>
-                                    <th><abbr title="Apellido">Autor</abbr></th>
-                                    <th><abbr title="Informacion">Info</abbr></th>
-
-                                </tr>
-                            </tfoot>
-                            <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
-                            <tbody class="is-size-6" id="tablaLibros">
-                                <!--ACA VAN LOS LIBROS-->
-                            </tbody>
-                        </table>
-
+                <br>
+                <div class="container is-fullwidth has-text-left">
+                    <div class="table-container is-inline-block is-size-5 ">            
+                        <ul id="lista-libros">
+                        </ul>
+                        <br>
                         <nav class="pagination is-centered" role="navigation" aria-label="pagination">
                             <button class="pagination-previous" id="prevPage">Anterior</button>
                             <button class="pagination-next" id="nextPage">Siguiente</button>
@@ -61,7 +41,6 @@
                                 <!-- Botones de página dinámicos -->
                             </ul>
                         </nav>
-
                     </div>
                 </div>
             </div>
@@ -142,49 +121,89 @@
     <footer class="footer"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
-        const tableBody = document.getElementById("tablaLibros");
+        const urlParams = new URLSearchParams(window.location.search);
+        const idSocio = urlParams.get("id");
+        document.getElementById('socio_id').value = idSocio;
+    
+        let listaLibros = document.getElementById("lista-libros");
         const paginationList = document.getElementById("paginationList");
         const prevPageButton = document.getElementById("prevPage");
         const nextPageButton = document.getElementById("nextPage");
-        const rowsPerPage = 10;
+        const rowsPerPage = 3;
         let currentPage = 1;
         //LISTA QUE SE VA A LLENAR CON LOS LIBROS
-        let libros = [];
+        let librosDisponibles = [];
         let totalPages = 1;
-
+        
 
         async function fetchLibros() {
             try {
                 const response = await fetch("http://localhost:3000/libros"); // Ruta de la API
-                libros = await response.json();
-                totalPages = Math.ceil(libros.length / rowsPerPage);
-                renderTable(currentPage);
+                const libros = await response.json();
+
+                libros.forEach( libro => {
+                    if(libro.disponibilidad){
+                        librosDisponibles.push(libro);
+                    }
+                });
+
+                totalPages = Math.ceil(librosDisponibles.length / rowsPerPage);
+                mostrarLibros(currentPage);
                 renderPagination();
             } catch (error) {
                 console.error("Error al obtener los usuarios:", error);
             }
         }
 
-        function renderTable(page) {
-            tableBody.innerHTML = ""; // LIMPIA LA TABLA
+        function mostrarLibro(libro){
+            if(libro.disponibilidad){
+                const li = document.createElement('li');
+
+                const div = document.createElement('div');
+                div.className = 'columns is-1';
+                li.appendChild(div);
+
+                const col1 = document.createElement('div');
+                col1.className = 'column';
+                div.appendChild(col1);
+
+                const col2 = document.createElement('div');
+                col2.className = 'column is-one-quarter is-flex is-align-content-center';
+                div.appendChild(col2);
+            
+                const div1 = document.createElement('div');
+                div1.className = 'notification';
+                col1.appendChild(div1);
+
+                const titulo = document.createElement('p');
+                titulo.className = 'title is-3';
+                titulo.textContent = libro.titulo;
+                div1.appendChild(titulo);
+
+                const autor = document.createElement('p');
+                autor.textContent = libro.autor;
+                div1.appendChild(autor);
+
+                const boton = document.createElement('button');
+                boton.className = 'button is-fullwidth has-background-primary';
+                boton.textContent = 'Elegir';
+                boton.setAttribute("id", `elegir-libro-${libro.id}`);
+                col2.appendChild(boton);
+
+                listaLibros.appendChild(li);
+            }
+        }
+
+        function mostrarLibros(page){
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
-            //AL PARECER SE LE PUEDE HACER SLICES A LISTAS EN JS
-            const pageLibros = libros.slice(start, end);
-            //INSERTAMOS EN EL "INNER.HTML" LOS FILAS CON LOS DATOS DE LOS SOCIOS
-            pageLibros.forEach((libro) => {
-                const row = `
-                <tr>
-                    <th id="tabla_columna">${libro.id}</th>
-                    <td id="tabla_columna">${libro.titulo}</td>
-                    <td id="tabla_columna">${libro.autor}</</td>
-                    <td><a href="libro.html?id=${libro.id}"><button class="button is-primary is-small" id="boton_secundario">Información</button></a></td>
-                </tr>
-                `;
-                //USAMOS insertAdj... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
-                //LAS FILAS SE APPENDEN UNA ABAJO DE LA OTRA
-                tableBody.insertAdjacentHTML("beforeend", row);
-            });
+            const pageLibros = librosDisponibles.slice(start, end);
+
+            listaLibros.innerHTML = '';
+        
+            pageLibros.forEach( libro => {
+                mostrarLibro(libro);
+            })
         }
 
         function renderPagination() {
@@ -195,11 +214,18 @@
                 //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
                 // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
                 pageButton.innerHTML = `
-                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
+                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-num-pagina="${i}">
                     ${i}
                 </a>
                 `;
                 paginationList.appendChild(pageButton);
+
+                document.querySelectorAll('[id^="elegir-libro-"]').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const libroId = this.id.split('-').pop();
+                        document.getElementById('libro_id').value = libroId;
+                    });
+                });
             }
         }
 
@@ -209,7 +235,7 @@
                 //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
                 //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
                 currentPage = parseInt(e.target.dataset.numPagina);
-                renderTable(currentPage);
+                mostrarLibros(currentPage);
                 renderPagination();
             }
         });
@@ -217,7 +243,7 @@
         prevPageButton.addEventListener("click", () => {
             if (currentPage > 1) {
                 currentPage--;
-                renderTable(currentPage);
+                mostrarLibros(currentPage);
                 renderPagination();
             }
         });
@@ -225,19 +251,18 @@
         nextPageButton.addEventListener("click", () => {
             if (currentPage < totalPages) {
                 currentPage++;
-                renderTable(currentPage);
+                mostrarLibros(currentPage);
                 renderPagination();
             }
         });
-
 
         document.addEventListener("DOMContentLoaded", function () {
             fetchLibros();
         });
 
-
         document.getElementById('busqueda-form').addEventListener('submit', async function (event) {
             event.preventDefault();
+
             const titulo = document.getElementById('titulo').value.trim();
             //SI NO HAY ID Y ADEMAS NO HAY NOMBRE SALTA ALERT
             if (!titulo) {
@@ -248,25 +273,25 @@
                 const response = await fetch(`http://localhost:3000/libros/${titulo}`);
                 if (response.ok) {
                     const librosEncontrados = await response.json();
-                    //const tablaSocios = document.getElementById('tablaSocios');
-                    tableBody.innerHTML = '';
+                    
                     //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
                     if (librosEncontrados.length === 0) {
                         alert('No se encontraron Libros con ese nombre.');
                         return;
                     }
+                    listaLibros.innerHTML = '';
                     //ITERA POR TODOS LOS SOCIOS QUE ENCUENTRA Y CREA UNA ROW PARA CADA UNO
                     librosEncontrados.forEach(libro => {
-                        const filaLibro = `
-                                    <tr>
-                    <th>${libro.id}</th>
-                    <td>${libro.titulo}</td>
-                    <td>${libro.autor}</</td>
-                    <td><a href="libro.html?id=${libro.id}"><button class="button is-small" id="boton_principal">Información</button></a></td>
-                    </tr>`;
-                        //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
-                        tableBody.insertAdjacentHTML("beforeend", filaLibro);
+                        mostrarLibro(libro);
                     });
+
+                    document.querySelectorAll('[id^="elegir-libro-"]').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const libroId = this.id.split('-').pop();
+                            document.getElementById('libro_id').value = libroId;
+                        });
+                    });
+
                 } else {
                     alert('Hubo un error al buscar los libros.');
                 }
@@ -281,6 +306,7 @@
         //SE CREA EL PRESTAMO Y SE SUBE A LA BASE DE DATOS CON POST
         document.getElementById('crear-prestamo').addEventListener('submit', async function (event) {
             event.preventDefault();
+
             //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
             let fechaPrestamo = document.getElementById('fecha_prestamo').value;
             let fechaDevolucion = document.getElementById('fecha_devolucion').value;
@@ -306,8 +332,7 @@
 
             //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL prestamoData JSONIFICADO
             try {
-                console.log(prestamoData);
-
+                
                 const response = await fetch('http://localhost:3000/prestamos', {
                     method: 'POST',
                     headers: {
@@ -327,6 +352,7 @@
                     await actualizarEjemplares(idLibro);
                     //LIMPIAMOS EL FORM
                     document.getElementById('crear-prestamo').reset();
+                    fetchLibros();
                 } else {
                     const error = await response.json();
                     alert(error.error);
