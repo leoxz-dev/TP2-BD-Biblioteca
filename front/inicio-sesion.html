@@ -5,6 +5,7 @@
     <title>Inicio sesión</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/front/styles/header_footer.css">
 </head>
 
 <body>
@@ -15,10 +16,10 @@
                 <div class="container column">
                     <div class="container is-max-tablet">
                         <article class="message">
-                            <div class="message-header is-flex is-justify-content-center">
+                            <div class="message-header is-flex is-justify-content-center" id="cuadro_encabezado">
                                 <h2 class="subtitle has-text-white"><b>Inicie sesión con email y contraseña</b></h2>
                             </div>
-                            <div class="message-body has-text-centered px-6">
+                            <div class="message-body has-text-centered px-6" id="cuadro_principal">
                                 <form id="login-form" class="mx-3">
                                     <div class="field">
                                         <label class="label">Email</label>
@@ -37,7 +38,7 @@
                                     </div>
                                     <br>
                                     <div class="buttons is-centered">
-                                        <button type="submit" class="button is-success is-normal">Logearse</button>
+                                        <button type="submit" id="boton_principal" class="button is-normal">Logearse</button>
                                     </div>
                                 </form>
                             </div>
@@ -46,10 +47,10 @@
                 </div>
                 <div class="container column">
                     <article class="message">
-                        <div class="message-header is-flex is-justify-content-center">
+                        <div class="message-header is-flex is-justify-content-center" id="cuadro_encabezado">
                             <h2 class="subtitle has-text-white"><b>INGRESE SUS DATOS Y REGISTRARSE</b></h2>
                         </div>
-                        <div class="message-body">
+                        <div class="message-body" id="cuadro_principal">
                             <form id="registrarse-form" class="mx-3">
                                 <div class="field">
                                     <label class="label">Nombre</label>
