@@ -45,17 +45,17 @@
 
           <div class="column">
             <br />
-            <p class="title has-text-centered has-text-black">LIBRO EN PRESTACIÓN</p>
+            <p class="title has-text-centered" id="cuadro_encabezado">LIBRO EN PRESTACIÓN</p>
             <div class="container has-text-centered">
               <div class="table-container is-inline-block is-size-5">
-                <table class="table is-bordered is-hoverable">
+                <table class="table is-bordered is-hoverable" id="tabla_principal">
                   <thead class="is-size-5">
                     <tr>
-                      <th><abbr title="Id">Id</abbr></th>
-                      <th><abbr title="Titulo">Titulo</abbr></th>
-                      <th><abbr title="Disponibilidad">Status</abbr></th>
-                      <th><abbr title="fecha_devolucion">Fecha devolucion</abbr></th>
-                      <th><abbr title="Informacion">Informacion Prestamo</abbr></th>
+                      <th id="tabla_columna"><abbr title="Id">Id</abbr></th>
+                      <th id="tabla_columna"><abbr title="Titulo">Titulo</abbr></th>
+                      <th id="tabla_columna"><abbr title="Disponibilidad">Status</abbr></th>
+                      <th id="tabla_columna"><abbr title="fecha_devolucion">Fecha devolucion</abbr></th>
+                      <th id="tabla_columna"><abbr title="Informacion">Informacion Prestamo</abbr></th>
 
                     </tr>
                   </thead>
@@ -151,10 +151,10 @@
 
           const row = `
           <tr class="is-size-6">
-          <td >${prestamo.id}</td>
-          <td>${tituloLibro}</td>
-          <td>${prestamo.estado}</td>
-          <td>${fechaDevolucion}</td>
+          <td id="tabla_columna">${prestamo.id}</td>
+          <td id="tabla_columna">${tituloLibro}</td>
+          <td id="tabla_columna">${prestamo.estado}</td>
+          <td id="tabla_columna">${fechaDevolucion}</td>
           <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Ver información</button></a></td>
           </tr>
           `;
@@ -173,7 +173,7 @@
           //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
           // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
           pageButton.innerHTML = `
-          <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">${i}</a>`;
+          <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}" id="currentPage">${i}</a>`;
           paginationList.appendChild(pageButton);
         }
       }
@@ -224,23 +224,23 @@
             const socioInfo = document.getElementById('socio-info');
             //HTML QUE VA EN socioInfo
             socioInfo.innerHTML = `
-                <h1 class="title">DATOS</h1>
-                <div class="block">
+                <h1 class="title" id="cuadro_encabezado" >DATOS</h1>
+                <div class="block" id="tabla_columna">
                 <p>Id de Usuario: ${socio.id}</p>
                 </div>
-                <div class="block">
+                <div class="block" id="tabla_columna">
                 <p>Nombre: ${socio.nombre}</p>
                 </div>
-                <div class="block">
+                <div class="block" id="tabla_columna">
                 <p>Apellido: ${socio.apellido}</p>
                 </div>
-                <div class="block">
+                <div class="block" id="tabla_columna">
                 <p>Correo electrónico: ${socio.email}</p>
                 </div>
-                <div class="block">
+                <div class="block" id="tabla_columna">
                 <p>Domicilio: ${socio.direccion}</p>
                 </div>
-                <div class="block">
+                <div class="block" id="tabla_columna">
                 <p>Teléfono: ${socio.telefono}</p>
                 </div>
             `;
