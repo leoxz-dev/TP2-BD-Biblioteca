@@ -10,20 +10,22 @@
     <section class="hero is-small">
         <div class="block"></div>
     </section>
-    <section class="has-background-dark">
+    <section>
         <div class="container is-max-desktop">
-            <div class="notification py-6">
+            <div class="notification py-6" id="cuadro_principal">
                 <div class="columns">
                     <div class="column">
-                        <div class="block has-background-dark p-4">
-                            <h1 id="title" class="title"></h1>
+                        
+
+                        <div class="block p-4" id="cuadro_encabezado">
+                            <h1 id="title" class="title">Calculus 2</h1>
                         </div>
                         <div id="informacion" class="content pl-4">
                             <p id="caracteristicas" class="is-size-4"></p>
                             <br><br><br>
                             <p id="estado" class="is-size-4"></p>
                         </div>
-                        <a class="button is-medium is-fullwidth" href="crear-prestamo.html">Pedir prestado</a>
+                        <a class="button is-medium is-fullwidth" id="boton_principal" href="crear-prestamo.html">Pedir prestado</a>
                     </div>
                     <div class="column">
                         <figure class="pl-6 ml-4">
@@ -43,13 +45,13 @@
         </div>
     </section>
     <section class="hero is-small">
-        <div class="hero-body has-text-centered">
+        <div class="hero-body has-text-centered" id="cuadro_encabezado">
             <h1 class="title">Sinopsis</h1>
         </div>
     </section>
-    <section class="has-background-dark">
-        <div class="container p-6 mx-6">
-            <p id="sinopsis" class="is-size-5">Un día, Bastian entra a una librería donde encuentra un misterioso libro que a pesar de las advertencias del dueño, decide leerlo. Es entonces cuando Bastian se introduce en un mundo fantástico, repleto de seres extraordinarios.</p>
+    <section style="justify-items: center;">
+        <div class="container p-6 mx-6" id="cuadro_secundario">
+            <p id="sinopsis_libro" class="is-size-5">Un día, Bastian entra a una librería donde encuentra un misterioso libro que a pesar de las advertencias del dueño, decide leerlo. Es entonces cuando Bastian se introduce en un mundo fantástico, repleto de seres extraordinarios.</p>
         </div>
     </section>
 
@@ -66,34 +68,40 @@
             
             let estado = document.getElementById("estado")
             if (datos.cant_ejemplares > 0) {
-                estado.innerHTML = `<b>Estado: </b><FONT COLOR="green">Disponible</FONT>`
+                estado.innerHTML = `<b id="tabla_columna"> Estado: </b><FONT COLOR="green">Disponible</FONT>`
             } else {
-                estado.innerHTML = `<b>Estado: </b><FONT COLOR="red">No disponible</FONT>`
+                estado.innerHTML = `<b id="tabla_columna"> Estado: </b><FONT COLOR="red">No disponible</FONT>`
             }
             
             let titulo = document.getElementById("title")
             titulo.innerText = datos.titulo
+            
             let libro = document.getElementById("libro")
             libro.alt = ` ${datos.titulo} de ${datos.autor}`
             
-            let sinopsis = document.getElementById("sinopsis")
+            
+            
+            let sinopsis = document.getElementById("sinopsis_libro")
             sinopsis.innerText = datos.sinopsis
             let isbn = datos.codigo_isbn;
             let portadaUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
-            if (portadaUrl) {
-                libro.src = portadaUrl;
-            } else {
+            fetch(portadaUrl).then(response => {
+                if (response.ok) {
+                    libro.src = portadaUrl;
+                } else {
+                    libro.src = "https://via.placeholder.com/300";
+                }
+            }).catch(() => {
                 libro.src = "https://via.placeholder.com/300";
-            }
+            });
             
             let caracteristicas = document.getElementById("caracteristicas")
             caracteristicas.innerHTML = 
-            `<b>Autor: </b>${datos.autor} <br>
-            <b>Año de publicación: </b>${datos.anio_publicacion} <br>
-            <b>Cantidad de páginas: </b>${datos.cant_paginas} <br>
-            <b>Cantidad de ejemplares: </b>${datos.cant_ejemplares} <br>
-            <b>Género: </b>
-            <span class="tag is-success">${datos.genero}</span>`
+            `<b id="tabla_columna">Autor: </b><span id="tabla_columna">${datos.autor}</span> <br>
+            <b id="tabla_columna">Año de publicación: </b><span id="tabla_columna">${datos.anio_publicacion}</span> <br>
+            <b id="tabla_columna">Cantidad de páginas: </b><span id="tabla_columna">${datos.cant_paginas}</span> <br>
+            <b id="tabla_columna">Cantidad de ejemplares: </b><span id="tabla_columna">${datos.cant_ejemplares}</span> <br>
+            <b id="tabla_columna">Género: </b><span class="tag" id="etiqueta">${datos.genero}</span>`
         })
 
     </script>
