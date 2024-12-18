@@ -1,10 +1,106 @@
+:root{
+    --color-background: #152C3D;
+    --color-tablas-principal: #324C5E;
+
+    --color-footer_navbar: #035c9c;
+
+    --color-tablas-encabezado: #035c9c;
+    --color-tablas-encabezado-texto: white;
+
+    --color-tablas-background: #122837;
+    --color-tablas-form: #324C5E;
+    --color-tablas-celda-texto: white;
+
+    /* Colores para hover en tablas */
+    /*cambio de color al pasar el mouse por encima de una fila de la tabla*/
+    --color-tablas-hover: #326589;
+
+    /* Colores para las filas pares e impares */
+    --color-tablas-filas-pares: ##324C5E;
+    --color-tablas-filas-impares: ##326589;
+
+
+    --boton-principal: #0784DE;
+    --boton-secundario: #326589;
+
+
+    --color-pagination-prevPage: #2377B3;
+    --color-pagination-currentPage: #326589;
+    --color-pagination-nextPage: #2377B3;
+}
 #perfil-link {
     display: none;
 }
 #cerrar-sesion-link{
     display: none;
 }
-.footer{
+
+.footer, .navbar-menu{
     padding-bottom: 1rem;
     padding-top: 1rem;
+    background-color: var(--color-footer_navbar);
     }
+body{
+    background-color: var(--color-background);
+}
+
+
+#cuadro_principal{
+    background-color: var(--color-tablas-principal);
+}
+#cuadro_encabezado, #cuadro_encabezado > h1, #cuadro_encabezado > h2, #cuadro_encabezado > h2>b{
+    background-color: var(--color-tablas-encabezado);
+    color: var(--color-tablas-encabezado-texto);
+}
+#cuadro_secundario{
+    background-color: yellow;
+}
+#tabla_principal, #libros, #cuerpo_libros{
+    background-color: var(--color-tablas-background);
+}
+#tabla_principal.table.is-hoverable tbody tr:hover {
+    background-color: var(--color-tablas-hover);
+    color: var(--color-tablas-celda-texto);
+}
+/* Styles for striped table */
+#libros.table.is-striped tbody tr:nth-child(odd) {
+    background-color: var(--color-tablas-filas-pares)
+}
+#libros.table.is-striped tbody tr:nth-child(even) {
+    background-color: var(--color-tablas-filas-impares)
+}
+/* Styles form_table */
+#titulo, #autor, #año, #isbn, #paginas, #ejemplares, #sinopsis,#genero{
+    background-color: var(--color-tablas-form);
+}
+.input, div.select>#tipo_prestamo, div.select>#tipo-busqueda {
+    background-color: var(--color-tablas-form);
+}
+#tabla_columna, #tabla_principal>thead>tr>th, #tablaPrestamos>tr>td, .label,#tabla_principal>thead>tr>th>abbr{ 
+    color : var(--color-tablas-celda-texto);
+}
+.title{
+    color: white;
+}
+#boton_principal, #button-submit{
+    background-color: var(--boton-principal);
+}
+#boton_secundario{
+    background-color: var(--boton-secundario);
+}
+
+/* Styles pagination page */
+#prevPage{
+    background-color: var(--color-pagination-prevPage);
+}
+#currentPage{
+    background-color: var(--color-pagination-currentPage);
+}
+#nextPage{
+    background-color: var(--color-pagination-nextPage);
+}
+
+#etiqueta{ 
+    background-color: blue;
+}
+
