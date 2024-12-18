@@ -5,17 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Prestamos</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+        <link rel="stylesheet" href="/front/styles/header_footer.css">
     </head>
 <body>
     <header>
         <!--header por header_footer.js-->
     </header>
     <section class="section is-medium">
-        <div class="container">
+        <div class="container" id="cuadro_principal">
             <div class="columns is-8">
                 <div class="column">
-                <h1 class="title">Lista de prestamos</h1></div>
-                <div class="column">
+                    <div class="message-header is-flex is-justify-content-left" id="cuadro_encabezado">
+                      <h1 id="id_prestamo" class="title">Lista de prestamos</h1>
+                    </div>
+                </div>
+              <div class="column">
                 <div class="control ">
                     <div class="select">
                         <select id="estado-busqueda" class="select" onchange="cargarDatos()" required>
@@ -26,16 +30,15 @@
                         </select>
                     </div>
                 </div></div>
-            </div>
-            <div class="table-container">
-                <table class="table is-striped is-hoverable">
+            <div class="table-container" >
+                <table class="table is-striped is-hoverable" id="tabla_principal">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Titulo</th>
-                            <th>Socio</th>
-                            <th>Fecha prestamo</th>
-                            <th>Fecha devolución</th>
+                            <th id="tabla_columna">Id</th>
+                            <th id="tabla_columna">Titulo</th>
+                            <th id="tabla_columna">Socio</th>
+                            <th id="tabla_columna">Fecha prestamo</th>
+                            <th id="tabla_columna">Fecha devolución</th>
                         </tr>
                         <tbody id="tabla-prestamos">
                         </tbody>
