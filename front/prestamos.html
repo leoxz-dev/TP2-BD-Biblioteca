@@ -12,7 +12,20 @@
     </header>
     <section class="section is-medium">
         <div class="container">
-            <h1 class="title">Lista de prestamos</h1>
+            <div class="columns is-8">
+                <div class="column">
+                <h1 class="title">Lista de prestamos</h1></div>
+                <div class="column">
+                <div class="control ">
+                    <div class="select">
+                        <select id="tipo-busqueda" class="select" onchange="elegirBusqueda()" required>
+                            <option value="En préstamo">En préstamo</option>
+                            <option value="Finalizado">Finalizado</option>
+                            <option value="En reclamo">En reclamo</option>
+                        </select>
+                    </div>
+                </div></div>
+            </div>
             <div class="table-container">
                 <table class="table is-striped is-hoverable">
                     <thead>
@@ -32,15 +45,40 @@
         </div>
     </section>
     <footer class="footer">
-                        <!--footer por header_footer.js-->
+        <!--footer por header_footer.js-->
     </footer>
 
     <script src="./src/header_footer.js" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></script>
     <script>
+        const filtro = ["En préstamo", "", ""];
+        
+        async function devolverTituloLibro(idLibro) {
+            try{
+                const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
+                const libro = await infoLibro.json();
+                const nombreLibro = libro.titulo;
+                return nombreLibro;
+
+            } catch (error){
+                console.error('No se pudo obtener el título del libro');
+            }
+        }
+
+        async function devolverNombreSocio(idSocio) {
+            try{
+                const infoSocio = await fetch(`http://localhost:3000/socios?id=${idSocio}`);
+                const socio = await infoSocio.json();
+                const nombreEnteroSocio = socio.nombre + ' ' + socio.apellido;
+                return nombreEnteroSocio;
+
+            } catch (error){
+                console.error('No se pudo obtener el título del libro');
+            }
+        }
+
         fetch('http://localhost:3000/prestamos')
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.length);
                 if (data.length === 0) {
                     const error = document.getElementById('error');
                     error.innerHTML = 'No hay prestamos :C';
@@ -48,15 +86,19 @@
                 else{
                 const table = document.querySelector('table tbody');
                 data.forEach(prestamo => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${prestamo.id}</td>
-                        <td>${prestamo.titulo}</td>
-                        <td>${prestamo.socio}</td>
-                        <td>${prestamo.fecha_prestamo}</td>
-                        <td>${prestamo.fecha_devolucion}</td>
-                    `;
-                    table.appendChild(row);
+                    devolverTituloLibro(prestamo.libro_id).then(tituloLibro => {
+                        devolverNombreSocio(prestamo.socio_id).then( nombreSocio => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${prestamo.id}</td>
+                                <td>${tituloLibro}</td>
+                                <td>${nombreSocio}</td>
+                                <td>${prestamo.fecha_prestamo}</td>
+                                <td>${prestamo.fecha_devolucion}</td>
+                            `;
+                            table.appendChild(row);     
+                        })
+                    });
                 });
             }
             });
