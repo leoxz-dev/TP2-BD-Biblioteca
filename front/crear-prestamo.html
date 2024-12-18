@@ -142,7 +142,7 @@
         const paginationList = document.getElementById("paginationList");
         const prevPageButton = document.getElementById("prevPage");
         const nextPageButton = document.getElementById("nextPage");
-        const rowsPerPage = 10;
+        const rowsPerPage = 2;
         let currentPage = 1;
         //LISTA QUE SE VA A LLENAR CON LOS LIBROS
         let libros = [];
@@ -191,7 +191,7 @@
                 //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
                 // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
                 pageButton.innerHTML = `
-                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-numPagina="${i}">
+                <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-num-pagina="${i}">
                     ${i}
                 </a>
                 `;
