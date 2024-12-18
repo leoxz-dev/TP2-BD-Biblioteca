@@ -1,5 +1,6 @@
 :root{
     --color-background: #152C3D;
+    --color-cuadro-secundario: #324C5E;
     --color-tablas-principal: #324C5E;
 
     --color-footer_navbar: #035c9c;
@@ -53,7 +54,7 @@ body{
     color: var(--color-tablas-encabezado-texto);
 }
 #cuadro_secundario{
-    background-color: yellow;
+    background-color: var(--color-cuadro-secundario);
 }
 #tabla_principal, #libros, #cuerpo_libros{
     background-color: var(--color-tablas-background);
