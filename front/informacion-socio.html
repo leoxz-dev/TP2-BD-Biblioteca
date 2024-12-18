@@ -13,13 +13,15 @@
     <!--header por header_footer.js-->
   </header>
 
-  <section class="hero has-background-dark">
+  <section class="hero">
     <div class="container my-6">
-      <div class="notification has-background-light">
+      <div class="notification" id="cuadro_principal">
         <div class="columns">
           <!--COLUMNA DONDE VA LA INFO DEL SOCIO-->
           <div class="column">
+            
             <div id="socio-info" class="content is-size-4 p-6 ml-6 has-text-weight-semibold has-text-dark">
+
               <!--ESTO ES COMO DEBERIA VERSE EN EL FRONT LA INFORMACION DEL SOCIO-->
               <!--<h1 class="title has-text-success">DATOS</h1>
                 <div class="block">
@@ -43,12 +45,20 @@
             </div>
           </div>
 
+
+
+
+
           <div class="column">
             <br />
-            <p class="title has-text-centered has-text-black">LIBRO EN PRESTACIÓN</p>
+            <div class="message-header is-flex is-justify-content-center title has-text-centered" id="cuadro_encabezado">
+              <h1 id="id_prestamo" class="title">
+                LIBRO EN PRESTACIÓN 
+              </h1>
+          </div>
             <div class="container has-text-centered">
               <div class="table-container is-inline-block is-size-5">
-                <table class="table is-bordered is-hoverable">
+                <table class="table is-bordered is-hoverable" id="tabla_principal">
                   <thead class="is-size-5">
                     <tr>
                       <th><abbr title="Id">Id</abbr></th>
@@ -185,7 +195,7 @@
           <td>${tituloLibro}</td>
           <td>${prestamo.estado}</td>
           <td>${fechaDevolucion}</td>
-          <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Ver información</button></a></td>
+          <td><a href="prestamo.html?id=${prestamo.id}"><button id="boton_secundario" class="button is-info is-small">Ver información</button></a></td>
           </tr>
           `;
           //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
@@ -254,25 +264,29 @@
             const socioInfo = document.getElementById('socio-info');
             //HTML QUE VA EN socioInfo
             socioInfo.innerHTML = `
-                <h1 class="title">DATOS</h1>
-                <div class="block">
-                <p>Id de Usuario: ${socio.id}</p>
-                </div>
-                <div class="block">
-                <p>Nombre: ${socio.nombre}</p>
-                </div>
-                <div class="block">
-                <p>Apellido: ${socio.apellido}</p>
-                </div>
-                <div class="block">
-                <p>Correo electrónico: ${socio.email}</p>
-                </div>
-                <div class="block">
-                <p>Domicilio: ${socio.direccion}</p>
-                </div>
-                <div class="block">
-                <p>Teléfono: ${socio.telefono}</p>
-                </div>
+              <div class="message-header is-flex is-justify-content-left" id="cuadro_encabezado">
+              <h1 class="title">
+              Datos 
+              </h1>
+              </div>
+              <div class="block" id="tabla_columna">
+              <p>Id de Usuario: ${socio.id}</p>
+              </div>
+              <div class="block" id="tabla_columna">
+              <p>Nombre: ${socio.nombre}</p>
+              </div>
+              <div class="block" id="tabla_columna">
+              <p>Apellido: ${socio.apellido}</p>
+              </div>
+              <div class="block" id="tabla_columna">
+              <p>Correo electrónico: ${socio.email}</p>
+              </div>
+              <div class="block" id="tabla_columna">
+              <p>Domicilio: ${socio.direccion}</p>
+              </div>
+              <div class="block" id="tabla_columna">
+              <p>Teléfono: ${socio.telefono}</p>
+              </div>
             `;
           })
           .catch(error => {
