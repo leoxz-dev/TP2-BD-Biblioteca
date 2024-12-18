@@ -112,6 +112,13 @@
     <footer class="footer" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
     <script src="./src/header_footer_inicio.js"></script>
     <script>
+        let apiURL
+
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
 
 
         document.getElementById('registrarse-form').addEventListener('submit', async function (event) {
@@ -145,7 +152,7 @@
             try {
                 let response;
                 //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL socioData JSONIFICADO
-                response = await fetch('http://localhost:3000/socios', {
+                response = await fetch(`${apiURL}/socios`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -175,7 +182,7 @@
             const email = document.getElementById('email-login').value;
             const contraseña = document.getElementById('contraseña-login').value;
             try {
-                const response = await fetch(`http://localhost:3000/socios/${email}/login`);
+                const response = await fetch(`${apiURL}/socios/${email}/login`);
                 if (response.ok) {
                     const socio = await response.json();
                     if (socio.contrasenia === contraseña) {

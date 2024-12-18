@@ -78,6 +78,14 @@
     </footer>
     <script src="./src/header_footer.js"></script>
     <script>
+        let apiURL
+
+            if (window.location.protocol === 'file:') {
+                apiURL = 'http://localhost:3000'
+            } else {
+                apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+            }
+
         document.addEventListener('DOMContentLoaded', async () => {
 
             const urlParams = new URLSearchParams(window.location.search);
@@ -102,7 +110,7 @@
                         </div>`;
                 estado.innerHTML += estadoInput
                 try {
-                    const response = await fetch(`http://localhost:3000/socios/${id}`);
+                    const response = await fetch(`${apiURL}/socios/${id}`);
                     if (response.ok) {
                         const socio = await response.json();
                         console.log(socio);
@@ -156,7 +164,7 @@
                 if (id) {
                     //INTENTAMOS HACER UN PUT UTILIZANDO COMO BODY EL socioData JSONIFICADO SI NOS PASARON EL ID POR PARAMETRO DE URL
 
-                    response = await fetch(`http://localhost:3000/socios/${id}`, {
+                    response = await fetch(`${apiURL}/socios/${id}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -167,7 +175,7 @@
                     alert('Socio actualizado con éxito');
                     //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL socioData JSONIFICADO
                 } else {
-                    response = await fetch('http://localhost:3000/socios', {
+                    response = await fetch(`${apiURL}/socios`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

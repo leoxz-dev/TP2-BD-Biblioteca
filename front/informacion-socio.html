@@ -123,6 +123,15 @@
   <script src="./src/header_footer.js"></script>
   <script>
 
+    let apiURL
+      
+    if (window.location.protocol === 'file:') {
+        apiURL = 'http://localhost:3000'
+    } else {
+        apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+    }
+
+
     const urlParams = new URLSearchParams(window.location.search);
     const socioId = urlParams.get("id");
     
@@ -142,7 +151,7 @@
 
     async function fetchUsuario(socioId) {
       try {
-        const response = await fetch(`http://localhost:3000/socios?id=${socioId}`); // Ruta de la API
+        const response = await fetch(`${apiURL}/socios?id=${socioId}`); // Ruta de la API
         usuarios = await response.json();
         prestamos = usuarios.historial_prestamos;
         totalPages = Math.ceil(prestamos.length / rowsPerPage);
@@ -155,7 +164,7 @@
 
     async function devolverTituloLibro(idLibro) {
       try{
-        const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
+        const infoLibro = await fetch(`${apiURL}/libros/${idLibro}`);
         const libro = await infoLibro.json();
         const nombreLibro = libro.titulo;
         return nombreLibro;
@@ -247,7 +256,7 @@
     } else {
       try {
         // Hacer el fetch al backend para obtener la información del socio
-        fetch(`http://localhost:3000/socios?id=${socioId}`)
+        fetch(`${apiURL}/socios?id=${socioId}`)
           .then((Response) => Response.json())
           .then(socio => {
             //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML

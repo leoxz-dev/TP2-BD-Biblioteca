@@ -37,7 +37,16 @@
 
     <script src="./src/header_footer.js" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></script>
     <script>
-        fetch('http://localhost:3000/prestamos')
+
+        let apiURL
+      
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
+        fetch(`${apiURL}/prestamos`)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data.length);

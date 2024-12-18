@@ -129,6 +129,15 @@
 
     <script src="./src/header_footer.js"></script>
     <script>
+
+        let apiURL
+
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
         document.getElementById('crear_libro').addEventListener('submit', async function(event) {
             event.preventDefault();
             const titulo = document.getElementById('titulo').value
@@ -152,7 +161,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost:3000/libros', {
+                const response = await fetch(`${apiURL}/libros`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -170,7 +179,7 @@
         })
 
         function crearElementosTabla(){
-            fetch('http://localhost:3000/libros')
+            fetch(`${apiURL}/libros`)
             .then(response => response.json())
             .then(libros => {
 
@@ -212,7 +221,7 @@
                     borrarButton.className = 'button is-danger is-small'
                     borrarButton.textContent = 'Borrar'
                     borrarButton.onclick = function() {
-                        fetch(`http://localhost:3000/libros/${libro.id}`, {
+                        fetch(`${apiURL}/libros/${libro.id}`, {
                             method: 'DELETE'
                         })
                         .then(response => {

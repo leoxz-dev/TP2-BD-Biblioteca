@@ -56,9 +56,19 @@
     <footer class="footer"  style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+
+        let apiURL
+
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
+
         const urlParams = new URLSearchParams(window.location.search)
         const idLibro = parseInt(urlParams.get("id"))
-        fetch(`http://localhost:3000/libros/${idLibro}`)
+        fetch(`${apiURL}/libros/${idLibro}`)
         .then(response => response.json())
         .then(datos => {
             console.log(datos)
