@@ -41,10 +41,14 @@ footer.innerHTML = `
 
 document.addEventListener('DOMContentLoaded', () => {
     // Verificar si el usuario está logueado
-    const usuarioLogueado = sessionStorage.getItem('usuarioLogueado');
-
+    const usuarioLogueado = JSON.parse(sessionStorage.getItem('usuarioLogueado'));
     // Si el usuario está logueado, actualizar los enlaces
     if (usuarioLogueado) {
+        const SocioId = usuarioLogueado.id;
+        // Cambiar el enlace de perfil a incluir el SocioId
+        const perfilLink = document.getElementById('perfil-link');
+        perfilLink.href = `perfil.html?id=${SocioId}`;
+
         // Mostrar el enlace "Perfil" y ocultar "Iniciar sesión"
         document.getElementById('login-link').style.display = 'none';
         document.getElementById('perfil-link').style.display = 'flex';
