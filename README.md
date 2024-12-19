@@ -1,23 +1,35 @@
-# Cambios importantes
+# DESCRIPCIÓN  
 
-Pasé todo a una carpeta "back" con la intención de que todo quedara más prolijo. 
-Tuve que eliminar el antiguo contenedor de docker y volver a correr comandos 
-como npx prisma migrate dev
+La presente página web tiene dos enfoques
 
-## Pasos a seguir 
+La del usuario:
+    -Con un Log in puede ver sus datos y 
+    los préstamos que le han hecho
 
-Seguramente tendrán que correr unos comandos en local que detallo a continuación:
+    -Puede pedir prestado un libro
 
-1) borrar el antiguo contenedor de docker con "docker rm <id_del_contenedor>"
+La del Administrador:
+    -Se accede iniciando sesión con:
+        Correo electrónico: camejo@gmail.com
+        contraseña: vaca
 
-2) terminar el antiguo proceso de node con "pkill node". 
-Si no funciona, una alternativa está acá 
-https://stackoverflow.com/questions/4075287/node-express-eaddrinuse-address-already-in-use-how-can-i-stop-the-process
+    -Puede ver todos los libros
+    -Puede ver todos los usuarios
+    -Puede borrar libros
 
-3) Levantar el contenedor desde la carpeta back
+## Pasos para levantar el repo 
 
-4) Ejecutar npx migrate dev
+### Desde la carpeta del back, ejecutar:
+    
+1) Hacer un .env con las variables de entorno 
+|||de la base de datos
+
+2) docker compose up -d para la base de datos
+
+
+3) npx prisma migrate deploy
+
+4) npm run start o npm run dev para levantar el servidor
 
 5) ejecutar npm run dev
 
-Si no estoy equivocado, con todo eso ya les deberia funcionar. Pruebenlo y me avisan.

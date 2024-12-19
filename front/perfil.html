@@ -130,6 +130,14 @@
   <!--footer por header_footer.js-->
   <script src="./src/header_footer_inicio.js"></script>
   <script>
+    let apiURL
+    
+    if (window.location.protocol === 'file:') {
+        apiURL = 'http://localhost:3000'
+    } else {
+        apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const socioId = urlParams.get("id");
     //VAMOS A USAR FUNCIONES PARA QUE QUEDE BIEN ORDENADO EL CODIGO
@@ -148,7 +156,7 @@
 
     async function fetchUsuario(socioId) {
       try {
-        const response = await fetch(`http://localhost:3000/socios?id=${socioId}`); // Ruta de la API
+        const response = await fetch(`${apiURL}/socios?id=${socioId}`); // Ruta de la API
         usuarios = await response.json();
         prestamos = usuarios.historial_prestamos;
         totalPages = Math.ceil(prestamos.length / rowsPerPage);
@@ -161,7 +169,7 @@
 
     async function devolverTituloLibro(idLibro) {
       try {
-        const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
+        const infoLibro = await fetch(`${apiURL}/libros/${idLibro}`);
         const libro = await infoLibro.json();
         const nombreLibro = libro.titulo;
         return nombreLibro;
@@ -258,7 +266,7 @@
       document.addEventListener("DOMContentLoaded", function () {
         fetchUsuario(socioId);
 
-        fetch(`http://localhost:3000/socios?id=${socioId}`) // Ruta de la API
+        fetch(`${apiURL}/socios?id=${socioId}`) // Ruta de la API
           .then(response => response.json())
           .then(socio => {
             llenarDatosSocio(socioId, socio.nombre, socio.apellido, socio.email, socio.direccion, socio.telefono);
