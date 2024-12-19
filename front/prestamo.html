@@ -34,7 +34,7 @@
                                 <div class="field">
                                     <label class="label is-size-4" id="tabla_columna">Garantía</label>
                                     <div class="control">
-                                    <input id="garantia" class="input" type="number" min="0" max="999999" name="garantia" pattern="[0-9]{1,10}" required>
+                                    <input id="garantia" class="input" type="number" min="0" max="999999" name="garantia" pattern="[0-9]{1, 6}" required>
                                     </div>
                                 </div>
                             </div>
@@ -124,6 +124,9 @@
                 document.getElementById('fecha_prestamo').value = fechaPrestamo;
                 const fechaDevolucion = prestamo.fecha_devolucion.split('T')[0]; 
                 document.getElementById('fecha_devolucion').value = fechaDevolucion;
+                if (document.getElementById('garantia').value > 99999) {
+                    return alert('La garantía no puede ser mayor a 99999.');
+                }
                 document.getElementById('garantia').value = prestamo.garantia;                
                 document.getElementById('estado').value = prestamo.estado;
                 document.getElementById('tipo_prestamo').value = prestamo.tipo_prestamo;
