@@ -164,7 +164,7 @@
 
     async function fetchUsuario(socioId) {
       try {
-        const response = await fetch(`http://localhost:3000/socios?id=${socioId}`); // Ruta de la API
+        const response = await fetch(`${apiURL}/socios?id=${socioId}`); // Ruta de la API
         usuarios = await response.json();
         prestamos = usuarios.historial_prestamos;
         totalPages = Math.ceil(prestamos.length / rowsPerPage);
