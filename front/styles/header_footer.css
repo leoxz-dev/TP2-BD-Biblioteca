@@ -116,3 +116,12 @@ body{
     background-color: blue;
 }
 
+
+.control > .input::placeholder {
+    color: white;
+}
+#fecha_prestamo{
+}
+.control > .input::-webkit-calendar-picker-indicator {
+    filter: invert(75%);
+}
