@@ -530,7 +530,7 @@ app.post("/login", async (req, res) => {
 
     return res.json({
       mensaje: "Login exitoso",
-      token: token,
+      //token: token,
       socio: { email: socio.email, nombre: socio.nombre, id:socio.id },
     });
   } catch (error) {

@@ -181,7 +181,7 @@
                     body: JSON.stringify({ email, contraseña })
                 });
                 if (response.ok) {
-                    const { token, socio } = await response.json(); // El servidor envía un token JWT y datos del socio
+                    const socio = await response.json(); // El servidor envía un token JWT y datos del socio
 
                     // Guardar solo el token en sessionStorage
                     //sessionStorage.setItem('token', token);
