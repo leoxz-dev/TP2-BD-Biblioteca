@@ -56,11 +56,21 @@
 
     <script src="./src/header_footer.js" style="padding-bottom: 1.5rem; padding-top: 1.5rem;"></script>
     <script>
+
+
+        let apiURL
+        
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
         let tablaPrestamos = document.getElementById('tabla-prestamos');
         let prestamosTotales = [];
         let prestamosFiltrados = [];
         
-        fetch('http://localhost:3000/prestamos')
+        fetch(`${apiURL}/prestamos`)
         .then((response) => response.json())
         .then((data) => {
             if (data.length === 0) {
@@ -77,7 +87,7 @@
         
         async function devolverTituloLibro(idLibro) {
             try{
-                const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
+                const infoLibro = await fetch(`${apiURL}/libros/${idLibro}`);
                 const libro = await infoLibro.json();
                 const nombreLibro = libro.titulo;
                 return nombreLibro;
@@ -89,7 +99,7 @@
 
         async function devolverNombreSocio(idSocio) {
             try{
-                const infoSocio = await fetch(`http://localhost:3000/socios?id=${idSocio}`);
+                const infoSocio = await fetch(`${apiURL}/socios?id=${idSocio}`);
                 const socio = await infoSocio.json();
                 const nombreEnteroSocio = socio.id + '-' + socio.nombre + ' ' + socio.apellido;
                 return nombreEnteroSocio;
