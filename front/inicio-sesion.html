@@ -116,7 +116,7 @@
     <script>
 
         let apiURL
-    
+
         if (window.location.protocol === 'file:') {
             apiURL = 'http://localhost:3000'
         } else {
@@ -184,16 +184,18 @@
                 if (response.ok) {
                     const responseData = await response.json();
                     const socio = responseData.socio
-                    //console.log('Respuesta completa del servidor:', socio);
-                    //console.log("Email recibido:", socio.email);
-
-                    if (socio.email.trim().toLowerCase() === 'camejo@gmail.com') {
-                        sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio));
-                        window.location.href = 'libros.html';
+                    if (socio.estado === "activo") {
+                        if (socio.email.trim().toLowerCase() === 'camejo@gmail.com') {
+                            sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio));
+                            window.location.href = 'libros.html';
+                        } else {
+                            sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio));
+                            alert('¡LOG IN REALIZADO CON EXITO!');
+                            window.location.href = 'Inicio.html';
+                        }
                     } else {
-                        sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio));
-                        alert('¡LOG IN REALIZADO CON EXITO!');
-                        window.location.href = 'Inicio.html';
+                        alert("tu usuario esta inactivo")
+                        window.location.replace("Inicio.html")
                     }
                 } else {
                     alert('Credenciales incorrectas.');
