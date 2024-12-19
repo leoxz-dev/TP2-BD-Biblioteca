@@ -19,7 +19,7 @@ header.innerHTML = `
         <div class="navbar-menu" id="navMenu">
             <div class="navbar-end" id="navbar-links">
                 <!-- Links que se modificarán dinámicamente -->
-                <a class="navbar-item" href="inicio.html">Inicio</a>
+                <a class="navbar-item" href="Inicio.html">Inicio</a>
                 <a class="navbar-item" href="inicio-sesion.html" id="login-link">Iniciar Sesión</a>
                 <a class="navbar-item" href="perfil.html" id="perfil-link" >Perfil</a>
                 <a class="navbar-item" href="#" id="cerrar-sesion-link">Cerrar Sesión</a>

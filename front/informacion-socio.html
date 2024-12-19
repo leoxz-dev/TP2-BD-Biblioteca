@@ -134,41 +134,18 @@
     </div>
     <br />
   </section>
-  <section class="hero">
-    <div class="hero-body has-background-dark">
-      <h1 class="title has-text-centered">Libros prestados anteriormente</h1>
-      <div class="container is-max-tablet">
-        <div class="notification">
-          <div class="columns">
-            <div class="column">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmC4m3C4hk9soAR-pl9QDISZ5LLAHl5gjQgw&s"
-                width="100px" length="100px" />
-            </div>
-            <div class="column">
-              <img src="https://images.cdn2.buscalibre.com/fit-in/360x360/e6/5f/e65f54742ad7bbc41903d17f75b77d78.jpg"
-                width="100px" length="100px" />
-            </div>
-            <div class="column">
-              <img
-                src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1532714506i/40961427.jpg"
-                width="100px" length="100px" />
-            </div>
-            <div class="column">
-              <img
-                src="https://tienda.planetadelibros.com.ar/cdn/shop/products/portada_el-principito_antoine-de-saint-exupery_201507152131.jpg?v=1684356025"
-                width="100px" length="100px" />
-            </div>
-          </div>
-        </div>
-        <a class="button is-fullwidth" href="libros.html">Más libros</a>
-      </div>
-    </div>
-  </section>
-
   <footer class="footer"></footer>
   <!--footer por header_footer.js-->
   <script src="./src/header_footer.js"></script>
   <script>
+
+    let apiURL
+
+    if (window.location.protocol === 'file:') {
+      apiURL = 'http://localhost:3000'
+    }else{
+      apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const socioId = urlParams.get("id");
@@ -202,7 +179,7 @@
 
     async function devolverTituloLibro(idLibro) {
       try{
-        const infoLibro = await fetch(`http://localhost:3000/libros/${idLibro}`);
+        const infoLibro = await fetch(`${apiURL}/libros/${idLibro}`);
         const libro = await infoLibro.json();
         const nombreLibro = libro.titulo;
         return nombreLibro;
@@ -294,7 +271,7 @@
     } else {
       try {
         // Hacer el fetch al backend para obtener la información del socio
-        fetch(`http://localhost:3000/socios?id=${socioId}`)
+        fetch(`${apiURL}/socios?id=${socioId}`)
           .then((Response) => Response.json())
           .then(socio => {
             //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
@@ -358,7 +335,7 @@
       const id = urlParams.get('id');
   
       try {
-        const response = await fetch(`http://localhost:3000/socios/${id}`, {
+        const response = await fetch(`${apiURL}/socios/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

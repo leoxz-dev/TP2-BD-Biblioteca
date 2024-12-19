@@ -77,13 +77,13 @@
                                 <div class="field">
                                     <label class="label" id="tabla_columna">Cantidad de páginas</label>
                                     <div class="control">
-                                        <input type="number" min="0" class="input" id="paginas" pattern="[0-9]{0,6}" required>
+                                        <input type="number" min="0" class="input" id="paginas" max="9999" pattern="[0-9]{0,6}" placeholder="maximo 4 digitos">
                                     </div>
                                 </div>
                                 <div class="field">
                                     <label class="label" id="tabla_columna" >Cantidad de ejemplares</label>
                                     <div class="control">
-                                        <input type="number" min="0" class="input" id="ejemplares" pattern="[0-9]{1,5}" required>
+                                        <input type="number" min="0" class="input" id="ejemplares" max="9999" pattern="[0-9]{1,5}" placeholder="maximo 4 digitos" required>
                                     </div>
                                 </div>
                                 <div class="field">
@@ -133,6 +133,15 @@
 
     <script src="./src/header_footer.js"></script>
     <script>
+
+        let apiURL
+        
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
         document.getElementById('crear_libro').addEventListener('submit', async function(event) {
             event.preventDefault();
             const titulo = document.getElementById('titulo').value
@@ -156,7 +165,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost:3000/libros', {
+                const response = await fetch(`${apiURL}/libros`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -174,7 +183,7 @@
         })
 
         function crearElementosTabla(){
-            fetch('http://localhost:3000/libros')
+            fetch(`${apiURL}/libros`)
             .then(response => response.json())
             .then(libros => {
 
@@ -223,7 +232,7 @@
                     borrarButton.className = 'button is-danger is-small'
                     borrarButton.textContent = 'Borrar'
                     borrarButton.onclick = function() {
-                        fetch(`http://localhost:3000/libros/${libro.id}`, {
+                        fetch(`${apiURL}/libros/${libro.id}`, {
                             method: 'DELETE'
                         })
                         .then(response => {

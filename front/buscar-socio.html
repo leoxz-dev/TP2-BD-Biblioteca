@@ -42,7 +42,7 @@
                             </div>
                             <label class="label">Apellido</label>
                             <div class="control">
-                                <input class="input" id="apellido" type="text" name="Apellido" placeholder="Rodriguez" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*"/>
+                                <input class="input" id="apellido" type="text" name="apellido" placeholder="Rodriguez" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*"/>
                             </div>
                         </div>
                         <br>
@@ -110,6 +110,15 @@
     <footer class="footer"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+
+        let apiURL
+        
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
         //VAMOS A USAR FUNCIONES PARA QUE QUEDE BIEN ORDENADO EL CODIGO
         const tableBody = document.getElementById("tablaSocios");
         const paginationList = document.getElementById("paginationList");
@@ -125,7 +134,7 @@
         
         async function fetchUsuarios() {
             try {
-                const response = await fetch("http://localhost:3000/socios"); // Ruta de la API
+                const response = await fetch(`${apiURL}/socios`); // Ruta de la API
                 usuarios = await response.json();
                 totalPages = Math.ceil(usuarios.length / rowsPerPage);
                 renderTable(currentPage);
@@ -269,7 +278,7 @@
             const apellido = document.getElementById('apellido').value;
 
             // Construir la URL con los parámetros de búsqueda
-            let url = 'http://localhost:3000/socios?';
+            let url = `${apiURL}/socios?`;
 
             // Añadir parámetros a la URL de forma condicional
             if (id) {
@@ -297,7 +306,7 @@
                         return;
                     }
                     
-                    if(url == `http://localhost:3000/socios?id=${id}` ){
+                    if(url == `${apiURL}/socios?id=${id}` ){
                         const socio = sociosRecibidos;
                         armarTabla(socio, tablaSocios);
 

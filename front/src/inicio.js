@@ -1,5 +1,14 @@
+
+let apiURL
+    
+if (window.location.protocol === 'file:') {
+    apiURL = 'http://localhost:3000'
+} else {
+    apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+}
+
 function crearCartas(){
-    fetch('http://localhost:3000/libros')
+    fetch(`${apiURL}/libros`)
         .then(response => response.json())
         .then(libros => {
             let cards = document.getElementById('cards_libros')
