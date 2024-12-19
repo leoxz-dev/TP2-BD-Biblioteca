@@ -21,7 +21,7 @@ function crearCartas(){
                 card.style.height = 'auto'
 
                 let enlace = document.createElement('a')
-                enlace.href = `libro.html?id=${libro.id}`
+                enlace.href = `libro_user.html?id=${libro.id}`
                 enlace.style.display = 'block'
                 enlace.style.height = '100%'
                 enlace.style.color = 'inherit'
