@@ -19,8 +19,7 @@ La del Administrador:
 
 ### Desde la carpeta del back, ejecutar:
     
-1) Hacer un .env con las variables de entorno 
-|||de la base de datos
+1) Hacer un .env con las variables de entorno de la base de datos
 
 2) docker compose up -d para la base de datos
 
