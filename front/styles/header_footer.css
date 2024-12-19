@@ -21,8 +21,8 @@
     --color-tablas-hover: #326589;
 
     /* Colores para las filas pares e impares */
-    --color-tablas-filas-pares: ##324C5E;
-    --color-tablas-filas-impares: ##326589;
+    --color-tablas-filas-pares: #324C5E;
+    --color-tablas-filas-impares: #326589;
 
 
     --boton-principal: #0784DE;
@@ -125,8 +125,7 @@ body{
 .control > .input::placeholder {
     color: white;
 }
-#fecha_prestamo{
-}
+
 .control > .input::-webkit-calendar-picker-indicator {
     filter: invert(75%);
 }
