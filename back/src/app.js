@@ -63,11 +63,9 @@ app.get("/socios", async (req, res) => {
         historial_prestamos: true,
       },
     });
-
     if (socio === null) {
       return res.sendStatus(404);
     }
-
     return res.json(socio);
   }
   // Si el parámetro no es un número, buscar por nombre
