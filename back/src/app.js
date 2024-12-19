@@ -63,11 +63,9 @@ app.get("/socios", async (req, res) => {
         historial_prestamos: true,
       },
     });
-
     if (socio === null) {
       return res.sendStatus(404);
     }
-
     return res.json(socio);
   }
   // Si el parámetro no es un número, buscar por nombre
@@ -531,7 +529,7 @@ app.post("/login", async (req, res) => {
     return res.json({
       mensaje: "Login exitoso",
       //token: token,
-      socio: { email: socio.email, nombre: socio.nombre, id:socio.id },
+      socio: { email: socio.email, nombre: socio.nombre, id:socio.id, estado:socio.estado}
     });
   } catch (error) {
     console.error("Error en el login:", error);

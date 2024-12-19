@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Editar Socio</title>
+    <title>Actualizar Socio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <link rel="stylesheet" href="styles/header_footer.css">
@@ -17,7 +17,7 @@
         <div class="container is-max-tablet">
             <article class="message">
                 <div class="message-header is-flex is-justify-content-center" id="cuadro_encabezado">
-                    <h2 class="subtitle has-text-white"><b>Actualizar información del nuevo socio</b></h2>
+                    <h2 class="subtitle has-text-white"><b>Actualice su informacion de socio!!!</b></h2>
                 </div>
                 <div class="message-body" id="cuadro_principal">
                     <form id="crear-socio" class="mx-3">
@@ -56,18 +56,6 @@
                                     pattern="[0-9]{2}\s[0-9]{4}-[0-9]{4}" required>
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">Estado</label>
-                            <div class="control">
-                                <div class="select">
-                                    <select id="estado" name="estado">
-                                        <option value="activo">Activo</option>
-                                        <option value="suspendido">Suspendido</option>
-                                        <option value="inactivo">Inactivo</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                         <br>
                         <div class="buttons is-centered">
                             <input id="button-submit" class="button is-success is-normal" type="submit"
@@ -75,13 +63,20 @@
                             <a id="boton_secundario" class="button is-normal" href="">Cancelar</a>
                         </div>
                     </form>
+                    <div class="field">
+                        <label class="label">Dar de baja</label>
+                        <div class="control">
+                            <button type="submit" class="button is-warning is-size-4" id="dar-de-baja">Cambie su estado a
+                                inactivo</button>
+                        </div>
+                    </div>
                 </div>
             </article>
         </div>
     </section>
     <footer class="footer"></footer>
     <!--footer por header_footer.js-->
-    <script src="./src/header_footer.js"></script>
+    <script src="./src/header_footer_inicio.js"></script>
     <script>
 
 
@@ -92,31 +87,28 @@
         } else {
             apiURL = 'https://tp2-bd-biblioteca.onrender.com'
         }
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
 
         document.addEventListener('DOMContentLoaded', async () => {
 
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
-            console.log(id);
             if (!id) {
                 alert('Falta pasar id por la url')
             }
             try {
-                console.log(`${apiURL}/socios?id=${id}`);
                 const response = await fetch(`${apiURL}/socios?id=${id}`);
-                console.log("Respuesta del servidor:", response);
-                console.log("Respuesta del servidor:", response.json);
 
                 if (response.ok) {
                     const socio = await response.json();
-                    console.log(socio);
                     //SI EL ID EXISTE RELLENAMOS LOS CAMPOS DEL FORM YA CON LOS PREEXISTENTES DEL SOCIO
                     document.getElementById('nombre').value = socio.nombre;
                     document.getElementById('apellido').value = socio.apellido;
                     document.getElementById('email').value = socio.email;
                     document.getElementById('direccion').value = socio.direccion;
                     document.getElementById('telefono').value = socio.telefono;
-                    document.getElementById('estado').value = socio.estado;
 
                 } else {
                     alert('Error al obtener los datos del socio.');
@@ -181,6 +173,24 @@
                 console.error('Error al enviar la solicitud:', error);
                 alert('No se pudo conectar con el servidor.');
             }
+        })
+        document.getElementById('dar-de-baja').addEventListener('click', async function (event) {
+            const estado = "inactivo"
+            const socioData = {
+                estado: estado
+            }
+            response = await fetch(`${apiURL}/socios/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                //JSONIFICACION
+                body: JSON.stringify(socioData),
+            });
+            console.log(response.estado)
+            alert('Se ha dado de baja con éxito');
+            sessionStorage.removeItem("usuarioLogueado");
+            window.location.replace("Inicio.html") 
         })
     </script>
 </body>
