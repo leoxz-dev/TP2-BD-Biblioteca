@@ -121,6 +121,15 @@
     <footer class="footer"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+
+        let apiURL
+    
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
         const idSocio = urlParams.get("id");
         document.getElementById('socio_id').value = idSocio;
@@ -138,7 +147,7 @@
 
         async function fetchLibros() {
             try {
-                const response = await fetch("http://localhost:3000/libros"); // Ruta de la API
+                const response = await fetch(`${apiURL}/libros`); // Ruta de la API
                 const libros = await response.json();
 
                 libros.forEach( libro => {
@@ -270,7 +279,7 @@
                 return
             }
             try {
-                const response = await fetch(`http://localhost:3000/libros/${titulo}`);
+                const response = await fetch(`${apiURL}/libros/${titulo}`);
                 if (response.ok) {
                     const librosEncontrados = await response.json();
                     
@@ -333,7 +342,7 @@
             //INTENTAMOS HACER UN POST UTILIZANDO COMO BODY EL prestamoData JSONIFICADO
             try {
                 
-                const response = await fetch('http://localhost:3000/prestamos', {
+                const response = await fetch(`${apiURL}/prestamos`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -368,7 +377,7 @@
         async function actualizarEjemplares(idLibro) {
             try {
                 //OBTENEMOS CANT-EJEMPLARES
-                const responseGet = await fetch(`http://localhost:3000/libros/${idLibro}`);
+                const responseGet = await fetch(`${apiURL}/libros/${idLibro}`);
                 if (!responseGet.ok) {
                     alert(`Error al obtener información del libro: ${responseGet.status}`);
                     return;
@@ -389,7 +398,7 @@
                 console.log('Nuevo valor de cantidad de ejemplares:', nuevaCantidad);
 
                 //USAMOS PUT PARA ACTUALIZAR LA CANT-EJEMPLARES POR nuevaCantidad
-                const responsePut = await fetch(`http://localhost:3000/libros/${idLibro}`, {
+                const responsePut = await fetch(`${apiURL}/libros/${idLibro}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ cant_ejemplares: nuevaCantidad, disponibilidad: nuevaDisponibilidad })

@@ -61,7 +61,15 @@
         const urlParams = new URLSearchParams(window.location.search);
         const idLibro = parseInt(urlParams.get("id"))
 
-        fetch(`http://localhost:3000/libros/${idLibro}`)
+        let apiURL
+        
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
+        fetch(`${apiURL}/libros/${idLibro}`)
         .then(response => response.json())
         .then(datos => {
             console.log(datos);
