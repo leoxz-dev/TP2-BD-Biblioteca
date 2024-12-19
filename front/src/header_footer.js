@@ -19,8 +19,7 @@ header.innerHTML = `
                 <div class="navbar-menu" id="navMenu">
                     <div class="navbar-end">
                         <a class="navbar-item" href="buscar-socio.html">Buscar socio</a>
-                        <a class="navbar-item" href="crear-socio.html">Crear Socio</a>
-                        <a class="navbar-item" href="libros.html">Libros</a>
+                        <a class="navbar-item" href="libros.html">Agregar Libros</a>
                         <a class="navbar-item" href="crear-prestamo.html">Crear Préstamo</a>
                     </div>
                 </div>
