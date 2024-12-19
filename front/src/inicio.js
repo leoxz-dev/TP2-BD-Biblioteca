@@ -18,7 +18,6 @@ function crearCartas(){
                 let card = document.createElement('div')
                 card.className = 'card'
                 card.style.width = '15rem'
-                card.style.height = 'auto'
 
                 let enlace = document.createElement('a')
                 enlace.href = `libro.html?id=${libro.id}`
@@ -40,6 +39,7 @@ function crearCartas(){
                 img.style.width = 'auto'                    
                 let content = document.createElement('div')
                 content.className = 'content'
+                content.id = 'content_libro'
 
                 let title = document.createElement('p')
                 title.className = 'title is-4'
