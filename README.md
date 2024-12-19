@@ -3,15 +3,13 @@
 La presente página web tiene dos enfoques
 
 La del usuario:
-    -Con un Log in puede ver sus datos y 
-    los préstamos que le han hecho
-
+    
+    -Con un Log in puede ver sus datos y los préstamos que le han hecho
     -Puede pedir prestado un libro
 
 La del Administrador:
-    -Se accede iniciando sesión con:
-        Correo electrónico: camejo@gmail.com
-        contraseña: vaca
+    
+    -Se accede iniciando sesión con: Correo electrónico: camejo@gmail.com, contraseña: vaca
 
     -Puede ver todos los libros
     -Puede ver todos los usuarios
@@ -21,8 +19,7 @@ La del Administrador:
 
 ### Desde la carpeta del back, ejecutar:
     
-1) Hacer un .env con las variables de entorno 
-|||de la base de datos
+1) Hacer un .env con las variables de entorno de la base de datos
 
 2) docker compose up -d para la base de datos
 
