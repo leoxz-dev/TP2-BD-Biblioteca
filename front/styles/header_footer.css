@@ -80,27 +80,28 @@ body{
     color: var(--color-tablas-celda-texto);
 }
 /* Styles for striped table */
-#libros.table.is-striped tbody tr:nth-child(odd) {
-    background-color: var(--color-tablas-filas-pares)
+#libros.table.is-striped tbody tr:nth-child(odd), #lista-libros li div.columns div.column:nth-child(odd) div {
+    background-color: var(--color-tablas-filas-pares);
+    color: var(--color-tablas-celda-texto);
 }
 #libros.table.is-striped tbody tr:nth-child(even) {
-    background-color: var(--color-tablas-filas-impares)
+    background-color: var(--color-tablas-filas-impares);
 }
 /* Styles form_table */
 #titulo, #autor, #año, #isbn, #paginas, #ejemplares, #sinopsis,#genero{
     background-color: var(--color-tablas-form);
 }
-.input, div.select>#tipo_prestamo, div.select>#tipo-busqueda {
+.input, div.select>#tipo_prestamo, div.select>#tipo-busqueda, #genero {
     background-color: var(--color-tablas-form);
     color: white;
 }
 #tabla_columna, #tabla_principal>thead>tr>th, #tablaPrestamos>tr>td, .label,#tabla_principal>thead>tr>th>abbr{ 
     color : var(--color-tablas-celda-texto);
 }
-.title{
+.title, .input, #tabla-prestamos tr, #sinopsis{
     color: white;
 }
-#boton_principal, #button-submit{
+#boton_principal, #button-submit, #lista-libros li div.columns div.column:nth-child(even) button{
     background-color: var(--boton-principal);
 }
 #boton_secundario{
@@ -110,12 +111,14 @@ body{
 /* Styles pagination page */
 #prevPage{
     background-color: var(--color-pagination-prevPage);
+    color: white;
 }
 #currentPage{
     background-color: var(--color-pagination-currentPage);
 }
 #nextPage{
     background-color: var(--color-pagination-nextPage);
+    color: white;
 }
 
 #etiqueta{ 

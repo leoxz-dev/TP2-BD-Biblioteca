@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Prestamos</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-        <link rel="stylesheet" href="/front/styles/header_footer.css">
+        <link rel="stylesheet" href="styles/header_footer.css">
     </head>
 <body>
     <header>
@@ -13,24 +13,27 @@
     </header>
     <section class="section is-medium">
         <div class="container" id="cuadro_principal">
-            <div class="columns is-8">
+            <div class="columns is-8 is-flex is-justify-content-center">
                 <div class="column">
                     <div class="message-header is-flex is-justify-content-left" id="cuadro_encabezado">
                       <h1 id="id_prestamo" class="title">Lista de prestamos</h1>
                     </div>
                 </div>
-              <div class="column">
-                <div class="control ">
-                    <div class="select">
-                        <select id="estado-busqueda" class="select" onchange="cargarDatos()" required>
-                            <option value="todos">Sin filtro</option>
-                            <option value="En préstamo">En préstamo</option>
-                            <option value="Finalizado">Finalizado</option>
-                            <option value="En reclamo">En reclamo</option>
-                        </select>
+                <div class="column">
+                    <div class="control ">
+                        <div class="select">
+                            <select id="estado-busqueda" class="select" onchange="cargarDatos()" required>
+                                <option value="todos">Sin filtro</option>
+                                <option value="En préstamo">En préstamo</option>
+                                <option value="Finalizado">Finalizado</option>
+                                <option value="En reclamo">En reclamo</option>
+                            </select>
+                        </div>
                     </div>
-                </div></div>
-            <div class="table-container" >
+                </div>
+            </div>
+            <br>
+            <div class="table-container">
                 <table class="table is-striped is-hoverable" id="tabla_principal">
                     <thead>
                         <tr>
@@ -40,9 +43,8 @@
                             <th id="tabla_columna">Fecha prestamo</th>
                             <th id="tabla_columna">Fecha devolución</th>
                         </tr>
-                        <tbody id="tabla-prestamos">
-                        </tbody>
                     </thead>
+                    <tbody id="tabla-prestamos"></tbody>
                 </table>
                 <p id="error"></p>
             </div>
