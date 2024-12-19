@@ -18,14 +18,14 @@
 
     /* Colores para hover en tablas */
     /*cambio de color al pasar el mouse por encima de una fila de la tabla*/
-    --color-tablas-hover: #326589;
+    --color-tablas-hover: #1b659a;
 
     /* Colores para las filas pares e impares */
     --color-tablas-filas-pares: ##324C5E;
     --color-tablas-filas-impares: ##326589;
 
 
-    --boton-principal: #0784DE;
+    --boton-principal: #147ac2;
     --boton-secundario: #326589;
 
 
@@ -87,13 +87,17 @@ body{
     background-color: var(--color-tablas-filas-impares)
 }
 /* Styles form_table */
-#titulo, #autor, #año, #isbn, #paginas, #ejemplares, #sinopsis,#genero{
+#titulo, #autor, #año, #isbn, #paginas, #ejemplares, #sinopsis,#genero,#estado-busqueda{
     background-color: var(--color-tablas-form);
 }
 .input, div.select>#tipo_prestamo, div.select>#tipo-busqueda {
     background-color: var(--color-tablas-form);
 }
-#tabla_columna, #tabla_principal>thead>tr>th, #tablaPrestamos>tr>td, .label,#tabla_principal>thead>tr>th>abbr{ 
+.control > .select > #estado, .control > .input, .control > .select > #tipo_prestamo{
+    background-color: var(--color-tablas-form);
+}
+
+#tabla_columna, #tabla_principal>thead>tr>th, #tablaPrestamos>tr>td, .label,#tabla_principal>thead>tr>th>abbr, .control > .input{ 
     color : var(--color-tablas-celda-texto);
 }
 .title{
