@@ -97,19 +97,15 @@
 
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
-            console.log(id);
             if (!id) {
                 alert('Falta pasar id por la url')
             }
             try {
-                console.log(`${apiURL}/socios?id=${id}`);
                 const response = await fetch(`${apiURL}/socios?id=${id}`);
-                console.log("Respuesta del servidor:", response);
-                console.log("Respuesta del servidor:", response.json);
+
 
                 if (response.ok) {
                     const socio = await response.json();
-                    console.log(socio);
                     //SI EL ID EXISTE RELLENAMOS LOS CAMPOS DEL FORM YA CON LOS PREEXISTENTES DEL SOCIO
                     document.getElementById('nombre').value = socio.nombre;
                     document.getElementById('apellido').value = socio.apellido;

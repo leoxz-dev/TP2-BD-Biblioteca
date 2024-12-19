@@ -32,17 +32,20 @@
                         <div class="field" id="opcion-id-socio" style="display: none;">
                             <label class="label">Ingrese un id</label>
                             <div class="control">
-                                <input class="input" id="socio_id" type="number" min="1" name="socio_id" placeholder="123" pattern="[0-9]{1,10}"/>
+                                <input class="input" id="socio_id" type="number" min="1" name="socio_id"
+                                    placeholder="123" pattern="[0-9]{1,10}" />
                             </div>
                         </div>
                         <div class="field" id="opcion-nombre-apellido" style="display: none;">
                             <label class="label">Nombre</label>
                             <div class="control">
-                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+"/>
+                                <input class="input" id="nombre" type="text" name="nombre" placeholder="Agustin"
+                                    pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" />
                             </div>
                             <label class="label">Apellido</label>
                             <div class="control">
-                                <input class="input" id="apellido" type="text" name="apellido" placeholder="Rodriguez" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*"/>
+                                <input class="input" id="apellido" type="text" name="apellido" placeholder="Rodriguez"
+                                    pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" />
                             </div>
                         </div>
                         <br>
@@ -91,8 +94,10 @@
                         <td>sample@gmail.com</td>
                         <td>11 1111-1111</td>
                         <td><button class="button is-info is-small"><a href="crear-socio.html">Editar</a></button></td>
-                        <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion</a></button></td>
-                        <td><button class="button is-info is-small"><a href="crear-socio.html">Prestamo</a></button></td>
+                        <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion</a></button>
+                        </td>
+                        <td><button class="button is-info is-small"><a href="crear-socio.html">Prestamo</a></button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -101,9 +106,9 @@
                 <button class="pagination-previous" id="prevPage">Anterior</button>
                 <button class="pagination-next" id="nextPage">Siguiente</button>
                 <ul class="pagination-list" id="paginationList">
-                  <!-- Botones de página dinámicos -->
+                    <!-- Botones de página dinámicos -->
                 </ul>
-              </nav>
+            </nav>
 
         </div>
     </div>
@@ -112,7 +117,7 @@
     <script>
 
         let apiURL
-        
+
         if (window.location.protocol === 'file:') {
             apiURL = 'http://localhost:3000'
         } else {
@@ -128,10 +133,10 @@
         const rowsPerPage = 20;
         let currentPage = 1;
         //LISTA QUE SE VA A LLENAR CON LOS USUARIOS
-        let usuarios = []; 
+        let usuarios = [];
         let totalPages = 1;
 
-        
+
         async function fetchUsuarios() {
             try {
                 const response = await fetch(`${apiURL}/socios`); // Ruta de la API
@@ -147,12 +152,12 @@
         function elegirBusqueda() {
             //Buscamos el id donde están las opciones de despliegue y guardamos el valor.
             let seleccion = document.getElementById('tipo-busqueda').value;
-            
+
             //Según la opción elegida visibiliza el/los campo/s para rellenar el formulario.
             if (seleccion === 'socio-id') {
                 document.getElementById('opcion-nombre-apellido').style.display = 'none';
                 document.getElementById('opcion-id-socio').style.display = 'block';
-                
+
                 document.getElementById('socio_id').required = true;
                 document.getElementById('nombre').required = false;
                 document.getElementById('apellido').required = false;
@@ -164,7 +169,7 @@
             } else if (seleccion === 'nombre-apellido') {
                 document.getElementById('opcion-id-socio').style.display = 'none';
                 document.getElementById('opcion-nombre-apellido').style.display = 'block';
-                
+
                 document.getElementById('socio_id').required = false;
                 document.getElementById('nombre').required = true;
                 document.getElementById('apellido').required = true;
@@ -172,9 +177,9 @@
                 document.getElementById('socio_id').value = "";
             }
         }
-    
-        window.onload = function() {
-          elegirBusqueda(); 
+
+        window.onload = function () {
+            elegirBusqueda();
         };
 
         function renderTable(page) {
@@ -248,25 +253,25 @@
         });
 
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             fetchUsuarios();
         });
 
-        function armarTabla(socio, tablaSocios){
-                        const tabla = `
-                                    <tr>
-                                        <th>${socio.id}</th>
-                                        <td>${socio.nombre}</td>
-                                        <td>${socio.apellido}</td>
-                                        <td>${socio.email}</td>
-                                        <td>${socio.telefono}</td>
-                                        <td><button class="button is-info is-small"><a href="crear-socio.html?id=${socio.id}">Editar</a></button></td>
-                                        <td><button class="button is-info is-small"><a href="informacion-socio.html?id=${socio.id}">Informacion</a></button></td>
-                                        <td><button class="button is-info is-small"><a href="crear-prestamo.html?id=${socio.id}">Prestamo</a></button></td>
-                                    </tr>`;
-                        //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
-                        tablaSocios.innerHTML += tabla;
-                        return tablaSocios;
+        function armarTabla(socio, tablaSocios) {
+            const tabla = `
+                <tr>
+                    <th>${socio.id}</th>
+                    <td>${socio.nombre}</td>
+                    <td>${socio.apellido}</td>
+                    <td>${socio.email}</td>
+                    <td>${socio.telefono}</td>
+                    <td><button class="button is-info is-small"><a href="crear-socio.html?id=${socio.id}">Editar</a></button></td>
+                    <td><button class="button is-info is-small"><a href="informacion-socio.html?id=${socio.id}">Informacion</a></button></td>
+                    <td><button class="button is-info is-small"><a href="crear-prestamo.html?id=${socio.id}">Prestamo</a></button></td>
+                </tr>`;
+            //AGREGA A LA TABLE LA TABLA CON LOS SOCIOS QUE COINCIDEN
+            tablaSocios.innerHTML += tabla;
+            return tablaSocios;
         }
 
 
@@ -291,7 +296,7 @@
             if (apellido) {
                 url += `apellido=${apellido}`;
             }
-            
+
             try {
                 const response = await fetch(url);
                 if (response.ok) {
@@ -301,12 +306,12 @@
                     const sociosRecibidos = await response.json();
 
                     //SI NO HAY SOCIOS QUE COINCIDAN DEVUELVE UN ALERT
-                    if (sociosRecibidos.length === 0 ) {
+                    if (sociosRecibidos.length === 0) {
                         alert('No se encontraron socios con ese nombre.');
                         return;
                     }
-                    
-                    if(url == `${apiURL}/socios?id=${id}` ){
+
+                    if (url == `${apiURL}/socios?id=${id}`) {
                         const socio = sociosRecibidos;
                         armarTabla(socio, tablaSocios);
 
