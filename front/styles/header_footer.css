@@ -92,6 +92,7 @@ body{
 }
 .input, div.select>#tipo_prestamo, div.select>#tipo-busqueda {
     background-color: var(--color-tablas-form);
+    color: white;
 }
 #tabla_columna, #tabla_principal>thead>tr>th, #tablaPrestamos>tr>td, .label,#tabla_principal>thead>tr>th>abbr{ 
     color : var(--color-tablas-celda-texto);
