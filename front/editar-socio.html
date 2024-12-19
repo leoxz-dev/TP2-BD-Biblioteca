@@ -66,7 +66,7 @@
                     <div class="field">
                         <label class="label">Dar de baja</label>
                         <div class="control">
-                            <button class="button is-warning is-size-4" id="dar-de-baja">Cambie su estado a
+                            <button type="submit" class="button is-warning is-size-4" id="dar-de-baja">Cambie su estado a
                                 inactivo</button>
                         </div>
                     </div>
@@ -87,24 +87,22 @@
         } else {
             apiURL = 'https://tp2-bd-biblioteca.onrender.com'
         }
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
 
         document.addEventListener('DOMContentLoaded', async () => {
 
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
-            console.log(id);
             if (!id) {
                 alert('Falta pasar id por la url')
             }
             try {
-                console.log(`${apiURL}/socios?id=${id}`);
                 const response = await fetch(`${apiURL}/socios?id=${id}`);
-                console.log("Respuesta del servidor:", response);
-                console.log("Respuesta del servidor:", response.json);
 
                 if (response.ok) {
                     const socio = await response.json();
-                    console.log(socio);
                     //SI EL ID EXISTE RELLENAMOS LOS CAMPOS DEL FORM YA CON LOS PREEXISTENTES DEL SOCIO
                     document.getElementById('nombre').value = socio.nombre;
                     document.getElementById('apellido').value = socio.apellido;
@@ -189,6 +187,7 @@
                 //JSONIFICACION
                 body: JSON.stringify(socioData),
             });
+            console.log(response.estado)
             alert('Se ha dado de baja con éxito');
             sessionStorage.removeItem("usuarioLogueado");
             window.location.replace("Inicio.html") 
