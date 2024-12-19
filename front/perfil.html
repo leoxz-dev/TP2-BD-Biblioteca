@@ -46,31 +46,36 @@
                 <div class="field">
                   <label class="label">Nombre</label>
                   <div class="control">
-                    <input id="form-nombre" class="input" type="text" name="nombre" placeholder="Nombre" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
+                    <input id="form-nombre" class="input" type="text" name="nombre" placeholder="Nombre"
+                      pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
                   </div>
                 </div>
                 <div class="field">
                   <label class="label">Apellido</label>
                   <div class="control">
-                    <input id="form-apellido" class="input" type="text" name="apellido" placeholder="Apellido" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
+                    <input id="form-apellido" class="input" type="text" name="apellido" placeholder="Apellido"
+                      pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
                   </div>
                 </div>
                 <div class="field">
                   <label class="label">Correo Electrónico</label>
                   <div class="control">
-                    <input id="form-email" class="input" type="email" name="email" placeholder="nombre@gmail.com" pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
+                    <input id="form-email" class="input" type="email" name="email" placeholder="nombre@gmail.com"
+                      pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
                   </div>
                 </div>
                 <div class="field">
                   <label class="label">Domicilio</label>
                   <div class="control">
-                    <input id="form-direccion" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9\s.'-]*" required>
+                    <input id="form-direccion" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500"
+                      pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9\s.'-]*" required>
                   </div>
                 </div>
                 <div class="field">
                   <label class="label">Teléfono</label>
                   <div class="control">
-                    <input id="form-telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678"  required>
+                    <input id="form-telefono" class="input" type="tel" name="telefono" placeholder="11 1234-5678"
+                      required>
                   </div>
                 </div>
               </form>
@@ -81,7 +86,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="column">
             <br />
             <p class="title has-text-centered" id="cuadro_encabezado">PRESTAMOS ACTIVOS</p>
@@ -133,7 +138,6 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const socioId = urlParams.get("id");
-
     //VAMOS A USAR FUNCIONES PARA QUE QUEDE BIEN ORDENADO EL CODIGO
     //BASAMOS EL CODIGO EN EL IMPLEMENTADO EN BUSCAR SOCIO YA QUE ES CASI EL MISMO CONCEPTO
 
@@ -215,74 +219,74 @@
         pageButton.innerHTML = `
           <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-num-pagina="${i}">${i}</a>`;
         paginationList.appendChild(pageButton);
-      }
+      }}
 
-        //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
-        paginationList.addEventListener("click", (e) => {
-            if (e.target.classList.contains("pagination-link")) {
-                //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
-                //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
-                currentPage = parseInt(e.target.dataset.numPagina);
-                renderTable(currentPage);
-                renderPagination();
-            }
-        });
-
-
-    //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
-    paginationList.addEventListener("click", (e) => {
-      if (e.target.classList.contains("pagination-link")) {
-        //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
-        //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
-        currentPage = parseInt(e.target.dataset.numPagina);
-        renderTable(currentPage);
-        renderPagination();
-      }
-    });
-
-    prevPageButton.addEventListener("click", () => {
-      if (currentPage > 1) {
-        currentPage--;
-        renderTable(currentPage);
-        renderPagination();
-      }
-    });
-
-    nextPageButton.addEventListener("click", () => {
-      if (currentPage < totalPages) {
-        currentPage++;
-        renderTable(currentPage);
-        renderPagination();
-      }
-    });
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-      fetchUsuario(socioId);
-      
-      fetch(`http://localhost:3000/socios?id=${socioId}`) // Ruta de la API
-      .then(response => response.json())
-      .then(socio => {
-        llenarDatosSocio(socioId, socio.nombre, socio.apellido, socio.email, socio.direccion, socio.telefono);
+      //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
+      paginationList.addEventListener("click", (e) => {
+        if (e.target.classList.contains("pagination-link")) {
+          //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+          //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+          currentPage = parseInt(e.target.dataset.numPagina);
+          renderTable(currentPage);
+          renderPagination();
+        }
       });
-    });
 
 
-    if (!socioId) {
-      alert("ID no válido");
-      window.location.href = "buscar-socio.html"; //REDIRIGE A LA PAGINA PREVIA SI POR ALGUN MOTIVO NO SE PASA ID, ESTO HABRIA QUE CAMBIARLO YA QUE SE PUEDE PASAR EMAIL TAMBIEN
-    } else {
-      document.getElementById('contenido-socio').style.display = 'block';
-    }
+      //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
+      paginationList.addEventListener("click", (e) => {
+        if (e.target.classList.contains("pagination-link")) {
+          //CURRENTPAGE AGARRA EL NUMERO DE PAGINA AL QUE "REDIRIGE" EL INDICE(LO CONVIERTE EN UN INT PRIMERO) Y 
+          //MUESTRA LAS NUEVAS FILAS CORRESPONDIENTES
+          currentPage = parseInt(e.target.dataset.numPagina);
+          renderTable(currentPage);
+          renderPagination();
+        }
+      });
 
-    async function llenarDatosSocio(id, nombre, apellido, email, direccion, telefono) {
-      document.getElementById('info-id-socio').textContent = "Id de Usuario: " + id;
-      document.getElementById('info-nombre').textContent = "Nombre: " + nombre;
-      document.getElementById('info-apellido').textContent = "Apellido: " + apellido;
-      document.getElementById('info-email').textContent = "Correo electrónico: " + email;
-      document.getElementById('info-direccion').textContent = "Domicilio: " + direccion;
-      document.getElementById('info-telefono').textContent = "Teléfono: " + telefono;
-    }
+      prevPageButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          renderTable(currentPage);
+          renderPagination();
+        }
+      });
+
+      nextPageButton.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderTable(currentPage);
+          renderPagination();
+        }
+      });
+
+
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchUsuario(socioId);
+
+        fetch(`http://localhost:3000/socios?id=${socioId}`) // Ruta de la API
+          .then(response => response.json())
+          .then(socio => {
+            llenarDatosSocio(socioId, socio.nombre, socio.apellido, socio.email, socio.direccion, socio.telefono);
+          });
+      });
+
+
+      if (!socioId) {
+        alert("ID no válido");
+        window.location.href = "buscar-socio.html"; //REDIRIGE A LA PAGINA PREVIA SI POR ALGUN MOTIVO NO SE PASA ID, ESTO HABRIA QUE CAMBIARLO YA QUE SE PUEDE PASAR EMAIL TAMBIEN
+      } else {
+        document.getElementById('contenido-socio').style.display = 'block';
+      }
+
+      async function llenarDatosSocio(id, nombre, apellido, email, direccion, telefono) {
+        document.getElementById('info-id-socio').textContent = "Id de Usuario: " + id;
+        document.getElementById('info-nombre').textContent = "Nombre: " + nombre;
+        document.getElementById('info-apellido').textContent = "Apellido: " + apellido;
+        document.getElementById('info-email').textContent = "Correo electrónico: " + email;
+        document.getElementById('info-direccion').textContent = "Domicilio: " + direccion;
+        document.getElementById('info-telefono').textContent = "Teléfono: " + telefono;
+      }
 
 
   </script>
