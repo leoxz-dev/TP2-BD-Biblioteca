@@ -177,7 +177,7 @@
                     const { token, socio } = await response.json(); // El servidor envía un token JWT y datos del socio
 
                     // Guardar solo el token en sessionStorage
-                    sessionStorage.setItem('token', token);
+                    //sessionStorage.setItem('token', token);
                     sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio));
                     if (socio.email === 'camejo@gmail.com') {
                         window.location.href = 'libros.html'
