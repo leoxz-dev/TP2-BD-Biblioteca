@@ -81,8 +81,9 @@
               </form>
               <br>
               <div>
-                <a href=`crear-socio.html?id=${socioId}`></a>
-                <button id="boton-editar" type="submit" class="button is-info is-size-3">Editar</button>
+                <a id="boton-editar" href="editar-socio.html">
+                  <button type="submit" class="button is-info is-size-3">Editar</button>
+                </a>
               </div>
             </div>
           </div>
@@ -105,14 +106,7 @@
                   </thead>
                   <!--ACA VAN A INSERTARSE POR SCRIPT LAS ROW DE LOS SOCIOS QUE COINCIDAN-->
                   <tbody id="tablaPrestamos">
-                    <tr>
-                      <th>1</th>
-                      <td>El imperio Final</td>
-                      <td>sample</td>
-                      <td>16-10-2030</td>
-                      <td><button class="button is-info is-small"><a href="crear-socio.html">Informacion
-                            Prestamo</a></button></td>
-                    </tr>
+                    
                   </tbody>
                 </table>
 
@@ -286,6 +280,7 @@
         document.getElementById('info-email').textContent = "Correo electrónico: " + email;
         document.getElementById('info-direccion').textContent = "Domicilio: " + direccion;
         document.getElementById('info-telefono').textContent = "Teléfono: " + telefono;
+        document.getElementById('boton-editar').href = `editar-socio.html?id=${id}`
       }
 
 
