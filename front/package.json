@@ -2,9 +2,9 @@
   "name": "front",
   "version": "1.0.0",
   "scripts": {
-    "start": "npx serve -l tcp://0.0.0.0:8000",
+    "start": "npx serve -l tcp://0.0.0.0:8000 && npx opn-cli http://localhost:8000/Inicio.html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec 'npx serve -l tcp://0.0.0.0:8000'"
+    "dev": "nodemon --exec 'npx serve -l tcp://0.0.0.0:8000 & npx opn-cli http://localhost:8000/Inicio.html'"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "serve": "^14.2.4"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "opn-cli": "^1.0.0"
   }
 }

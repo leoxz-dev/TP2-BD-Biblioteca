@@ -4,6 +4,7 @@
   "description": "Khate-Carlos-Leo-Agustín\r En este trabajo vamos a crear una pagina pensada para una Bliblioteca. La pensamos como la pagina que usaria aquel que administra la biblioteca, que seria el encargado de añadir usuarios o libros y manejar los prestamos de libros.",
   "main": "src/app.js",
   "scripts": {
+    "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

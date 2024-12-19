@@ -1,4 +1,16 @@
 services:
+  back:
+    build:
+        context: .
+    ports:
+      - 3000:3000
+    environment:
+      - DATABASE_URL=postgresql://biblioteca:contraseña@database-biblioteca:5432/biblioteca
+    depends_on:
+      - db
+    volumes:
+      - ./back:/app
+
   db:
     image: postgres:17
     container_name: database-biblioteca
