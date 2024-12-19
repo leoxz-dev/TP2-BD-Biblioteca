@@ -21,6 +21,8 @@ header.innerHTML = `
                         <a class="navbar-item" href="buscar-socio.html">Buscar socio</a>
                         <a class="navbar-item" href="libros.html">Agregar Libros</a>
                         <a class="navbar-item" href="crear-prestamo.html">Crear Préstamo</a>
+                        <a class="navbar-item" href="prestamos.html">Préstamos</a>
+
                     </div>
                 </div>
             
