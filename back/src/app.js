@@ -4,7 +4,7 @@ const {
 } = require("@prisma/client/runtime/library");
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const prisma = new PrismaClient();
 const cors = require("cors");
 
