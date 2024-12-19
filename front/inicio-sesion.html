@@ -38,7 +38,8 @@
                                     </div>
                                     <br>
                                     <div class="buttons is-centered">
-                                        <button type="submit" id="boton_principal" class="button is-normal">Logearse</button>
+                                        <button type="submit" id="boton_principal"
+                                            class="button is-normal">Logearse</button>
                                     </div>
                                 </form>
                             </div>
@@ -181,14 +182,16 @@
                     body: JSON.stringify({ email, contraseña })
                 });
                 if (response.ok) {
-                    const socio = await response.json(); // El servidor envía un token JWT y datos del socio
+                    const responseData = await response.json();
+                    const socio = responseData.socio
+                    //console.log('Respuesta completa del servidor:', socio);
+                    //console.log("Email recibido:", socio.email);
 
-                    // Guardar solo el token en sessionStorage
-                    //sessionStorage.setItem('token', token);
-                    sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio));
-                    if (socio.email === 'camejo@gmail.com') {
-                        window.location.href = 'libros.html'
+                    if (socio.email.trim().toLowerCase() === 'camejo@gmail.com') {
+                        sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio));
+                        window.location.href = 'libros.html';
                     } else {
+                        sessionStorage.setItem('usuarioLogueado', JSON.stringify(socio));
                         alert('¡LOG IN REALIZADO CON EXITO!');
                         window.location.href = 'Inicio.html';
                     }
