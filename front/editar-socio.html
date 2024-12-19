@@ -163,7 +163,6 @@
                 if (response.ok) {
                     const nuevoSocio = await response.json();
                     alert(`¡Socio creado con éxito! ${nuevoSocio}`);
-                    document.getElementById('crear-socio').reset();
                 } else {
                     const error = await response.json();
                     alert(`Error al crear socio: ${response.status}`);
@@ -187,7 +186,6 @@
                 //JSONIFICACION
                 body: JSON.stringify(socioData),
             });
-            console.log(response.estado)
             alert('Se ha dado de baja con éxito');
             sessionStorage.removeItem("usuarioLogueado");
             window.location.replace("Inicio.html") 

@@ -71,6 +71,7 @@ app.get("/socios", async (req, res) => {
   // Si el parámetro no es un número, buscar por nombre
   if (nombre && apellido) {
     const socios = await prisma.socios.findMany({
+      
       where: {
         nombre: {
           startsWith: nombre,
@@ -91,33 +92,14 @@ app.get("/socios", async (req, res) => {
   }
 
   const socios = await prisma.socios.findMany({
+    orderBy: {
+      id: "asc",
+    },
     include: {
       historial_prestamos: true,
     },
   });
   return res.json(socios);
-});
-
-//SOCIO ESPECIFICO GET DEL CRUD PARA INICIO-SESION.HTML
-app.get("/socios/:email/login", async (req, res) => {
-  try {
-    const email = req.params.email;
-    if (!email) {
-      return res.status(400).json({ error: "El email es requerido." });
-    }
-    const socio = await prisma.socios.findUnique({
-      where: {
-        email: email,
-      },
-    });
-    if (socio === null) {
-      return res.sendStatus(404);
-    }
-    return res.json(socio);
-  } catch (error) {
-    console.error("Error al buscar el socio:", error);
-    return res.status(500).json({ error: "Error del servidor." });
-  }
 });
 
 //POST DEL CRUD
@@ -153,10 +135,9 @@ app.post("/socios", async (req, res) => {
         telefono: telefono,
         email: email,
       },
-    });    
+    });
     // Devolver respuesta exitosa
-    res.status(201).json(socio
-    );
+    res.status(201).json(socio);
   } catch (error) {
     console.error("Error al registrar socio:", error);
     res
@@ -428,7 +409,6 @@ app.get("/libros/:param", async (req, res) => {
   return res.json(libro);
 });
 
-
 //POST LIBRO
 app.post("/libros", async (req, res) => {
   const libro = await prisma.libros.create({
@@ -529,7 +509,12 @@ app.post("/login", async (req, res) => {
     return res.json({
       mensaje: "Login exitoso",
       //token: token,
-      socio: { email: socio.email, nombre: socio.nombre, id:socio.id, estado:socio.estado}
+      socio: {
+        email: socio.email,
+        nombre: socio.nombre,
+        id: socio.id,
+        estado: socio.estado,
+      },
     });
   } catch (error) {
     console.error("Error en el login:", error);
