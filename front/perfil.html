@@ -261,105 +261,106 @@
         console.error("Error al hacer el fetch: ", error);
       }
     }
+
+
     document.getElementById('editar').addEventListener('click', async function (event) {
       event.preventDefault();
       try {
         // Hacer el fetch al backend para obtener la información del socio
-        fetch(`http://localhost:3000/socios?id=${socioId}`)
-          .then((Response) => Response.json())
-          .then(socio => {
-            //socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
-            const socioInfo = document.getElementById('socio-info');
-            //HTML QUE VA EN socioInfo
-            socioInfo.innerHTML = `
-          <h1 class="title" id="cuadro_encabezado" >DATOS</h1>
-          <form id="editar-socio" class="mx-3">
-            <div class="field">
-              <label class="label">Nombre</label>
-              <div class="control">
-                <input id="nombre" value="${socio.nombre}" class="input" type="text" name="nombre" placeholder="Nombre" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Apellido</label>
-              <div class="control">
-                <input id="apellido" value="${socio.apellido}" class="input" type="text" name="apellido" placeholder="Apellido" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Correo Electrónico</label>
-              <div class="control">
-                <input id="email" value="${socio.email}" class="input" type="email" name="email" placeholder="nombre@gmail.com" pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Domicilio</label>
-              <div class="control">
-                <input id="direccion" value="${socio.direccion}" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9\s.'-]*" required>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Teléfono</label>
-              <div class="control">
-                <input id="telefono" value="${socio.telefono}" class="input" type="tel" name="telefono" placeholder="11 1234-5678" pattern="[0-9]{2}\s[0-9]{4}-[0-9]{4}" required>
-              </div>
-            </div>
-        `;
-          })
-          .catch(error => {
-            //SI NO EXISTE EL SOCIO O HAY ERRORES MUESTRA UN HTML ALTERNATIVO AL INTERIOR
-            document.getElementById('socio-info').innerHTML = `<h1 class="title">DATOS</h1>
-          <p>"SOCIO NO ENCONTRADO"</p>`;
-          });
-        document.getElementById('editar').innerText = "Guardar Cambios"
-        document.getElementById('editar').id = "guardar"
+        const response = await fetch(`http://localhost:3000/socios?id=${socioId}`);
 
-        const guardarButton = document.getElementById('guardar');
+        if (!response.ok) {
+          throw new Error('No se pudo obtener la información del socio');
+        }
 
-        // Registra el evento click para el nuevo botón "guardar"
-        guardarButton.getElementById('guardar').addEventListener('click', async function (event) {
-          event.preventDefault();
-          //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
-          const nombre = document.getElementById('nombre').value;
-          const apellido = document.getElementById('apellido').value;
-          const email = document.getElementById('email').value;
-          const direccion = document.getElementById('direccion').value;
-          const telefono = document.getElementById('telefono').value;
-          //CREAMOS UN BODY CON ESOS DATOS
-          const socioData = {
-            nombre: nombre,
-            apellido: apellido,
-            direccion: direccion,
-            telefono: telefono,
-            email: email,
-          };
-          try {
-            let response;
-            response = await fetch('http://localhost:3000/socios', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(socioData),
-            });
-            alert('¡Socio creado con éxito!');
-            if (response.ok) {
-              const nuevoSocio = await response.json();
-              alert(`¡Socio creado con éxito! ID: ${nuevoSocio.id}`);
-              window.location.href = window.location.href; // Refresca la página
-            } else {
-              const error = await response.json();
-              alert(`Error al crear socio: ${response.status}`);
-            }
-          } catch (error) {
-            console.error('Error al enviar la solicitud:', error);
-            alert('No se pudo conectar con el servidor.');
-          }
-        });
+        const socio = await response.json();
+
+        // socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
+        const socioInfo = document.getElementById('socio-info');
+
+        // HTML QUE VA EN socioInfo
+        socioInfo.innerHTML = `
+      <h1 class="title" id="cuadro_encabezado">DATOS</h1>
+      <form id="editar-socio" class="mx-3">
+        <div class="field">
+          <label class="label">Nombre</label>
+          <div class="control">
+            <input id="nombre" value="${socio.nombre}" class="input" type="text" name="nombre" placeholder="Nombre" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Apellido</label>
+          <div class="control">
+            <input id="apellido" value="${socio.apellido}" class="input" type="text" name="apellido" placeholder="Apellido" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Correo Electrónico</label>
+          <div class="control">
+            <input id="email" value="${socio.email}" class="input" type="email" name="email" placeholder="nombre@gmail.com" pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Domicilio</label>
+          <div class="control">
+            <input id="direccion" value="${socio.direccion}" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9\s.'-]*" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Teléfono</label>
+          <div class="control">
+            <input id="telefono" value="${socio.telefono}" class="input" type="tel" name="telefono" placeholder="11 1234-5678"  required>
+          </div>
+        </div>
+        <br>
+        <div class="buttons is-centered">
+              <button id="guardar" type="submit" class="button is-success is-size-4">GUARDAR</button>
+        </div>
+      </form>
+    `;
       } catch (error) {
-        document.getElementById('socio-info').innerHTML = `<h1 class="title">DATOS</h1>
-    <p>Error al obtener la información del socio. Por favor, intente más tarde.</p>`;
-        console.error("Error al hacer el fetch: ", error);
+        console.error('Error al obtener los datos del socio:', error);
+        alert('No se pudo conectar con el servidor.');
+      }
+    });
+    // Registra el evento click para el nuevo botón "guardar"
+    document.getElementById('guardar').addEventListener('click', async function (event) {
+      event.preventDefault();
+      //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
+      const nombre = document.getElementById('nombre').value;
+      const apellido = document.getElementById('apellido').value;
+      const email = document.getElementById('email').value;
+      const direccion = document.getElementById('direccion').value;
+      const telefono = document.getElementById('telefono').value;
+      //CREAMOS UN BODY CON ESOS DATOS
+      const socioData = {
+        nombre: nombre,
+        apellido: apellido,
+        direccion: direccion,
+        telefono: telefono,
+        email: email,
+      };
+      try {
+        let response;
+        response = await fetch('http://localhost:3000/socios', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(socioData),
+        });
+        alert('¡Socio creado con éxito!');
+        if (response.ok) {
+          const nuevoSocio = await response.json();
+          alert(`¡Socio creado con éxito! ID: ${nuevoSocio.id}`);
+          window.location.href = window.location.href; // Refresca la página
+        } else {
+          const error = await response.json();
+          alert(`Error al crear socio: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error al enviar la solicitud:', error);
+        alert('No se pudo conectar con el servidor.');
       }
     });
   </script>
