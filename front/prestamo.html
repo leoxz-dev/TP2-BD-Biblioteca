@@ -101,6 +101,7 @@
         }
         document.getElementById('id_prestamo').textContent += prestamoId;
         
+
         document.addEventListener('DOMContentLoaded', async () => {
             await llenarFormulario();
         });
@@ -113,7 +114,6 @@
                 document.getElementById('fecha_prestamo').value = fechaPrestamo;
                 const fechaDevolucion = prestamo.fecha_devolucion.split('T')[0]; 
                 document.getElementById('fecha_devolucion').value = fechaDevolucion;
-
                 document.getElementById('garantia').value = prestamo.garantia;                
                 document.getElementById('estado').value = prestamo.estado;
                 document.getElementById('tipo_prestamo').value = prestamo.tipo_prestamo;
@@ -124,7 +124,6 @@
 
         window.onload = function() {
             let formulario = document.getElementById('formulario');
-
             //Setea que no se pueda editar de base el form
             formulario.style.pointerEvents = 'none';
         };
