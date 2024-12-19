@@ -11,6 +11,11 @@
     --color-tablas-form: #16212a;
     --color-tablas-celda-texto: white;
 
+
+    /* Colores para las tarjetas */
+    --color-card-text: white;
+    --color-card-background: #082338;
+
     /* Colores para hover en tablas */
     /*cambio de color al pasar el mouse por encima de una fila de la tabla*/
     --color-tablas-hover: #326589;
@@ -124,4 +129,23 @@ body{
 }
 .control > .input::-webkit-calendar-picker-indicator {
     filter: invert(75%);
+}
+
+.card{
+    color: var(--color-card-text);
+    background-color: var(--color-card-background);
+}
+#cards_libros > .card{
+    height: 100%;
+}
+a > .content > .title, a > .content > .subtitle{
+    color: var(--color-card-text);
+}
+
+.card > a >#content_libro{
+    padding: 1rem;
+}
+
+.card > a > .card-image > .image > img{
+    border-radius: 10px;
 }
