@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Información usuario</title>
+  <title>Perfil del Socio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
   <link rel="stylesheet" href="/front/styles/header_footer.css" />
@@ -19,7 +19,7 @@
         <div class="columns">
           <!--COLUMNA DONDE VA LA INFO DEL SOCIO-->
           <div class="column">
-            <div id="socio-info" class="content is-size-4 p-6 ml-6 has-text-weight-semibold has-text-dark">
+            <div id="socio-info" class="content is-size-4 p-3 m-3 has-text-weight-semibold has-text-dark">
               <!--ESTO ES COMO DEBERIA VERSE EN EL FRONT LA INFORMACION DEL SOCIO-->
               <!--<h1 class="title has-text-success">DATOS</h1>
                 <div class="block">
@@ -41,11 +41,14 @@
                   <p>Teléfono: +54 11 1234-5678</p>
                 </div>-->
             </div>
+            <div class="container has-text-centered is-size-3">
+              <button id="editar" type="submit" class="button is-info is-size-4">Editar</button>
+            </div>
           </div>
 
           <div class="column">
             <br />
-            <p class="title has-text-centered" id="cuadro_encabezado">LIBRO EN PRESTACIÓN</p>
+            <p class="title has-text-centered" id="cuadro_encabezado">PRESTAMOS ACTIVOS</p>
             <div class="container has-text-centered">
               <div class="table-container is-inline-block is-size-5">
                 <table class="table is-bordered is-hoverable" id="tabla_principal">
@@ -167,17 +170,16 @@
       });
     }
 
-      function renderPagination() {
-        //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
-        paginationList.innerHTML = "";
-        for (let i = 1; i <= totalPages; i++) {
-          const pageButton = document.createElement("li");
-          //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
-          // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
-          pageButton.innerHTML = `
+    function renderPagination() {
+      //ACA SIMPLEMENTE SE AGREGAN LOS INDICES (CANTIDAD DE PAGINAS)
+      paginationList.innerHTML = "";
+      for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement("li");
+        //EL data-numPAgina ES IMPORTANTE PORQUE DESPUES SIRVE EN PAGINATION LIST PARA QUE 
+        // MUESTRE LAS FILAS DE LA PAGINA DEL INDICE QUE SE CLICKEO
+        pageButton.innerHTML = `
           <a class="pagination-link ${i === currentPage ? "is-current" : ""}" data-num-pagina="${i}">${i}</a>`;
-          paginationList.appendChild(pageButton);
-        }
+        paginationList.appendChild(pageButton);
       }
 
         //FUNCIONA CUANDO SE USAN LOS INDICES Y SE ENCARGA DE MOSTRAR LAS FILAS CORRESPONDIENTES
@@ -270,6 +272,108 @@
         console.error("Error al hacer el fetch: ", error);
       }
     }
+
+
+    document.getElementById('editar').addEventListener('click', async function (event) {
+      event.preventDefault();
+      try {
+        // Hacer el fetch al backend para obtener la información del socio
+        const response = await fetch(`http://localhost:3000/socios?id=${socioId}`);
+
+        if (!response.ok) {
+          throw new Error('No se pudo obtener la información del socio');
+        }
+
+        const socio = await response.json();
+
+        // socioInfo ES UN DIV AL QUE DESPUES LE VAMOS A AGREGAR UNA ESTRUCTURA HTML
+        const socioInfo = document.getElementById('socio-info');
+
+        // HTML QUE VA EN socioInfo
+        socioInfo.innerHTML = `
+      <h1 class="title" id="cuadro_encabezado">DATOS</h1>
+      <form id="editar-socio" class="mx-3">
+        <div class="field">
+          <label class="label">Nombre</label>
+          <div class="control">
+            <input id="nombre" value="${socio.nombre}" class="input" type="text" name="nombre" placeholder="Nombre" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+ ?)+" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Apellido</label>
+          <div class="control">
+            <input id="apellido" value="${socio.apellido}" class="input" type="text" name="apellido" placeholder="Apellido" pattern="([A-ZΆ-ΫÀ-Ö][a-zß-öø-ÿ]+) ?([a-zß-öø-ÿA-ZΆ-ΫÀ-Ö\s]+)*" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Correo Electrónico</label>
+          <div class="control">
+            <input id="email" value="${socio.email}" class="input" type="email" name="email" placeholder="nombre@gmail.com" pattern="[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Domicilio</label>
+          <div class="control">
+            <input id="direccion" value="${socio.direccion}" class="input" type="text" name="direccion" placeholder="Av. Alcorta 1500" pattern="[A-Za-zÀ-ÿß-öø-ÿ0-9\s.'-]*" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Teléfono</label>
+          <div class="control">
+            <input id="telefono" value="${socio.telefono}" class="input" type="tel" name="telefono" placeholder="11 1234-5678"  required>
+          </div>
+        </div>
+        <br>
+        <div class="buttons is-centered">
+              <button id="guardar" type="submit" class="button is-success is-size-4">GUARDAR</button>
+        </div>
+      </form>
+    `;
+      } catch (error) {
+        console.error('Error al obtener los datos del socio:', error);
+        alert('No se pudo conectar con el servidor.');
+      }
+    });
+    // Registra el evento click para el nuevo botón "guardar"
+    document.getElementById('guardar').addEventListener('click', async function (event) {
+      event.preventDefault();
+      //SACAMOS LOS DATOS DE LOS INPUTS DEL FORM
+      const nombre = document.getElementById('nombre').value;
+      const apellido = document.getElementById('apellido').value;
+      const email = document.getElementById('email').value;
+      const direccion = document.getElementById('direccion').value;
+      const telefono = document.getElementById('telefono').value;
+      //CREAMOS UN BODY CON ESOS DATOS
+      const socioData = {
+        nombre: nombre,
+        apellido: apellido,
+        direccion: direccion,
+        telefono: telefono,
+        email: email,
+      };
+      try {
+        let response;
+        response = await fetch('http://localhost:3000/socios', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(socioData),
+        });
+        alert('¡Socio creado con éxito!');
+        if (response.ok) {
+          const nuevoSocio = await response.json();
+          alert(`¡Socio creado con éxito! ID: ${nuevoSocio.id}`);
+          window.location.href = window.location.href; // Refresca la página
+        } else {
+          const error = await response.json();
+          alert(`Error al crear socio: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error al enviar la solicitud:', error);
+        alert('No se pudo conectar con el servidor.');
+      }
+    });
   </script>
 </body>
 

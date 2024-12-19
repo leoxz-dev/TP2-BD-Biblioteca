@@ -13,7 +13,7 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const CLAVE_ULTRAMEGASEGURA = "tu_clave_secreta";
 
-function validarToken(req, res, next) {
+/*function validarToken(req, res, next) {
   const authHeader = req.headers["authorization"]; // Obtiene el header 'Authorization'
 
   // Verificar si el header existe
@@ -35,7 +35,7 @@ function validarToken(req, res, next) {
     req.usuario = decoded; // Guarda la información del token en `req.usuario`
     next(); // Continúa con la siguiente función (ruta o middleware)
   });
-}
+}*/
 
 app.use(cors());
 app.use(express.json());
@@ -46,7 +46,6 @@ app.listen(port, () => {
 });
 
 //home
-
 app.get("/", (req, res) => {
   res.send("Hola mundo");
 });
@@ -431,23 +430,6 @@ app.get("/libros/:param", async (req, res) => {
   return res.json(libro);
 });
 
-/*
-VIEJO GET 
-//GET LIBRO ESPECIFICO
-app.get("/libros/:id", async (req, res) => {
-  const libro = await prisma.libros.findUnique({
-    where: {
-      id: parseInt(req.params.id),
-    },
-  });
-
-  if (libro === null) {
-    res.sendStatus(404);
-    return;
-  }
-  res.json(libro);
-});
-*/
 
 //POST LIBRO
 app.post("/libros", async (req, res) => {
@@ -524,7 +506,6 @@ app.delete("/libros/:id", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, contraseña } = req.body;
   try {
-    // 1. Buscar el usuario por email en la base de datos simulada
     const socio = await prisma.socios.findUnique({
       where: { email: email },
     });
@@ -532,7 +513,6 @@ app.post("/login", async (req, res) => {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    // 2. Comparar la contraseña recibida con la almacenada usando bcrypt
     const contraseñaValida = await bcrypt.compare(
       contraseña,
       socio.contrasenia
@@ -542,18 +522,16 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Contraseña incorrecta" });
     }
 
-    // 3. Opcional: Generar un token JWT para la sesión
-    const token = jwt.sign(
+    /*const token = jwt.sign(
       { email: socio.email, nombre: socio.nombre },
       CLAVE_ULTRAMEGASEGURA, // Clave secreta (en un entorno real, usa variables de entorno)
       { expiresIn: "1h" } // Expiración de 1 hora
-    );
+    );*/
 
-    // 4. Devolver el token y los datos del usuario (sin la contraseña)
     return res.json({
       mensaje: "Login exitoso",
       token: token,
-      socio: { email: socio.email, nombre: socio.nombre },
+      socio: { email: socio.email, nombre: socio.nombre, id:socio.id },
     });
   } catch (error) {
     console.error("Error en el login:", error);
