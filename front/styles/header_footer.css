@@ -1,7 +1,7 @@
 :root{
     --color-background: #152C3D;
     --color-footer_navbar: #035c9c;
-
+    --color-footer-nav-text: white;
     --color-cuadro-secundario: #324C5E;
     --color-tablas-encabezado: #035c9c;
     --color-tablas-encabezado-texto: white;
@@ -39,7 +39,12 @@
     padding-bottom: 1rem;
     padding-top: 1rem;
     background-color: var(--color-footer_navbar);
+    color: var(--color-footer-nav-text);
     }
+.footer > div > p > strong{
+    color: var(--color-footer-nav-text);
+}
+
 body{
     background-color: var(--color-background);
 }
@@ -51,6 +56,13 @@ body{
 #cuadro_encabezado, #cuadro_encabezado > h1, #cuadro_encabezado > h2, #cuadro_encabezado > h2>b{
     background-color: var(--color-tablas-encabezado);
     color: var(--color-tablas-encabezado-texto);
+    border-radius: 10px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+#cuadro_encabezado > h1{
+    margin-left: 1rem;
 }
 #cuadro_secundario{
     background-color: var(--color-cuadro-secundario);
