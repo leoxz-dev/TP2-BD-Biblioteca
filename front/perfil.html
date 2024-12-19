@@ -23,9 +23,7 @@
               <!--ESTO ES COMO DEBERIA VERSE EN EL FRONT LA INFORMACION DEL SOCIO-->
               <h1 class="title">DATOS</h1>
               <div id="contenido-socio" style="display: none;">
-                <div class="block">
-                  <p id="info-id-socio"></p>
-                </div>
+
                 <div class="block">
                   <p id="info-nombre">Nombre: </p>
                 </div>
@@ -100,7 +98,7 @@
                       <th id="tabla_columna"><abbr title="Titulo">Titulo</abbr></th>
                       <th id="tabla_columna"><abbr title="Disponibilidad">Status</abbr></th>
                       <th id="tabla_columna"><abbr title="fecha_devolucion">Fecha devolucion</abbr></th>
-                      <th id="tabla_columna"><abbr title="Informacion">Informacion Prestamo</abbr></th>
+                      <th id="tabla_columna"><abbr title="Garantia">Garantia</abbr></th>
 
                     </tr>
                   </thead>
@@ -200,7 +198,7 @@
           <td id="tabla_columna">${tituloLibro}</td>
           <td id="tabla_columna">${prestamo.estado}</td>
           <td id="tabla_columna">${fechaDevolucion}</td>
-          <td><a href="prestamo.html?id=${prestamo.id}"><button class="button is-info is-small">Ver información</button></a></td>
+          <td id="tabla_columna">${prestamo.garantia}</td>
           </tr>
           `;
               //USAMOS INSERTADJ... EN VEZ DE INNERHTML PORQUE PERMITE USAR BEFOREEND QUE PARECE ASEGURARSE DE QUE
@@ -282,7 +280,7 @@
       }
 
       async function llenarDatosSocio(id, nombre, apellido, email, direccion, telefono) {
-        document.getElementById('info-id-socio').textContent = "Id de Usuario: " + id;
+       // document.getElementById('info-id-socio').textContent = "Id de Usuario: " + id;
         document.getElementById('info-nombre').textContent = "Nombre: " + nombre;
         document.getElementById('info-apellido').textContent = "Apellido: " + apellido;
         document.getElementById('info-email').textContent = "Correo electrónico: " + email;
