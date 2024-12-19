@@ -175,7 +175,7 @@
                     body: JSON.stringify({ email, contraseña })
                 });
                 if (response.ok) {
-                    const responseData = await response.json(); // El servidor envía un token JWT y datos del socio
+                    const responseData = await response.json();
                     const socio = responseData.socio
                     //console.log('Respuesta completa del servidor:', socio);
                     //console.log("Email recibido:", socio.email);
