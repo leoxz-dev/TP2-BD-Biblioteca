@@ -52,6 +52,6 @@ model prestamos {
   tipo_prestamo    String
   socio            socios   @relation(fields: [socio_id], references: [id])
   socio_id         Int // Clave foránea hacia la tabla socio
-  libro            libros   @relation(fields: [libro_id], references: [id])
+  libro            libros   @relation(fields: [libro_id], references: [id], onDelete: Cascade)
   libro_id         Int // Clave foránea hacia la tabla libros
 }
