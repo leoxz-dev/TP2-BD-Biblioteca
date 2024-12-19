@@ -92,6 +92,16 @@
     <footer class="footer"></footer>
     <script src="./src/header_footer.js"></script>
     <script>
+
+        let apiURL
+        
+        if (window.location.protocol === 'file:') {
+            apiURL = 'http://localhost:3000'
+        } else {
+            apiURL = 'https://tp2-bd-biblioteca.onrender.com'
+        }
+
+
         const urlParams = new URLSearchParams(window.location.search);
         const prestamoId = urlParams.get('id');
         
@@ -107,7 +117,7 @@
         });
 
         llenarFormulario = function() {
-            fetch(`http://localhost:3000/prestamos/${prestamoId}`)
+            fetch(`${apiURL}/prestamos/${prestamoId}`)
             .then((Response) => Response.json())
             .then(prestamo =>{
                 const fechaPrestamo = prestamo.fecha_prestamo.split('T')[0]; 
@@ -165,7 +175,7 @@
 
             } else {
                 try {
-                    const response = await fetch(`http://localhost:3000/prestamos/${prestamoId}`, {
+                    const response = await fetch(`${apiURL}/prestamos/${prestamoId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -192,7 +202,7 @@
 
         async function actualizarEjemplares(idLibro) {
             try{
-                const responseGet = await fetch(`http://localhost:3000/libros/${idLibro}`);
+                const responseGet = await fetch(`${apiURL}/libros/${idLibro}`);
                 if (!responseGet.ok) {
                     alert(`Error al obtener información del libro: ${responseGet.status}`);
                     return;
@@ -202,7 +212,7 @@
                 const nuevaCantidad = parseInt(libro.cant_ejemplares) + 1;
                 let nuevaDisponibilidad = true;
 
-                const responsePut = await fetch(`http://localhost:3000/libros/${idLibro}`, {
+                const responsePut = await fetch(`${apiURL}/libros/${idLibro}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ cant_ejemplares: nuevaCantidad, disponibilidad: nuevaDisponibilidad })
